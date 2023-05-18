@@ -1,0 +1,147 @@
+[
+  {
+    "subjectUri": "crm:e7_activity",
+    "predicateUri": "rdfs:subClassOf",
+    "objectUri": "crm:e5_event"
+  },
+  {
+    "subjectUri": "crm:e8_acquisition",
+    "predicateUri": "rdfs:subClassOf",
+    "objectUri": "crm:e7_activity"
+  },
+  {
+    "subjectUri": "crm:e10_transfer_of_custody",
+    "predicateUri": "rdfs:subClassOf",
+    "objectUri": "crm:e7_activity"
+  },
+  {
+    "subjectUri": "crm:e11_modification",
+    "predicateUri": "rdfs:subClassOf",
+    "objectUri": "crm:e7_activity"
+  },
+  {
+    "subjectUri": "crm:e12_production",
+    "predicateUri": "rdfs:subClassOf",
+    "objectUri": "crm:e11_modification"
+  },
+  {
+    "subjectUri": "crm:e12_production",
+    "predicateUri": "rdfs:subClassOf",
+    "objectUri": "crm:e63_beginning_of_existence"
+  },
+  {
+    "subjectUri": "crm:e18_physical_thing",
+    "predicateUri": "rdfs:subClassOf",
+    "objectUri": "crm:e72_legal_object"
+  },
+  {
+    "subjectUri": "crm:e21_person",
+    "predicateUri": "rdfs:subClassOf",
+    "objectUri": "crm:e39_actor"
+  },
+  {
+    "subjectUri": "crm:e24_physical_human-made_thing",
+    "predicateUri": "rdfs:subClassOf",
+    "objectUri": "crm:e18_physical_thing"
+  },
+  {
+    "subjectUri": "crm:e24_physical_human-made_thing",
+    "predicateUri": "rdfs:subClassOf",
+    "objectUri": "crm:e71_human-made_thing"
+  },
+  {
+    "subjectUri": "crm:e28_conceptual_object",
+    "predicateUri": "rdfs:subClassOf",
+    "objectUri": "crm:e71_human-made_thing"
+  },
+  {
+    "subjectUri": "crm:e31_document",
+    "predicateUri": "rdfs:subClassOf",
+    "objectUri": "crm:e73_information_object"
+  },
+  {
+    "subjectUri": "crm:e39_actor",
+    "predicateUri": "rdfs:subClassOf",
+    "objectUri": "crm:e77_persistent_item"
+  },
+  {
+    "subjectUri": "crm:e55_type",
+    "predicateUri": "rdfs:subClassOf",
+    "objectUri": "crm:e28_conceptual_object"
+  },
+  {
+    "subjectUri": "crm:e65_creation",
+    "predicateUri": "rdfs:subClassOf",
+    "objectUri": "crm:e7_activity"
+  },
+  {
+    "subjectUri": "crm:e65_creation",
+    "predicateUri": "rdfs:subClassOf",
+    "objectUri": "crm:e63_beginning_of_existence"
+  },
+  {
+    "subjectUri": "crm:e67_birth",
+    "predicateUri": "rdfs:subClassOf",
+    "objectUri": "crm:e63_beginning_of_existence"
+  },
+  {
+    "subjectUri": "crm:e69_death",
+    "predicateUri": "rdfs:subClassOf",
+    "objectUri": "crm:e64_end_of_existence"
+  },
+  {
+    "subjectUri": "crm:e70_thing",
+    "predicateUri": "rdfs:subClassOf",
+    "objectUri": "crm:e77_persistent_item"
+  },
+  {
+    "subjectUri": "crm:e71_human-made_thing",
+    "predicateUri": "rdfs:subClassOf",
+    "objectUri": "crm:e70_thing"
+  },
+  {
+    "subjectUri": "crm:e72_legal_object",
+    "predicateUri": "rdfs:subClassOf",
+    "objectUri": "crm:e70_thing"
+  },
+  {
+    "subjectUri": "crm:e73_information_object",
+    "predicateUri": "rdfs:subClassOf",
+    "objectUri": "crm:e90_symbolic_object"
+  },
+  {
+    "subjectUri": "crm:e73_information_object",
+    "predicateUri": "rdfs:subClassOf",
+    "objectUri": "crm:e89_propositional_object"
+  },
+  {
+    "subjectUri": "crm:e74_group",
+    "predicateUri": "rdfs:subClassOf",
+    "objectUri": "crm:e39_actor"
+  },
+  {
+    "subjectUri": "crm:e85_joining",
+    "predicateUri": "rdfs:subClassOf",
+    "objectUri": "crm:e7_activity"
+  },
+  {
+    "subjectUri": "crm:e89_propositional_object",
+    "predicateUri": "rdfs:subClassOf",
+    "objectUri": "crm:e28_conceptual_object"
+  },
+  {
+    "subjectUri": "crm:e90_symbolic_object",
+    "predicateUri": "rdfs:subClassOf",
+    "objectUri": "crm:e28_conceptual_object"
+  },
+  {
+    "subjectUri": "crm:e90_symbolic_object",
+    "predicateUri": "rdfs:subClassOf",
+    "objectUri": "crm:e72_legal_object"
+  },
+  {
+    "subjectUri": "itn:event-types/text.send",
+    "predicateUri": "rdfs:subClassOf",
+    "objectUri": "crm:e7_activity"
+  }
+]

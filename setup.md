@@ -1,0 +1,178 @@
+# Setup
+
+- [Setup](#setup)
+  - [Requirements](#requirements)
+  - [Windows](#windows)
+  - [Ubuntu](#ubuntu)
+  - [Test](#test)
+
+Here you will find the steps to setup graph for an Itinera database.
+
+## Requirements
+
+You will need:
+
+(1) Itinera resources:
+
+- [Itinera Docker compose script with graph](https://github.com/vedph/cadmus-itinera-app/blob/master/docker-compose_graph.yml)
+- [Itinera seed profile](https://github.com/vedph/cadmus-itinera-api/blob/master/CadmusItineraApi/wwwroot/seed-profile.json)
+
+(2) Itinera presets:
+
+- [nodes.json](nodes.json)
+- [triples.json](triples.json)
+- [work-mappings.json](work-mappings.json)
+
+(3) Cadmus CLI tool and its Itinera plugin:
+
+- [the Cadmus CLI tool](https://github.com/vedph/cadmus_tool/releases): just download the latest release for your OS.
+- [Cadmus CLI Itinera plugin](http://www.fusisoft.it/xfer/cadmus/cli/plugins/Cadmus.Itinera.Services.zip). This is a temporary URL. If you can't find it, or you need an up to date version, just build the [Itinera core project](https://github.com/vedph/cadmus-itinera) and copy `Cadmus.Itinera.Services` files under the CLI `plugins` folder.
+
+## Windows
+
+🎯 Purpose: setup a graph-enabled Itinera stack with preset data in Windows.
+
+>All the folders used in this example are arbitrarily chosen and named. You can place and name files as you prefer.
+
+(1) create a `cadmus-itinera` folder in your desktop, and download in it:
+
+- all the Itinera presets listed [above](#requirements);
+- the [Itinera seed profile](https://github.com/vedph/cadmus-itinera-api/blob/master/CadmusItineraApi/wwwroot/seed-profile.json);
+- the [Docker compose script](https://github.com/vedph/cadmus-itinera-app/blob/master/docker-compose_graph.yml), renaming it to `docker-compose.yml`.
+
+(2) download the [Cadmus CLI tool](https://github.com/vedph/cadmus_tool/releases) and unzip it in `C:/exe/cadmus-tool` (preserving its directory structure).
+
+(3) download the [Cadmus CLI Itinera plugin](http://www.fusisoft.it/xfer/cadmus/cli/plugins/Cadmus.Itinera.Services.zip) and unzip it into the `Cadmus.Itinera.Services` folder inside the `plugins` folder of the CLI tool.
+
+(4) launch Cadmus Itinera with `docker compose up` from your `cadmus-itinera` folder, and wait until the running log has finished.
+
+(5) from the Cadmus CLI folder, run these CLI commands to expand the mappings, create the index database and fill it with some presets:
+
+```ps1
+cd C:\exe\cadmus-tool
+./cadmus-tool graph-deref $HOME/Desktop/itinera/work-mappings.json $HOME/Desktop/itinera/work-mappings-d.json
+./cadmus-tool index cadmus-itinera $HOME/Desktop/itinera/seed-profile.json
+./cadmus-tool graph-import $HOME/Desktop/itinera/cadmus-itinera/nodes.json cadmus-itinera -t repository-provider.itinera
+./cadmus-tool graph-import $HOME/Desktop/itinera/cadmus-itinera/triples.json cadmus-itinera -t repository-provider.itinera -m t
+./cadmus-tool graph-import $HOME/Desktop/itinera/cadmus-itinera/work-mappings-d.json cadmus-itinera -t repository-provider.itinera -m m
+```
+
+(6) now you can open your browser at `localhost:4200`, and create a work item with a metadata part and an events part. New nodes and triples should appear (see [below](#test)).
+
+🛠️ As an alternative, you can use these **Powershell commands** (one at a time, or create a batch):
+
+```ps1
+# download resources in desktop\cadmus-itinera
+md $HOME/Desktop/cadmus-itinera
+cd $HOME/Desktop/cadmus-itinera
+Invoke-WebRequest -Uri "TODO/nodes.json"
+Invoke-WebRequest -Uri "TODO/triples.json"
+Invoke-WebRequest -Uri "TODO/work-mappings.json"
+Invoke-WebRequest -Uri "https://github.com/vedph/cadmus-itinera-api/blob/master/CadmusItineraApi/wwwroot/seed-profile.json"
+Invoke-WebRequest -Uri "https://github.com/vedph/cadmus-itinera-app/blob/master/docker-compose_graph.yml" -OutFile "docker-compose.yml"
+
+# download CLI tool in C:\exe\cadmus-tool (CHANGE VERSION AS REQUIRED)
+C:
+md exe
+cd exe
+md cadmus-tool
+cd cadmus-tool
+Invoke-WebRequest -Uri "https://github.com/vedph/cadmus_tool/releases/download/v.6.0.2/App-v.6.0.2-win-x64.zip"
+Extract-Archive App-v.6.0.2-win-x64.zip -DestinationPath C:\exe\cadmus-tool\
+del App-v.6.0.2-win-x64.zip
+
+# download CLI Itinera plugin
+cd C:\exe\cadmus-tool
+Invoke-WebRequest -Uri "http://www.fusisoft.it/xfer/cadmus/cli/plugins/Cadmus.Itinera.Services.zip"
+Extract-Archive Cadmus.Itinera.Services -DestinationPath c:\exe\cadmus-tool\plugins\Cadmus.Itinera.Services\
+del Cadmus.Itinera.Services.zip
+
+# fire up Cadmus Itinera
+cd $HOME\Desktop\cadmus-itinera
+docker compose up
+
+# once startup has finished, open another Powershell window and continue...
+
+# import presets
+cd C:\exe\cadmus-tool
+./cadmus-tool graph-deref $HOME/Desktop/itinera/work-mappings.json $HOME/Desktop/itinera/work-mappings-d.json
+./cadmus-tool index cadmus-itinera $HOME/Desktop/itinera/seed-profile.json
+./cadmus-tool graph-import $HOME/Desktop/itinera/cadmus-itinera/nodes.json cadmus-itinera -t repository-provider.itinera
+./cadmus-tool graph-import $HOME/Desktop/itinera/cadmus-itinera/triples.json cadmus-itinera -t repository-provider.itinera -m t
+./cadmus-tool graph-import $HOME/Desktop/itinera/cadmus-itinera/work-mappings-d.json cadmus-itinera -t repository-provider.itinera -m m
+```
+
+>>Dereferencing mappings is required when your source file is not a JSON array with mappings, but rather a JSON object with named and document mappings sections. Also, when using `graph-import` command, you can add `-d` for dry-mode.
+
+## Ubuntu
+
+🎯 Purpose: setup a graph-enabled Itinera stack with preset data in Ubuntu.
+
+(1) create a `cadmus-itinera` in your `Documents` folder and enter it:
+
+```bash
+cd ~/Documents
+mkdir cadmus-itinera
+cd cadmus-itinera
+```
+
+(2) download in this folder the [Itinera graph-enabled docker compose script](https://github.com/vedph/cadmus-itinera-app/blob/master/docker-compose_graph.yml) and rename it as `docker-compose.yml`:
+
+```bash
+wget https://github.com/vedph/cadmus-itinera-app/blob/master/docker-compose_graph.yml
+mv docker-compose_graph.yml docker-compose.yml
+```
+
+(3) download in this folder also the [Itinera profile](https://github.com/vedph/cadmus-itinera-api/blob/master/CadmusItineraApi/wwwroot/seed-profile.json).
+
+```bash
+wget https://github.com/vedph/cadmus-itinera-api/blob/master/CadmusItineraApi/wwwroot/seed-profile.json
+```
+
+(4) download in this folder the ZIP from [http://www.fusisoft.it/xfer/itinera-presets.zip](http://www.fusisoft.it/xfer/itinera-presets.zip) and unzip it in the same folder:
+
+```bash
+TODO
+wget http://www.fusisoft.it/xfer/itinera-presets.zip
+unzip itinera-presets.zip
+rm itinera-presets.zip
+```
+
+(5) create a `cadmus-tool` folder (you can name it as you prefer) and enter it, download the Cadmus CLI tool for Ubuntu, and extract it. Also, download [http://www.fusisoft.it/xfer/Cadmus.Itinera.Services.zip](http://www.fusisoft.it/xfer/Cadmus.Itinera.Services.zip), i.e. the CLI plugin for Itinera, and unzip it under the `plugins` folder:
+
+```bash
+cd ~
+mkdir cadmus-tool
+wget https://github.com/vedph/cadmus_tool/releases/download/v.6.0.2/App-v.6.0.2-linux-x64.tar.gz
+tar -xvzf App-v.6.0.2-linux-x64.tar.gz
+cd App-v.6.0.2-linux-x64/plugins
+wget http://www.fusisoft.it/xfer/Cadmus.Itinera.Services.zip
+unzip Cadmus.Itinera.Services.zip
+rm Cadmus.Itinera.Services.zip
+```
+
+(6) launch the Itinera Docker stack:
+
+```bash
+cd ~/cadmus-itinera
+sudo docker compose up -d
+```
+
+(7) run these CLI commands to create the index database and fill it with some presets:
+
+```bash
+./cadmus-tool graph-deref ~/Documents/cadmus-itinera/work-mappings.json ~/Documents/cadmus-itinera/work-mappings-d.json
+./cadmus-tool index cadmus-itinera ~/Documents/cadmus-itinera/seed-profile.json
+./cadmus-tool graph-import ~/Documents/cadmus-itinera/nodes.json cadmus-itinera -t repository-provider.itinera
+./cadmus-tool graph-import ~/Documents/cadmus-itinera/triples.json cadmus-itinera -t repository-provider.itinera -m t
+./cadmus-tool graph-import ~/Documents/cadmus-itinera/work-mappings-d.json cadmus-itinera -t repository-provider.itinera -m m
+```
+
+(8) now you can open your browser at `localhost:4200`, and create a work item with a metadata part and an events part. New nodes and triples should appear (see [below](#test)).
+
+## Test
+
+(1) create a new work item.
+(2) add a metadata part to the item and add metadatum `eid` with value `alpha`.
+(3) add en events part to the item and add en event of type send, with some mock data.
+(4) head to the graph UI and look at nodes and triples that were created.
