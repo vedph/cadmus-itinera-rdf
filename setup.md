@@ -50,11 +50,11 @@ You will need:
 
 ```ps1
 cd C:\exe\cadmus-tool
-./cadmus-tool graph-deref $HOME/Desktop/itinera/work-mappings.json $HOME/Desktop/itinera/work-mappings-d.json
-./cadmus-tool index cadmus-itinera $HOME/Desktop/itinera/seed-profile.json
-./cadmus-tool graph-import $HOME/Desktop/itinera/cadmus-itinera/nodes.json cadmus-itinera -t repository-provider.itinera
-./cadmus-tool graph-import $HOME/Desktop/itinera/cadmus-itinera/triples.json cadmus-itinera -t repository-provider.itinera -m t
-./cadmus-tool graph-import $HOME/Desktop/itinera/cadmus-itinera/work-mappings-d.json cadmus-itinera -t repository-provider.itinera -m m
+./cadmus-tool graph-deref $HOME/Desktop/cadmus-itinera/work-mappings.json $HOME/Desktop/itinera/work-mappings-d.json
+./cadmus-tool index cadmus-itinera $HOME/Desktop/cadmus-itinera/seed-profile.json
+./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/nodes.json cadmus-itinera -t repository-provider.itinera
+./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/triples.json cadmus-itinera -t repository-provider.itinera -m t
+./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/work-mappings-d.json cadmus-itinera -t repository-provider.itinera -m m
 ```
 
 (6) now you can open your browser at `localhost:4200`, and create a work item with a metadata part and an events part. New nodes and triples should appear (see [below](#test)).
@@ -65,11 +65,11 @@ cd C:\exe\cadmus-tool
 # download resources in desktop\cadmus-itinera
 md $HOME/Desktop/cadmus-itinera
 cd $HOME/Desktop/cadmus-itinera
-Invoke-WebRequest -Uri "https://github.com/vedph/cadmus-itinera-rdf/blob/master/nodes.json"
-Invoke-WebRequest -Uri "https://github.com/vedph/cadmus-itinera-rdf/blob/master/triples.json"
-Invoke-WebRequest -Uri "https://github.com/vedph/cadmus-itinera-rdf/blob/master/work-mappings.json"
-Invoke-WebRequest -Uri "https://github.com/vedph/cadmus-itinera-api/blob/master/CadmusItineraApi/wwwroot/seed-profile.json"
-Invoke-WebRequest -Uri "https://github.com/vedph/cadmus-itinera-app/blob/master/docker-compose_graph.yml" -OutFile "docker-compose.yml"
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/nodes.json"
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/triples.json"
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/work-mappings.json"
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vedph/cadmus-itinera-api/master/CadmusItineraApi/wwwroot/seed-profile.json"
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vedph/cadmus-itinera-app/master/docker-compose_graph.yml" -OutFile "docker-compose.yml"
 
 # download CLI tool in C:\exe\cadmus-tool (CHANGE VERSION AS REQUIRED)
 C:
@@ -118,11 +118,11 @@ cd C:\exe\cadmus-tool
 cd ~/Documents
 mkdir cadmus-itinera
 cd cadmus-itinera
-wget https://github.com/vedph/cadmus-itinera-rdf/blob/master/nodes.json
-wget https://github.com/vedph/cadmus-itinera-rdf/blob/master/triples.json
-wget https://github.com/vedph/cadmus-itinera-rdf/blob/master/work-mappings.json
-wget https://github.com/vedph/cadmus-itinera-api/blob/master/CadmusItineraApi/wwwroot/seed-profile.json
-wget https://github.com/vedph/cadmus-itinera-app/blob/master/docker-compose_graph.yml
+wget https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/nodes.json
+wget https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/triples.json
+wget https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/work-mappings.json
+wget https://raw.githubusercontent.com/vedph/cadmus-itinera-api/master/CadmusItineraApi/wwwroot/seed-profile.json
+wget https://raw.githubusercontent.com/vedph/cadmus-itinera-app/master/docker-compose_graph.yml
 mv docker-compose_graph.yml docker-compose.yml
 ```
 
