@@ -65,9 +65,9 @@ cd C:\exe\cadmus-tool
 # download resources in desktop\cadmus-itinera
 md $HOME/Desktop/cadmus-itinera
 cd $HOME/Desktop/cadmus-itinera
-Invoke-WebRequest -Uri "TODO/nodes.json"
-Invoke-WebRequest -Uri "TODO/triples.json"
-Invoke-WebRequest -Uri "TODO/work-mappings.json"
+Invoke-WebRequest -Uri "https://github.com/vedph/cadmus-itinera-rdf/blob/master/nodes.json"
+Invoke-WebRequest -Uri "https://github.com/vedph/cadmus-itinera-rdf/blob/master/triples.json"
+Invoke-WebRequest -Uri "https://github.com/vedph/cadmus-itinera-rdf/blob/master/work-mappings.json"
 Invoke-WebRequest -Uri "https://github.com/vedph/cadmus-itinera-api/blob/master/CadmusItineraApi/wwwroot/seed-profile.json"
 Invoke-WebRequest -Uri "https://github.com/vedph/cadmus-itinera-app/blob/master/docker-compose_graph.yml" -OutFile "docker-compose.yml"
 
@@ -108,57 +108,45 @@ cd C:\exe\cadmus-tool
 
 🎯 Purpose: setup a graph-enabled Itinera stack with preset data in Ubuntu.
 
-(1) create a `cadmus-itinera` in your `Documents` folder and enter it:
+(1) create a `cadmus-itinera` folder in your Documents folder, and download in it:
+
+- all the Itinera presets listed [above](#requirements);
+- the [Itinera seed profile](https://github.com/vedph/cadmus-itinera-api/blob/master/CadmusItineraApi/wwwroot/seed-profile.json);
+- the [Docker compose script](https://github.com/vedph/cadmus-itinera-app/blob/master/docker-compose_graph.yml), renaming it to `docker-compose.yml`.
 
 ```bash
 cd ~/Documents
 mkdir cadmus-itinera
 cd cadmus-itinera
-```
-
-(2) download in this folder the [Itinera graph-enabled docker compose script](https://github.com/vedph/cadmus-itinera-app/blob/master/docker-compose_graph.yml) and rename it as `docker-compose.yml`:
-
-```bash
+wget https://github.com/vedph/cadmus-itinera-rdf/blob/master/nodes.json
+wget https://github.com/vedph/cadmus-itinera-rdf/blob/master/triples.json
+wget https://github.com/vedph/cadmus-itinera-rdf/blob/master/work-mappings.json
+wget https://github.com/vedph/cadmus-itinera-api/blob/master/CadmusItineraApi/wwwroot/seed-profile.json
 wget https://github.com/vedph/cadmus-itinera-app/blob/master/docker-compose_graph.yml
 mv docker-compose_graph.yml docker-compose.yml
 ```
 
-(3) download in this folder also the [Itinera profile](https://github.com/vedph/cadmus-itinera-api/blob/master/CadmusItineraApi/wwwroot/seed-profile.json).
+(2) in your `Documents` folder, create a `cadmus-tool` folder and enter it, download the Cadmus CLI tool for Ubuntu, and extract it. Also, download [http://www.fusisoft.it/xfer/Cadmus.Itinera.Services.zip](http://www.fusisoft.it/xfer/Cadmus.Itinera.Services.zip), i.e. the CLI plugin for Itinera, and unzip it under the `plugins` folder:
 
 ```bash
-wget https://github.com/vedph/cadmus-itinera-api/blob/master/CadmusItineraApi/wwwroot/seed-profile.json
-```
-
-(4) download in this folder the ZIP from [http://www.fusisoft.it/xfer/itinera-presets.zip](http://www.fusisoft.it/xfer/itinera-presets.zip) and unzip it in the same folder:
-
-```bash
-TODO
-wget http://www.fusisoft.it/xfer/itinera-presets.zip
-unzip itinera-presets.zip
-rm itinera-presets.zip
-```
-
-(5) create a `cadmus-tool` folder (you can name it as you prefer) and enter it, download the Cadmus CLI tool for Ubuntu, and extract it. Also, download [http://www.fusisoft.it/xfer/Cadmus.Itinera.Services.zip](http://www.fusisoft.it/xfer/Cadmus.Itinera.Services.zip), i.e. the CLI plugin for Itinera, and unzip it under the `plugins` folder:
-
-```bash
-cd ~
+cd ~/Documents
 mkdir cadmus-tool
 wget https://github.com/vedph/cadmus_tool/releases/download/v.6.0.2/App-v.6.0.2-linux-x64.tar.gz
-tar -xvzf App-v.6.0.2-linux-x64.tar.gz
-cd App-v.6.0.2-linux-x64/plugins
+tar -xvzf --strip-components=1 App-v.6.0.2-linux-x64.tar.gz
+cd plugins
 wget http://www.fusisoft.it/xfer/Cadmus.Itinera.Services.zip
 unzip Cadmus.Itinera.Services.zip
 rm Cadmus.Itinera.Services.zip
 ```
 
-(6) launch the Itinera Docker stack:
+(3) launch Cadmus Itinera with `docker compose up` from your `cadmus-itinera` folder, and wait until the running log has finished.
 
 ```bash
-cd ~/cadmus-itinera
-sudo docker compose up -d
+cd ~/Desktop/cadmus-itinera
+sudo docker compose up
 ```
 
-(7) run these CLI commands to create the index database and fill it with some presets:
+(4) from the Cadmus CLI folder, run these CLI commands to expand the mappings, create the index database and fill it with some presets:
 
 ```bash
 ./cadmus-tool graph-deref ~/Documents/cadmus-itinera/work-mappings.json ~/Documents/cadmus-itinera/work-mappings-d.json
@@ -168,7 +156,7 @@ sudo docker compose up -d
 ./cadmus-tool graph-import ~/Documents/cadmus-itinera/work-mappings-d.json cadmus-itinera -t repository-provider.itinera -m m
 ```
 
-(8) now you can open your browser at `localhost:4200`, and create a work item with a metadata part and an events part. New nodes and triples should appear (see [below](#test)).
+(5) now you can open your browser at `localhost:4200`, and create a work item with a metadata part and an events part. New nodes and triples should appear (see [below](#test)).
 
 ## Test
 
