@@ -50,7 +50,7 @@ You will need:
 
 ```ps1
 cd C:\exe\cadmus-tool
-./cadmus-tool graph-deref $HOME/Desktop/cadmus-itinera/work-mappings.json $HOME/Desktop/itinera/work-mappings-d.json
+./cadmus-tool graph-deref $HOME/Desktop/cadmus-itinera/work-mappings.json $HOME/Desktop/cadmus-itinera/work-mappings-d.json
 ./cadmus-tool index cadmus-itinera $HOME/Desktop/cadmus-itinera/seed-profile.json
 ./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/nodes.json cadmus-itinera -t repository-provider.itinera
 ./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/triples.json cadmus-itinera -t repository-provider.itinera -m t
@@ -65,10 +65,10 @@ cd C:\exe\cadmus-tool
 # download resources in desktop\cadmus-itinera
 md $HOME/Desktop/cadmus-itinera
 cd $HOME/Desktop/cadmus-itinera
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/nodes.json"
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/triples.json"
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/work-mappings.json"
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vedph/cadmus-itinera-api/master/CadmusItineraApi/wwwroot/seed-profile.json"
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/nodes.json" -OutFile nodes.json
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/triples.json" -OutFile triples.json
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/work-mappings.json" -OutFile work-mappings.json
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vedph/cadmus-itinera-api/master/CadmusItineraApi/wwwroot/seed-profile.json" -OutFile seed-profile.json
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vedph/cadmus-itinera-app/master/docker-compose_graph.yml" -OutFile "docker-compose.yml"
 
 # download CLI tool in C:\exe\cadmus-tool (CHANGE VERSION AS REQUIRED)
@@ -77,13 +77,13 @@ md exe
 cd exe
 md cadmus-tool
 cd cadmus-tool
-Invoke-WebRequest -Uri "https://github.com/vedph/cadmus_tool/releases/download/v.6.0.2/App-v.6.0.2-win-x64.zip"
-Extract-Archive App-v.6.0.2-win-x64.zip -DestinationPath C:\exe\cadmus-tool\
-del App-v.6.0.2-win-x64.zip
+Invoke-WebRequest -Uri "https://github.com/vedph/cadmus_tool/releases/download/v.6.0.2/App-v.6.0.2-win-x64.zip" -OutFile cadmus-tool.zip
+Extract-Archive cadmus-tool.zip -DestinationPath C:\exe\cadmus-tool\
+del cadmus-tool.zip
 
 # download CLI Itinera plugin
 cd C:\exe\cadmus-tool
-Invoke-WebRequest -Uri "http://www.fusisoft.it/xfer/cadmus/cli/plugins/Cadmus.Itinera.Services.zip"
+Invoke-WebRequest -Uri "http://www.fusisoft.it/xfer/cadmus/cli/plugins/Cadmus.Itinera.Services.zip" -OutFile Cadmus.Itinera.Services.zip
 Extract-Archive Cadmus.Itinera.Services -DestinationPath c:\exe\cadmus-tool\plugins\Cadmus.Itinera.Services\
 del Cadmus.Itinera.Services.zip
 
