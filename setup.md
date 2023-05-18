@@ -95,11 +95,11 @@ docker compose up
 
 # import presets
 cd C:\exe\cadmus-tool
-./cadmus-tool graph-deref $HOME/Desktop/itinera/work-mappings.json $HOME/Desktop/itinera/work-mappings-d.json
-./cadmus-tool index cadmus-itinera $HOME/Desktop/itinera/seed-profile.json
-./cadmus-tool graph-import $HOME/Desktop/itinera/cadmus-itinera/nodes.json cadmus-itinera -t repository-provider.itinera
-./cadmus-tool graph-import $HOME/Desktop/itinera/cadmus-itinera/triples.json cadmus-itinera -t repository-provider.itinera -m t
-./cadmus-tool graph-import $HOME/Desktop/itinera/cadmus-itinera/work-mappings-d.json cadmus-itinera -t repository-provider.itinera -m m
+./cadmus-tool graph-deref $HOME/Desktop/cadmus-itinera/work-mappings.json $HOME/Desktop/cadmus-itinera/work-mappings-d.json
+./cadmus-tool index cadmus-itinera $HOME/Desktop/cadmus-itinera/seed-profile.json
+./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/nodes.json cadmus-itinera -t repository-provider.itinera
+./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/triples.json cadmus-itinera -t repository-provider.itinera -m t
+./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/work-mappings-d.json cadmus-itinera -t repository-provider.itinera -m m
 ```
 
 >>Dereferencing mappings is required when your source file is not a JSON array with mappings, but rather a JSON object with named and document mappings sections. Also, when using `graph-import` command, you can add `-d` for dry-mode.
