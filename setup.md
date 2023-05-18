@@ -28,11 +28,11 @@ You will need:
 - [the Cadmus CLI tool](https://github.com/vedph/cadmus_tool/releases): just download the latest release for your OS.
 - [Cadmus CLI Itinera plugin](http://www.fusisoft.it/xfer/cadmus/cli/plugins/Cadmus.Itinera.Services.zip). This is a temporary URL. If you can't find it, or you need an up to date version, just build the [Itinera core project](https://github.com/vedph/cadmus-itinera) and copy `Cadmus.Itinera.Services` files under the CLI `plugins` folder.
 
+>All the folders used in this example are arbitrarily chosen and named. You can place and name files as you prefer.
+
 ## Windows
 
 🎯 Purpose: setup a graph-enabled Itinera stack with preset data in Windows.
-
->All the folders used in this example are arbitrarily chosen and named. You can place and name files as you prefer.
 
 (1) create a `cadmus-itinera` folder in your desktop, and download in it:
 
