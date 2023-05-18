@@ -160,7 +160,7 @@ sudo docker compose up
 
 ## Test
 
-(1) create a new work item.
-(2) add a metadata part to the item and add metadatum `eid` with value `alpha`.
-(3) add en events part to the item and add en event of type send, with some mock data.
-(4) head to the graph UI and look at nodes and triples that were created.
+1. create a new work item.
+2. add a metadata part to the item and add metadatum `eid` with value `alpha`.
+3. add en events part to the item and add en event of type send, with some mock data.
+4. head to the graph UI and look at nodes and triples that were created.
