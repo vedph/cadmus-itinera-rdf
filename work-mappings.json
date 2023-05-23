@@ -111,7 +111,7 @@
           "source": "relatedEntities[?relation=='text:send:sender']",
           "output": {
             "nodes": {
-              "sender": "{@id}"
+              "sender": "{@id.target.gid}"
             },
             "triples": ["{?event} crm:P14_carried_out_by {?sender}"]
           }
@@ -121,7 +121,7 @@
           "source": "relatedEntities[?relation=='text:send:recipient']",
           "output": {
             "nodes": {
-              "recipient": "{@id}"
+              "recipient": "{@id.target.gid}"
             },
             "triples": ["{?event} crm:P11_has_participant {?recipient}"]
           }
@@ -131,7 +131,7 @@
           "source": "relatedEntities[?relation=='text:send:carrier']",
           "output": {
             "nodes": {
-              "carrier": "{@id}"
+              "carrier": "{@id.target.gid}"
             },
             "triples": ["{?event} crm:P11_has_participant {?carrier}"]
           }
@@ -175,7 +175,7 @@
           "source": "relatedEntities[?relation=='text:reception:recipient']",
           "output": {
             "nodes": {
-              "recipient": "{@id}"
+              "recipient": "{@id.target.gid}"
             },
             "triples": ["{?event} crm:P14_carried_out_by {?recipient}"]
           }
@@ -185,7 +185,7 @@
           "source": "relatedEntities[?relation=='text:reception:sender']",
           "output": {
             "nodes": {
-              "sender": "{@id}"
+              "sender": "{@id.target.gid}"
             },
             "triples": ["{?event} crm:P11_has_participant {?sender}"]
           }
@@ -195,7 +195,7 @@
           "source": "relatedEntities[?relation=='text:reception:carrier']",
           "output": {
             "nodes": {
-              "carrier": "{@id}"
+              "carrier": "{@id.target.gid}"
             },
             "triples": ["{?event} crm:P11_has_participant {?carrier}"]
           }
@@ -239,7 +239,7 @@
           "source": "relatedEntities[?relation=='text:transcription:transcriber']",
           "output": {
             "nodes": {
-              "transcriber": "{@id}"
+              "transcriber": "{@id.target.gid}"
             },
             "triples": ["{?event} crm:P14_carried_out_by {?transcriber}"]
           }
@@ -249,7 +249,7 @@
           "source": "relatedEntities[?relation=='text:transcription:copy']",
           "output": {
             "nodes": {
-              "copy": "{@id}"
+              "copy": "{@id.target.gid}"
             },
             "triples": ["{?event} crm:P108_has_produced {?copy}"]
           }
@@ -293,7 +293,7 @@
           "source": "relatedEntities[?relation=='text:collection:collector']",
           "output": {
             "nodes": {
-              "collector": "{@id}"
+              "collector": "{@id.target.gid}"
             },
             "triples": ["{?event} crm:P148_has_component {?collector}"]
           }
@@ -337,7 +337,7 @@
           "source": "relatedEntities[?relation=='text:version:previous']",
           "output": {
             "nodes": {
-              "previous": "{@id}"
+              "previous": "{@id.target.gid}"
             },
             "triples": ["{?event} crm:P67_refers_to {?previous}"]
           }
