@@ -71,7 +71,7 @@
         "nodes": {
           "work": "itn:works/{$item-id}/{@value} itn:works/{@value}"
         },
-        "triples": ["{?work} a E90_symbolic_object"]
+        "triples": ["{?work} a crm:E90_symbolic_object"]
       }
     },
     {
