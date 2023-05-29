@@ -337,7 +337,7 @@
           "source": "relatedEntities[?relation=='text:version:previous']",
           "output": {
             "nodes": {
-              "previous": "{@id.target.gid}"
+              "previous": "itn:works/{@id.target.itemId}/{@id.target.itemEid}}"
             },
             "triples": ["{?event} crm:P67_refers_to {?previous}"]
           }
