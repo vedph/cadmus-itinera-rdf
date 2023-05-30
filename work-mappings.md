@@ -1,5 +1,7 @@
 # Work Mappings
 
+- [JSON mappings](work-mappings.json)
+
 These mappings refer to work items. A work item is an item representing a literary work. The work's EID is provided in the item's `MetadataPart`.
 
 ## Item
@@ -32,7 +34,7 @@ Also, a number of children mappings are provided for each event mapping. The fol
 - note for the event's optional note.
 - chronotopes for the event's optional date(s)/time(s).
 
-Also, there is an additional child mapping for each type of relation in the list of the event's related entities. For instance, the text sent event has these possible relations:
+Also, there is an additional child mapping for each type of relation in the list of the event's related entities. For instance, the _text sent_ event has these possible relations:
 
 - sender
 - recipient
