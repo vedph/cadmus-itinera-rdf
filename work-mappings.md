@@ -82,4 +82,6 @@ can be dissected as:
 - the part's (or item's) GUID.
 - the EID (here `petrarch`) prefixed by `/`.
 
->The UI allows customizing the GID, if your Cadmus project is configured for this (via a thesaurus).
+>The UI also allows users to customize the GID, if your Cadmus project is configured for this (via a thesaurus).
+
+
