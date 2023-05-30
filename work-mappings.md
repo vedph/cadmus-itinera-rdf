@@ -66,7 +66,7 @@ matches the relation type `text:send:recipient`, and outputs:
 
 The entities involved in the events, and more generally in other parts, require a preliminary decision about editorial conventions. Most Cadmus models linking their data to entities outside the model itself do it via a link model which can be used both for external and internal links.
 
-**External links** are just globally unique identifiers drawn from some LOD ontology (as URI, e.g. DBPedia) or any other external resources. For instance, <http://dbpedia.org/resource/Petrarch> could be the URI used for Petrarch.
+**External links** are just globally unique identifiers drawn from some LOD ontology (as URI, e.g. DBPedia) or any other external resources. For instance, <http://dbpedia.org/resource/Petrarch> could be the URI used for Petrarch. Anyway, the GID does not need to be a URI or any other globally unique identifier; it must be unique at least in the context of the database. In the end, an external link is just a user-defined string, with a corresponding label.
 
 **Internal links** are links cross referencing two entities found in the Cadmus database, via entity IDs (EIDs). An EID can be assigned to an item as a whole (via its `MetadataPart`, by a convention assuming that the metadatum named eid refers to the item including that part), or to any entity defined in a part's model. The provided UI (from bricks) allows user to lookup these EIDs by just typing any of their characters, and eventually filter them by item and part.
 
@@ -84,4 +84,48 @@ can be dissected as:
 
 >The UI also allows users to customize the GID, if your Cadmus project is configured for this (via a thesaurus).
 
+As for **mapping**, the typical scenarios are:
 
+(A) _copied external links_: true URIs or other global identifiers can be copied without changes. In this case, you are using a globally unique ID as your external link, like <http://dbpedia.org/resource/Petrarch>. So, the mapping will just assume this as the URI of the projected node.
+
+(B) _mapped external links_: identifiers which are unique only within the editor database can be given a more graph-like ID, while still keeping them inside the project's namespace. For instance, say you want to use simple toponyms as place identifiers. Of course, you stick to some convention ensuring that all the place names you use are connected to a single place entity, disambiguating where necessary; and that all the place names are always spelled the same way. Apart from these obvious editorial conventions, you are then free to just type place names in the language and form which is considered standard for your project. For instance, we could just enter place names like `Roma`, `Arezzo`, etc. Then, a mapping rule might just add some prefix common to all place names, e.g. `itn:places/` for the _Itinera_ project, thus generating URIs like `itn:places/Roma`. Later, you might eventually alias these URIs by matching them with one or more gazetteer services, or a predefined list of some sort. This way, you will provide them with additional metadata like geographical location etc., while still keeping data entry as friendly as possible.
+
+(C) _mapped internal links_: internal links will be mapped in some way to generate URIs from them. For instance, say you used a link to refer to Petrarch. In this case, the link model will include not only a preset internal GID as explained above; but also all the metadata referred to the pin-based lookup operation which led to target Petrarch: item ID, part ID, pin name, pin value, etc. So, your mapping can use such metadata to build a URI like e.g. `itn:persons/3e04b8d1-7b55-4de7-b2b8-3097017c7c82/petrarch`, which is built from:
+
+1. a prefix common to all the persons in our database (`itn:persons/`);
+2. the GUID of the item corresponding to the Petrarch entity; this GUID ensures that the resulting URI is globally unique;
+3. the EID of the item corresponding to the Petrarch entity (`petrarch`), which makes the URI human-friendly.
+
+So, instead of having a mapping like this, which just copies the GID as for case (A) above (`"recipient": "{@id.target.gid}"`):
+
+```json
+{
+  "name": "text sent event/related/has_participant",
+  "source": "relatedEntities[?relation=='text:send:recipient']",
+  "output": {
+    "nodes": {
+      "recipient": "{@id.target.gid}"
+    },
+    "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+  }
+}
+```
+
+we would have:
+
+```json
+{
+  "name": "text sent event/related/has_participant",
+  "source": "relatedEntities[?relation=='text:send:recipient']",
+  "output": {
+    "nodes": {
+      "recipient": "itn:persons/{@id.target.itemId}/{@id.target.value}"
+    },
+    "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+  }
+}
+```
+
+where the recipient URI is built exactly as explained in the above sample: a prefix, the item's GUID, and the item's EID (which corresponds to the name of the pin, as the item's EID comes from the `eid` metadatum of the metadata part for that item): `"recipient": "itn:persons/{@id.target.itemId}/{@id.target.value}"`.
+
+Of course, this means that you might have different mappings when mixing both external and internal identifiers in the same category of links. As an internal link can be easily distinguished from an external one by the presence of pin-only properties like the pin's `name`, you can have two mappings for the same related entity, one with an internal link and another with an external link; and generate the corresponding URI in different ways.
