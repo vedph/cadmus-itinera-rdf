@@ -129,3 +129,66 @@ we would have:
 where the recipient URI is built exactly as explained in the above sample: a prefix, the item's GUID, and the item's EID (which corresponds to the name of the pin, as the item's EID comes from the `eid` metadatum of the metadata part for that item): `"recipient": "itn:persons/{@id.target.itemId}/{@id.target.value}"`.
 
 Of course, this means that you might have different mappings when mixing both external and internal identifiers in the same category of links. As an internal link can be easily distinguished from an external one by the presence of pin-only properties like the pin's `name`, you can have two mappings for the same related entity, one with an internal link and another with an external link; and generate the corresponding URI in different ways.
+
+As a sample, consider this event mapping with a single related entity type (`text:send:recipient`) for brevity:
+
+```json
+{
+  "name": "text sent event",
+  "sourceType": 2,
+  "facetFilter": "work",
+  "partTypeFilter": "it.vedph.historical-events",
+  "description": "Map text sent event",
+  "source": "events[?type=='text.send']",
+  "sid": "{$part-id}/{@[0].eid}",
+  "output": {
+    "metadata": {
+      "id": "{$part-id}/{@eid}",
+      "work": "itn:works/{$item-id}/{$item-eid}"
+    },
+    "nodes": {
+      "event": "itn:events/{$id} itn:events/{@eid}"
+    },
+    "triples": [
+      "{?event} a crm:E7_Activity",
+      "{?event} crm:P2_has_type itn:event-types/text.send",
+      "{?event} crm:P16_used_specific_object {$work}"
+    ]
+  },
+  "children": [
+    {
+      "name": "event_description"
+    },
+    {
+      "name": "event_note"
+    },
+    {
+      "name": "event_chronotopes"
+    },
+    {
+      "name": "text sent event/related/has_participant",
+      "source": "relatedEntities[?relation=='text:send:recipient' && !id.target.name]",
+      "output": {
+        "nodes": {
+          "recipient": "{@id.target.gid}"
+        },
+        "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+      }
+    },
+    {
+      "name": "text sent event/related/has_participant",
+      "source": "relatedEntities[?relation=='text:send:recipient' && id.target.name]",
+      "output": {
+        "nodes": {
+          "recipient": "itn:persons/{@id.target.partId}/{@id.target.value}"
+        },
+        "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+      }
+    }
+  ]
+}
+```
+
+As you can see, thhere are 2 children mappings for the recipient entity: one matches the recipient ID represented by an external link (`!id.target.name` = there is no target name in the ID), another matches the recipient ID represented by an internal link (`id.target.name` = there is a target name in the ID, which means that this is a pin-based link, i.e. internal).
+
+>You might observe that here the target URI is built with the part ID rather than with the item ID. We could also use the `itemId`, but only if we are sure that all the related entities correspond to items. If instead an entity is defined only in a part, it would make no sense to target its container item; sure, the resulting URI would be globally unique, but in practice we would lose the direct connection between the link and its target part.

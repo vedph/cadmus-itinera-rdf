@@ -108,7 +108,7 @@
         },
         {
           "name": "text sent event/related/carried_out_by",
-          "source": "relatedEntities[?relation=='text:send:sender']",
+          "source": "relatedEntities[?relation=='text:send:sender' && !id.target.name]",
           "output": {
             "nodes": {
               "sender": "{@id.target.gid}"
@@ -117,8 +117,18 @@
           }
         },
         {
+          "name": "text sent event/related/carried_out_by",
+          "source": "relatedEntities[?relation=='text:send:sender' && id.target.name]",
+          "output": {
+            "nodes": {
+              "sender": "itn:persons/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": ["{?event} crm:P14_carried_out_by {?sender}"]
+          }
+        },
+        {
           "name": "text sent event/related/has_participant",
-          "source": "relatedEntities[?relation=='text:send:recipient']",
+          "source": "relatedEntities[?relation=='text:send:recipient' && !id.target.name]",
           "output": {
             "nodes": {
               "recipient": "{@id.target.gid}"
@@ -128,10 +138,30 @@
         },
         {
           "name": "text sent event/related/has_participant",
-          "source": "relatedEntities[?relation=='text:send:carrier']",
+          "source": "relatedEntities[?relation=='text:send:recipient' && id.target.name]",
+          "output": {
+            "nodes": {
+              "recipient": "itn:persons/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+          }
+        },
+        {
+          "name": "text sent event/related/has_participant",
+          "source": "relatedEntities[?relation=='text:send:carrier' && !id.target.name]",
           "output": {
             "nodes": {
               "carrier": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?carrier}"]
+          }
+        },
+        {
+          "name": "text sent event/related/has_participant",
+          "source": "relatedEntities[?relation=='text:send:carrier' && id.target.name]",
+          "output": {
+            "nodes": {
+              "carrier": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P11_has_participant {?carrier}"]
           }
