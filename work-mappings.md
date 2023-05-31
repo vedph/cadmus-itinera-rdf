@@ -1,6 +1,7 @@
 # Work Mappings
 
 - [JSON mappings](work-mappings.json)
+- [sample events](work-events.json)
 
 These mappings refer to work items. A work item is an item representing a literary work. The work's EID is provided in the item's `MetadataPart`.
 
@@ -189,6 +190,6 @@ As a sample, consider this event mapping with a single related entity type (`tex
 }
 ```
 
-As you can see, thhere are 2 children mappings for the recipient entity: one matches the recipient ID represented by an external link (`!id.target.name` = there is no target name in the ID), another matches the recipient ID represented by an internal link (`id.target.name` = there is a target name in the ID, which means that this is a pin-based link, i.e. internal).
+As you can see, there are 2 children mappings for the recipient entity: one matches the recipient ID represented by an external link (`!id.target.name` = there is no target name in the ID), another matches the recipient ID represented by an internal link (`id.target.name` = there is a target name in the ID, which means that this is a pin-based link, i.e. internal).
 
 >You might observe that here the target URI is built with the part ID rather than with the item ID. We could also use the `itemId`, but only if we are sure that all the related entities correspond to items. If instead an entity is defined only in a part, it would make no sense to target its container item; sure, the resulting URI would be globally unique, but in practice we would lose the direct connection between the link and its target part.
