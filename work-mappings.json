@@ -316,16 +316,6 @@
         },
         {
           "name": "text transcription event/related/has_produced",
-          "source": "relatedEntities[?relation=='text:transcription:copy']",
-          "output": {
-            "nodes": {
-              "copy": "{@id.target.gid}"
-            },
-            "triples": ["{?event} crm:P108_has_produced {?copy}"]
-          }
-        },
-        {
-          "name": "text transcription event/related/has_produced",
           "source": "relatedEntities[?relation=='text:transcription:copy' && id.target.name]",
           "output": {
             "nodes": {
@@ -339,7 +329,7 @@
           "source": "relatedEntities[?relation=='text:transcription:copy' && !id.target.name]",
           "output": {
             "nodes": {
-              "copy": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "copy": "itn:works/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P108_has_produced {?copy}"]
           }
@@ -393,7 +383,7 @@
           "source": "relatedEntities[?relation=='text:collection:collector' && id.target.name]",
           "output": {
             "nodes": {
-              "collector": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "collector": "itn:works/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P148_has_component {?collector}"]
           }
@@ -447,7 +437,7 @@
           "source": "relatedEntities[?relation=='text:version:previous' && id.target.name]",
           "output": {
             "nodes": {
-              "previous": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "previous": "itn:works/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P67_refers_to {?previous}"]
           }
