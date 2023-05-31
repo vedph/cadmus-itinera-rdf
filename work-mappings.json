@@ -69,7 +69,7 @@
       "sid": "{$part-id}/{@[0].value}",
       "output": {
         "nodes": {
-          "work": "itn:works/{$item-id}/{@value} itn:works/{@value}"
+          "work": "itn:works/{$part-id}/{@value} itn:works/{@value}"
         },
         "triples": ["{?work} a crm:E90_symbolic_object"]
       }
@@ -85,7 +85,7 @@
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
-          "work": "itn:works/{$item-id}/{$item-eid}"
+          "work": "itn:works/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
           "event": "itn:events/{$id} itn:events/{@eid}"
@@ -187,7 +187,7 @@
         ],
         "metadata": {
           "id": "{$part-id}/{@eid}",
-          "work": "itn:works/{$item-id}/{$item-eid}"
+          "work": "itn:works/{$metadata-pid}/{$item-eid}"
         }
       },
       "children": [
@@ -202,7 +202,7 @@
         },
         {
           "name": "text reception event/related/carried_out_by",
-          "source": "relatedEntities[?relation=='text:reception:recipient']",
+          "source": "relatedEntities[?relation=='text:reception:recipient' && !id.target.name]",
           "output": {
             "nodes": {
               "recipient": "{@id.target.gid}"
@@ -211,8 +211,18 @@
           }
         },
         {
+          "name": "text reception event/related/carried_out_by",
+          "source": "relatedEntities[?relation=='text:reception:recipient' && id.target.name]",
+          "output": {
+            "nodes": {
+              "recipient": "itn:persons/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": ["{?event} crm:P14_carried_out_by {?recipient}"]
+          }
+        },
+        {
           "name": "text reception event/related/has_participant",
-          "source": "relatedEntities[?relation=='text:reception:sender']",
+          "source": "relatedEntities[?relation=='text:reception:sender' && !id.target.name]",
           "output": {
             "nodes": {
               "sender": "{@id.target.gid}"
@@ -221,11 +231,31 @@
           }
         },
         {
+          "name": "text reception event/related/has_participant",
+          "source": "relatedEntities[?relation=='text:reception:sender' && id.target.name]",
+          "output": {
+            "nodes": {
+              "sender": "itn:persons/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?sender}"]
+          }
+        },
+        {
           "name": "text sent event/related/has_participant",
-          "source": "relatedEntities[?relation=='text:reception:carrier']",
+          "source": "relatedEntities[?relation=='text:reception:carrier' && !id.target.name]",
           "output": {
             "nodes": {
               "carrier": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?carrier}"]
+          }
+        },
+        {
+          "name": "text sent event/related/has_participant",
+          "source": "relatedEntities[?relation=='text:reception:carrier' && id.target.name]",
+          "output": {
+            "nodes": {
+              "carrier": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P11_has_participant {?carrier}"]
           }
@@ -251,7 +281,7 @@
         ],
         "metadata": {
           "id": "{$part-id}/{@eid}",
-          "work": "itn:works/{$item-id}/{$item-eid}"
+          "work": "itn:works/{$metadata-pid}/{$item-eid}"
         }
       },
       "children": [
@@ -266,10 +296,20 @@
         },
         {
           "name": "text transcription event/related/carried_out_by",
-          "source": "relatedEntities[?relation=='text:transcription:transcriber']",
+          "source": "relatedEntities[?relation=='text:transcription:transcriber' && !id.target.name]",
           "output": {
             "nodes": {
               "transcriber": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P14_carried_out_by {?transcriber}"]
+          }
+        },
+        {
+          "name": "text transcription event/related/carried_out_by",
+          "source": "relatedEntities[?relation=='text:transcription:transcriber' && id.target.name]",
+          "output": {
+            "nodes": {
+              "transcriber": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P14_carried_out_by {?transcriber}"]
           }
@@ -280,6 +320,26 @@
           "output": {
             "nodes": {
               "copy": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P108_has_produced {?copy}"]
+          }
+        },
+        {
+          "name": "text transcription event/related/has_produced",
+          "source": "relatedEntities[?relation=='text:transcription:copy' && id.target.name]",
+          "output": {
+            "nodes": {
+              "copy": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P108_has_produced {?copy}"]
+          }
+        },
+        {
+          "name": "text transcription event/related/has_produced",
+          "source": "relatedEntities[?relation=='text:transcription:copy' && !id.target.name]",
+          "output": {
+            "nodes": {
+              "copy": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P108_has_produced {?copy}"]
           }
@@ -305,7 +365,7 @@
         ],
         "metadata": {
           "id": "{$part-id}/{@eid}",
-          "work": "itn:works/{$item-id}/{$item-eid}"
+          "work": "itn:works/{$metadata-pid}/{$item-eid}"
         }
       },
       "children": [
@@ -320,10 +380,20 @@
         },
         {
           "name": "text collection event/related/has_component",
-          "source": "relatedEntities[?relation=='text:collection:collector']",
+          "source": "relatedEntities[?relation=='text:collection:collector' && !id.target.name]",
           "output": {
             "nodes": {
               "collector": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P148_has_component {?collector}"]
+          }
+        },
+        {
+          "name": "text collection event/related/has_component",
+          "source": "relatedEntities[?relation=='text:collection:collector' && id.target.name]",
+          "output": {
+            "nodes": {
+              "collector": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P148_has_component {?collector}"]
           }
@@ -349,7 +419,7 @@
         ],
         "metadata": {
           "id": "{$part-id}/{@eid}",
-          "work": "itn:works/{$item-id}/{$item-eid}"
+          "work": "itn:works/{$metadata-pid}/{$item-eid}"
         }
       },
       "children": [
@@ -364,10 +434,20 @@
         },
         {
           "name": "text collection event/related/refers_to",
-          "source": "relatedEntities[?relation=='text:version:previous']",
+          "source": "relatedEntities[?relation=='text:version:previous' && !id.target.name]",
           "output": {
             "nodes": {
-              "previous": "itn:works/{@id.target.itemId}/{@id.target.value}"
+              "previous": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P67_refers_to {?previous}"]
+          }
+        },
+        {
+          "name": "text collection event/related/refers_to",
+          "source": "relatedEntities[?relation=='text:version:previous' && id.target.name]",
+          "output": {
+            "nodes": {
+              "previous": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P67_refers_to {?previous}"]
           }

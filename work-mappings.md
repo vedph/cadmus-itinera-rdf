@@ -10,12 +10,14 @@ These mappings refer to work items. A work item is an item representing a litera
 As each work item has a metadata part, we map its `eid` metadatum as the work's ID. To make it a globally unique URI, the mapping builds it as follows:
 
 1. prefix `itn:works/`
-2. work item's GUID
+2. work metadata part's GUID
 3. `/` + work EID
 
 where (2) grants its uniqueness, and (1+3) its friendliness.
 
 Also, this node is the subject of a triple telling that the work is a CIDOC-CRM E90 symbolic object.
+
+>Note that here we pick the item's metadata part GUID rather than the item's GUID itself. Of course, nothing changes for the URI, as the GUID is opaque, and its only purpose is making the URI globally unique. Anyway, the part's GUID here is chosen to be consistent with event's related entities URIs, which refer to parts GUIDs, as nothing ensures that the related entity always corresponds to a whole item, rather then being defined in any of its parts only. Thus, always picking the part's GUID allows consistency, whatever the details of source data modeling, unless of course you are dealing with entities derived from items rather than from any of its parts.
 
 ## Events
 
@@ -145,7 +147,7 @@ As a sample, consider this event mapping with a single related entity type (`tex
   "output": {
     "metadata": {
       "id": "{$part-id}/{@eid}",
-      "work": "itn:works/{$item-id}/{$item-eid}"
+      "work": "itn:works/{$metadata-pid}/{$item-eid}"
     },
     "nodes": {
       "event": "itn:events/{$id} itn:events/{@eid}"
@@ -190,6 +192,9 @@ As a sample, consider this event mapping with a single related entity type (`tex
 }
 ```
 
-As you can see, there are 2 children mappings for the recipient entity: one matches the recipient ID represented by an external link (`!id.target.name` = there is no target name in the ID), another matches the recipient ID represented by an internal link (`id.target.name` = there is a target name in the ID, which means that this is a pin-based link, i.e. internal).
+In these mappings, you should notice that:
 
->You might observe that here the target URI is built with the part ID rather than with the item ID. We could also use the `itemId`, but only if we are sure that all the related entities correspond to items. If instead an entity is defined only in a part, it would make no sense to target its container item; sure, the resulting URI would be globally unique, but in practice we would lose the direct connection between the link and its target part.
+- the work URI is built from prefix `itn:works/` + the GUID of the metadata part for the work item + `/` + item's EID.
+- there are 2 children mappings for the recipient entity: one matches the recipient ID represented by an external link (`!id.target.name` = there is no target name in the ID), another matches the recipient ID represented by an internal link (`id.target.name` = there is a target name in the ID, which means that this is a pin-based link, i.e. internal).
+
+>As noted above, the target URI is built with the _part_ ID rather than with the _item_ ID. We could also use the `itemId`, but only if we are sure that all the related entities correspond to items. If instead an entity is defined only in a part, it would make no sense to target its container item; sure, the resulting URI would be globally unique, but in practice we would lose the direct connection between the link and its target part. So, the general rule is just sticking to the most granular GUID, i.e. use part ID unless not present.
