@@ -107,8 +107,18 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "text sent event/related/carried_out_by",
-          "source": "relatedEntities[?relation=='text:send:sender' && !id.target.name]",
+          "name": "text sent event/related/carried_out_by (external global)",
+          "source": "relatedEntities[?relation=='text:send:sender' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "sender": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P14_carried_out_by {?sender}"]
+          }
+        },
+        {
+          "name": "text sent event/related/carried_out_by (external local)",
+          "source": "relatedEntities[?relation=='text:send:sender' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "sender": "{@id.target.gid}"
@@ -117,7 +127,7 @@
           }
         },
         {
-          "name": "text sent event/related/carried_out_by",
+          "name": "text sent event/related/carried_out_by (internal)",
           "source": "relatedEntities[?relation=='text:send:sender' && id.target.name]",
           "output": {
             "nodes": {

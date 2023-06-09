@@ -65,7 +65,7 @@ matches the relation type `text:send:recipient`, and outputs:
 - a node for the recipient, whose URI is equal to the link's target GID.
 - a triple telling that event P11 has participant recipient.
 
-### Editorial Conventions
+### General Conventions
 
 The entities involved in the events, and more generally in other parts, require a preliminary decision about editorial conventions. Most Cadmus models linking their data to entities outside the model itself do it via a link model which can be used both for external and internal links.
 
@@ -198,3 +198,18 @@ In these mappings, you should notice that:
 - there are 2 children mappings for the recipient entity: one matches the recipient ID represented by an external link (`!id.target.name` = there is no target name in the ID), another matches the recipient ID represented by an internal link (`id.target.name` = there is a target name in the ID, which means that this is a pin-based link, i.e. internal).
 
 >As noted above, the target URI is built with the _part_ ID rather than with the _item_ ID. We could also use the `itemId`, but only if we are sure that all the related entities correspond to items. If instead an entity is defined only in a part, it would make no sense to target its container item; sure, the resulting URI would be globally unique, but in practice we would lose the direct connection between the link and its target part. So, the general rule is just sticking to the most granular GUID, i.e. use part ID unless not present.
+
+### Itinera Conventions
+
+In _Itinera_, there are 3 types of links:
+
+- **internal**: an internal link between two entities in the database. This is marked by the presence of `id.target.name`.
+- **external**: marked by the absence of `id.target.name`, divided in:
+  - **global** link: a true external link, like a DBPedia URI. In Itinera this is a marked case, and is distinguished by local links by a `@` prefix before the ID.
+  - **local** link: a link which does not refer to a database entity, but is local to the database context, e.g. `scipione_barbato`. This is a conventional identifier which makes sense and is unique only within the context of the Itinera project, though not referred to an entity existing in the database.
+
+So, the match conditions are:
+
+- internal: `relatedEntities[?relation=='THESAURUS_ID' && id.target.name`
+- external, global: `relatedEntities[?relation=='THESAURUS_ID' && !(id.target.name) && starts_with(id.target.gid, '@')]`. In this case, we will have to remove the `@` prefix when mapping, e.g. with `slice(target.gid, 1)`.
+- external, local: `relatedEntities[?relation=='THESAURUS_ID' && !(id.target.name) && !(starts_with(id.target.gid, '@'))]`
