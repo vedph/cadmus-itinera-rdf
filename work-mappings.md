@@ -65,6 +65,31 @@ matches the relation type `text:send:recipient`, and outputs:
 - a node for the recipient, whose URI is equal to the link's target GID.
 - a triple telling that event P11 has participant recipient.
 
+### Event Assertions
+
+Events may come with _assertions_, which define their level of probability with a numeric rank, optionally accompanied by documental references.
+
+To represent this, first, we can create a custom `has_probability` property derived from `crm:P141_assigned`, and use it for a triple stating that the event has probability equal to some literal value:
+
+- EVENT `itn:has_probability` "0.9"^^xsd:float.
+
+>CIDOC-CRM allows users to define their own extensions or subproperties of existing properties to suit their needs. In this case, I used a subproperty of `P141_assigned` (was assigned by), which is a generic property for assigning any kind of attribute to an entity.
+
+Then, if we have further data about this assignment, which in our case is represented by _references_, we can create an _assertion_ entity, and say that:
+
+- ASSERTION `a` `crm:E13_Attribute_Assignment`;
+- ASSERTION `crm:P140_assigned_attribute_to` EVENT;
+- ASSERTION `crm:P141_assigned` `itn:has_probability`;
+- ASSERTION `crm:P177_assigned_property_of_type` `crm:E55_Type`.
+
+>`E13_attribute_assignment` "comprises the actions of making assertions about one property of an object or any single relation between two items or concepts. The type of the property asserted to hold between two items or concepts can be described by the property `P177 assigned property type` : `E55 Type`. For example, the class describes the actions of people making propositions and statements during certain scientific/scholarly procedures, e.g., the person and date when a condition statement was made, an identifier was assigned, the museum object was measured, etc. [...] This class allows for the documentation of how the respective assignment came about, and whose opinion it was. Note that all instances of properties described in a knowledge base are the opinion of someone. Per default, they are the opinion of the team maintaining the knowledge base. This fact must not individually be registered for all instances of properties provided by the maintaining team, because it would result in an endless recursion of whose opinion was the description of an opinion. Therefore, the use of instances of E13 Attribute Assignment marks the fact, that the maintaining team is in general neutral to the validity of the respective assertion, but registers someone else’s opinion and how it came about".
+
+Also, for each reference:
+
+- REFERENCE `a E31_document`;
+- REFERENCE `rdfs:label` "..."
+- ASSERTION `P17_was_motivated_by` REFERENCE.
+
 ### Groups of Events
 
 When events are grouped via a common `tag` in the context of the same events part, we want to represent them as parts of a bigger event. To this end, CIDOC-CRM provides `E4_Period`, which is a superclass of `E5_Event`.
