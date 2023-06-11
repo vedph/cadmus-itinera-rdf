@@ -1,5 +1,15 @@
 # Work Mappings
 
+- [Work Mappings](#work-mappings)
+  - [Item](#item)
+  - [Events](#events)
+    - [Event Assertions](#event-assertions)
+    - [Groups of Events](#groups-of-events)
+    - [General Conventions](#general-conventions)
+    - [Itinera Conventions](#itinera-conventions)
+
+Related resources:
+
 - [JSON mappings](work-mappings.json)
 - [sample events](work-events.json)
 
@@ -74,6 +84,17 @@ To represent this, first, we can create a custom `has_probability` property deri
 - EVENT `itn:has_probability` "0.9"^^xsd:float.
 
 >CIDOC-CRM allows users to define their own extensions or subproperties of existing properties to suit their needs. In this case, I used a subproperty of `P141_assigned` (was assigned by), which is a generic property for assigning any kind of attribute to an entity.
+
+This property could be defined as:
+
+```turtle
+itn:has_probability a owl:DatatypeProperty ;
+    rdfs:domain crm:E13_Attribute_Assignment ;
+    rdfs:range xsd:float ;
+    rdfs:subPropertyOf crm:P141_assigned ;
+    rdfs:label "has probability" ;
+    rdfs:comment "This property assigns a degree of probability to an event statement." .
+```
 
 Then, if we have further data about this assignment, which in our case is represented by _references_, we can create an _assertion_ entity, and say that:
 
