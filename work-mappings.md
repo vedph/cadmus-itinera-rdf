@@ -77,6 +77,12 @@ matches the relation type `text:send:recipient`, and outputs:
 
 ### Event Assertions
 
+References for this section:
+
+- [E13 Attribute Assignment | CIDOC CRM](https://cidoc-crm.org/Entity/E13-Attribute-Assignment/version-7.1).
+- [E13 Attribute Assignment | CIDOC CRM issues](https://cidoc-crm.org/Issue/ID-367-e13-attribute-assignment)
+- [RDF-star in ARCO and CIDOC CRM - lists.w3.org](https://lists.w3.org/Archives/Public/public-rdf-star-wg/2023May/0054.html).
+
 Events may come with _assertions_, which define their level of probability with a numeric rank, optionally accompanied by documental references.
 
 To represent this, first, we can create a custom `has_probability` property derived from `crm:P141_assigned`, and use it for a triple stating that the event has probability equal to some literal value:
@@ -95,6 +101,20 @@ itn:has_probability a owl:DatatypeProperty ;
     rdfs:label "has probability" ;
     rdfs:comment "This property assigns a degree of probability to an event statement." .
 ```
+
+Using RDF star, we could use this property like:
+
+```turtle
+<<:Leonardo_da_Vinci :painted :Mona_Lisa>> :has_probability "0.9"^^xsd:float .
+<<:Leonardo_da_Vinci :painted :Mona_Lisa>> a crm:E13_Attribute_Assignment ;
+    crm:P140_assigned_attribute_to :Mona_Lisa ;
+    crm:P141_assigned :has_probability ;
+    crm:P177_assigned_property_of_type crm:E55_Type .
+```
+
+>Here, we use an embedded triple to represent the event statement that Leonardo da Vinci painted the Mona Lisa, and assign a probability value of 0.9 to it using a custom property `:has_probability`. Then, we use `E13 attribute assignment` to describe the action of making this assertion, and use `P140`, `P141` and `P177` to link it to the involved entities and property type.
+
+In our case, the event itself replaces the RDF star statement used as the subject.
 
 Then, if we have further data about this assignment, which in our case is represented by _references_, we can create an _assertion_ entity, and say that:
 
