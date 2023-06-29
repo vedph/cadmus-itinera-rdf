@@ -102,7 +102,7 @@ cd C:\exe\cadmus-tool
 ./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/work-mappings-d.json cadmus-itinera-graph -g repository-provider.itinera -m m
 ```
 
->>Dereferencing mappings is required when your source file is not a JSON array with mappings, but rather a JSON object with named and document mappings sections. Also, when using `graph-import` command, you can add `-d` for dry-mode.
+>>⚠️ Dereferencing mappings is required when your source file is not a JSON array with mappings, but rather a JSON object with named and document mappings sections. Also, when using `graph-import` command, you can add `-d` for dry-mode.
 
 ## Ubuntu
 
