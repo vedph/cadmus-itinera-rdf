@@ -13,33 +13,37 @@ Related resources:
 - [JSON mappings](work-mappings.json)
 - [sample events](work-events.json)
 
-These mappings refer to work items. A work item is an item representing a literary work. The work's EID is provided in the item's `MetadataPart`.
+These mappings refer to _work items_. A _work item_ is an item representing a literary work. The work's EID is provided in the item's `MetadataPart`.
 
 ## Item
 
-As each work item has a metadata part, we map its `eid` metadatum as the work's ID. To make it a globally unique URI, the mapping builds it as follows:
+As each work item has a metadata part, we map its `eid` metadatum as the work's ID. So, the mapping refers to an item's part (the metadata part), rather than directly to the item.
 
-1. prefix `itn:works/`
-2. work metadata part's GUID
-3. `/` + work EID
+A globally unique URI for the **work** is built as follows:
 
-where (2) grants its uniqueness, and (1+3) its friendliness.
+1. prefix `itn:works/`;
+2. work metadata part's GUID;
+3. `/` + work EID (as extracted from the `eid` metadatum).
 
-Also, this node is the subject of a triple telling that the work is a CIDOC-CRM E90 symbolic object.
+Here (2) grants the URI's uniqueness, and (1+3) its friendliness.
 
->Note that here we pick the item's metadata part GUID rather than the item's GUID itself. Of course, nothing changes for the URI, as the GUID is opaque, and its only purpose is making the URI globally unique. Anyway, the part's GUID here is chosen to be consistent with event's related entities URIs, which refer to parts GUIDs, as nothing ensures that the related entity always corresponds to a whole item, rather then being defined in any of its parts only. Thus, always picking the part's GUID allows consistency, whatever the details of source data modeling, unless of course you are dealing with entities derived from items rather than from any of its parts.
+Also, this node is the subject of a **triple** telling that the work is a CIDOC-CRM _E90 symbolic object_.
+
+>Note that here we pick the item's _metadata part_ GUID, rather than the _item_'s GUID itself. Of course, nothing changes for the URI, as the GUID is opaque, and its only purpose is making the URI globally unique. Anyway, the part's GUID here is chosen to be consistent with event's related entities URIs, which refer to parts GUIDs, as nothing ensures that the related entity always corresponds to a whole item, rather then being defined in any of its parts only. Thus, always picking the part's GUID allows consistency, whatever the details of source data modeling, unless of course you are dealing with entities derived from items rather than from any of its parts.
 
 ## Events
 
-Events related to the work are listed in the work item's events part. The event type is provided by a thesaurus entry, and so are the relation types for that event with reference to directly related entities.
+Events related to the work are listed in the work item's _events part_. For each event, the event _type_ is provided by a thesaurus entry, and so are the relation types for that event with reference to directly related entities.
 
 In general:
 
 - each event corresponds to an entity node, whose URI is `itn:events/PART-GUID/EID`.
-- each event has at least 3 triples where the event is the subject:
-  - event is an E7 activity.
-  - event P2 has type + the event's type as derived from the thesaurus entry. The entity for this entry has URI `itn:event-types/ID`.
-  - event P16 used specific object + the work entity. This connects the event with its work.
+- each event has at least 3 triples where the event is the _subject_; these triples say that:
+  - event is an _E7 activity_.
+  - event _P2 has type_ + the event's type as derived from the thesaurus entry. The entity for this entry has URI `itn:event-types/ID`.
+  - event _P16 used specific object_ + the work entity. This connects the event with its work.
+
+>The work object for the last triple has a URI corresponding to the URI built for the work item (see [above](#item)): this is why we are using the supplied metadatum `metadata-pid`, which is the ID (GUID) of the metadata part contained by the work's item. So, `"work": "itn:works/{$metadata-pid}/{$item-eid}"` in this mapping builds the same URI as `"work": "itn:works/{$part-id}/{@value} itn:works/{@value}"` in the work mapping. In fact, the work mapping just matches the work item's metadata part, so in this context the more usual `part-id` metadatum is equivalent to `metadata-pid`, which is used when the part being matched is different (here it's the events part).
 
 Also, a number of children mappings are provided for each event mapping. The following mappings are always the same, and thus shared among all the event mappings:
 
