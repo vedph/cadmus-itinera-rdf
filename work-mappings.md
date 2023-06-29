@@ -33,7 +33,7 @@ Also, this node is the subject of a **triple** telling that the work is a CIDOC-
 
 ## Events
 
-Events related to the work are listed in the work item's _events part_. For each event, the event _type_ is provided by a thesaurus entry, and so are the relation types for that event with reference to directly related entities.
+Events related to the work are listed in the work item's _events part_. For each **event**, the event _type_ is provided by a thesaurus entry, and so are the relation types for that event with reference to directly related entities.
 
 In general:
 
@@ -45,7 +45,7 @@ In general:
 
 >The work object for the last triple has a URI corresponding to the URI built for the work item (see [above](#item)): this is why we are using the supplied metadatum `metadata-pid`, which is the ID (GUID) of the metadata part contained by the work's item. So, `"work": "itn:works/{$metadata-pid}/{$item-eid}"` in this mapping builds the same URI as `"work": "itn:works/{$part-id}/{@value} itn:works/{@value}"` in the work mapping. In fact, the work mapping just matches the work item's metadata part, so in this context the more usual `part-id` metadatum is equivalent to `metadata-pid`, which is used when the part being matched is different (here it's the events part).
 
-Also, a number of children mappings are provided for each event mapping. The following mappings are always the same, and thus shared among all the event mappings:
+Also, a number of **children mappings** are provided for each event mapping. The following mappings are always the same, and thus shared among all the event mappings:
 
 - description for the event's optional description.
 - note for the event's optional note.
@@ -87,7 +87,15 @@ References for this section:
 - [E13 Attribute Assignment | CIDOC CRM issues](https://cidoc-crm.org/Issue/ID-367-e13-attribute-assignment)
 - [RDF-star in ARCO and CIDOC CRM - lists.w3.org](https://lists.w3.org/Archives/Public/public-rdf-star-wg/2023May/0054.html).
 
-Events may come with _assertions_, which define their level of probability with a numeric rank, optionally accompanied by documental references.
+Events may come with _assertions_, which define their level of probability with a numeric rank, optionally accompanied by documental references. The model for assertions in Cadmus is as follows:
+
+- rank (`short`): a numeric rank, usually ranging from 0 to N, where 0=unspecified and any other positive integer number is a rank value (1=most probable, 2=less probable than 1, etc.).
+- tag (`string`): an optional tag for grouping or classifying the assertion in some way.
+- note (`string`): an optional short free note.
+- references (`DocReference[]`): document references for the assertion:
+  - type (`string`): optional document type (e.g. bibliography, archive document, manuscript, etc.).
+  - tag (`string`): an optional tag for grouping or classifying the reference in some way.
+  - citation\* (`string`): the reference value. Its structure often changes according to its `type`. For instance, a bibliography reference might be as simple as `Rossi 1963` (e.g. surname and publication year).
 
 To represent this, first, we can create a custom `has_probability` property derived from `crm:P141_assigned`, and use it for a triple stating that the event has probability equal to some literal value:
 
@@ -120,7 +128,7 @@ Using RDF star, we could use this property like:
 
 In our case, the event itself replaces the RDF star statement used as the subject.
 
-Then, if we have further data about this assignment, which in our case is represented by _references_, we can create an _assertion_ entity, and say that:
+So we can create an _assertion_ entity, and say that:
 
 - ASSERTION `a` `crm:E13_Attribute_Assignment`;
 - ASSERTION `crm:P140_assigned_attribute_to` EVENT;

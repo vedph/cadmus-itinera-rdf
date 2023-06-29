@@ -337,5 +337,10 @@
     "isclass": true,
     "tag": null,
     "label": "itn:event-types/text.send"
+  },
+  {
+    "uri": "itn:has_probability",
+    "tag": "property",
+    "label": "itn:has_probability"
   }
 ]
