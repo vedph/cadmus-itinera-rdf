@@ -52,9 +52,9 @@ You will need:
 cd C:\exe\cadmus-tool
 ./cadmus-tool graph-deref $HOME/Desktop/cadmus-itinera/work-mappings.json $HOME/Desktop/cadmus-itinera/work-mappings-d.json
 ./cadmus-tool index cadmus-itinera $HOME/Desktop/cadmus-itinera/seed-profile.json
-./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/nodes.json cadmus-itinera -t repository-provider.itinera
-./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/triples.json cadmus-itinera -t repository-provider.itinera -m t
-./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/work-mappings-d.json cadmus-itinera -t repository-provider.itinera -m m
+./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/nodes.json cadmus-itinera -g repository-provider.itinera
+./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/triples.json cadmus-itinera -g repository-provider.itinera -m t
+./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/work-mappings-d.json cadmus-itinera -g repository-provider.itinera -m m
 ```
 
 (6) now you can open your browser at `localhost:4200`, and create a work item with a metadata part and an events part. New nodes and triples should appear (see [below](#test)).
@@ -77,7 +77,7 @@ md exe
 cd exe
 md cadmus-tool
 cd cadmus-tool
-Invoke-WebRequest -Uri "https://github.com/vedph/cadmus_tool/releases/download/v.6.0.2/App-v.6.0.2-win-x64.zip" -OutFile cadmus-tool.zip
+Invoke-WebRequest -Uri "https://github.com/vedph/cadmus_tool/releases/download/v.8.0.0/App-v.8.0.0-win-x64.zip" -OutFile cadmus-tool.zip
 Extract-Archive cadmus-tool.zip -DestinationPath C:\exe\cadmus-tool\
 del cadmus-tool.zip
 
@@ -97,9 +97,9 @@ docker compose up
 cd C:\exe\cadmus-tool
 ./cadmus-tool graph-deref $HOME/Desktop/cadmus-itinera/work-mappings.json $HOME/Desktop/cadmus-itinera/work-mappings-d.json
 ./cadmus-tool index cadmus-itinera $HOME/Desktop/cadmus-itinera/seed-profile.json
-./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/nodes.json cadmus-itinera -t repository-provider.itinera
-./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/triples.json cadmus-itinera -t repository-provider.itinera -m t
-./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/work-mappings-d.json cadmus-itinera -t repository-provider.itinera -m m
+./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/nodes.json cadmus-itinera-graph -g repository-provider.itinera
+./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/triples.json cadmus-itinera-graph -g repository-provider.itinera -m t
+./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/work-mappings-d.json cadmus-itinera-graph -g repository-provider.itinera -m m
 ```
 
 >>Dereferencing mappings is required when your source file is not a JSON array with mappings, but rather a JSON object with named and document mappings sections. Also, when using `graph-import` command, you can add `-d` for dry-mode.
@@ -131,8 +131,8 @@ mv docker-compose_graph.yml docker-compose.yml
 ```bash
 cd ~/Documents
 mkdir cadmus-tool
-wget https://github.com/vedph/cadmus_tool/releases/download/v.6.0.2/App-v.6.0.2-linux-x64.tar.gz
-tar -xvzf --strip-components=1 App-v.6.0.2-linux-x64.tar.gz
+wget https://github.com/vedph/cadmus_tool/releases/download/v.8.0.0/App-v.8.0.0-linux-x64.tar.gz
+tar -xvzf --strip-components=1 App-v.8.0.0-linux-x64.tar.gz
 cd plugins
 wget http://www.fusisoft.it/xfer/Cadmus.Itinera.Services.zip
 unzip Cadmus.Itinera.Services.zip
@@ -151,9 +151,9 @@ sudo docker compose up
 ```bash
 ./cadmus-tool graph-deref ~/Documents/cadmus-itinera/work-mappings.json ~/Documents/cadmus-itinera/work-mappings-d.json
 ./cadmus-tool index cadmus-itinera ~/Documents/cadmus-itinera/seed-profile.json
-./cadmus-tool graph-import ~/Documents/cadmus-itinera/nodes.json cadmus-itinera -t repository-provider.itinera
-./cadmus-tool graph-import ~/Documents/cadmus-itinera/triples.json cadmus-itinera -t repository-provider.itinera -m t
-./cadmus-tool graph-import ~/Documents/cadmus-itinera/work-mappings-d.json cadmus-itinera -t repository-provider.itinera -m m
+./cadmus-tool graph-import ~/Documents/cadmus-itinera/nodes.json cadmus-itinera-graph -g repository-provider.itinera
+./cadmus-tool graph-import ~/Documents/cadmus-itinera/triples.json cadmus-itinera-graph -g repository-provider.itinera -m t
+./cadmus-tool graph-import ~/Documents/cadmus-itinera/work-mappings-d.json cadmus-itinera-graph -g repository-provider.itinera -m m
 ```
 
 (5) now you can open your browser at `localhost:4200`, and create a work item with a metadata part and an events part. New nodes and triples should appear (see [below](#test)).
