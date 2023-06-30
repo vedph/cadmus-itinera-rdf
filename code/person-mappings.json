@@ -122,12 +122,10 @@
       "sid": "{$part-id}/{@[0].value}",
       "output": {
         "nodes": {
-          "work": "itn:persons/{$item-id}/{@value} itn:persons/{@value}"
+          "person": "itn:persons/{$part-id}/{@value} itn:persons/{@value}"
         },
         "triples": [
-          "{?person} a crm:E39_actor",
-          "{?person} a crm:E21_person",
-          "{?person} a crm:E74_group"
+          "{?person} a crm:E21_person"
         ]
       }
     },

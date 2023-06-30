@@ -4,8 +4,8 @@ Related resources:
 
 - [events mapping](events.md)
 - [links](links.md)
-- [JSON mappings](work-mappings.json)
-- [sample events](work-events.json)
+- [JSON mappings](code/work-mappings.json)
+- [sample events](code/work-events.json)
 
 These mappings refer to _work items_. A _work item_ is an item representing a literary work. The work's EID is provided in the item's `MetadataPart`.
 
