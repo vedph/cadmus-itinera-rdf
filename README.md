@@ -7,6 +7,7 @@ Static resources for Itinera graph.
 - [setup](setup.md)
 - [events](events.md)
 - [links](links.md)
+- [person mappings](person-mappings.md)
 - [work mappings](work-mappings.md)
 
 ## Code

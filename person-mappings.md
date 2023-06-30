@@ -22,3 +22,9 @@ A globally unique URI for the **person** is built as follows:
 Here (2) grants the URI's uniqueness, and (1+3) its friendliness.
 
 Also, this node is the subject of a **triple** telling that the person is a CIDOC-CRM _E21 person_.
+
+## Historical Events Part
+
+Other than the person itself, Itinera maps its [events](events.md). The events connected to a person are the backbone of his/her bio.
+
+The general mappings for events apply, using the person-specific thesaurus entries for event types and their related entities.
