@@ -122,11 +122,10 @@
       "sid": "{$part-id}/{@[0].value}",
       "output": {
         "nodes": {
-          "work": "itn:manuscripts/{$item-id}/{@value} itn:manuscripts/{@value}"
+          "ms": "itn:manuscripts/{$part-id}/{@value} itn:manuscripts/{@value}"
         },
         "triples": [
-          "{?person} a crm:E18_physical_thing",
-          "{?person} a crm:E70_thing"
+          "{?ms} a crm:E18_physical_thing"
         ]
       }
     }
