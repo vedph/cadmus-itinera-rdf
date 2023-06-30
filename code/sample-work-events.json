@@ -43,7 +43,20 @@
         }
       ],
       "description": "The author sent his alpha work to the bishop of Arezzo in May, 1370 via Boccaccio.",
-      "note": "Editorial note about the alpha send event."
+      "note": "Editorial note about the alpha send event.",
+      "assertion": {
+        "rank": 2,
+        "references": [
+          {
+            "type": "biblio",
+            "citation": "Rossi 1963"
+          },
+          {
+            "type": "ms",
+            "citation": "Vat.lat.123"
+          }
+        ]
+      }
     },
     {
       "eid": "alpha-transcription",
