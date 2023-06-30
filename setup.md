@@ -51,10 +51,9 @@ You will need:
 ```ps1
 cd C:\exe\cadmus-tool
 ./cadmus-tool graph-deref $HOME/Desktop/cadmus-itinera/work-mappings.json $HOME/Desktop/cadmus-itinera/work-mappings-d.json
-./cadmus-tool index cadmus-itinera $HOME/Desktop/cadmus-itinera/seed-profile.json
-./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/nodes.json cadmus-itinera -g repository-provider.itinera
-./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/triples.json cadmus-itinera -g repository-provider.itinera -m t
-./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/work-mappings-d.json cadmus-itinera -g repository-provider.itinera -m m
+./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/nodes.json cadmus-itinera-graph -g repository-provider.itinera
+./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/triples.json cadmus-itinera-graph -g repository-provider.itinera -m t
+./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/work-mappings-d.json cadmus-itinera-graph -g repository-provider.itinera -m m
 ```
 
 (6) now you can open your browser at `localhost:4200`, and create a work item with a metadata part and an events part. New nodes and triples should appear (see [below](#test)).
@@ -96,7 +95,6 @@ docker compose up
 # import presets
 cd C:\exe\cadmus-tool
 ./cadmus-tool graph-deref $HOME/Desktop/cadmus-itinera/work-mappings.json $HOME/Desktop/cadmus-itinera/work-mappings-d.json
-./cadmus-tool index cadmus-itinera $HOME/Desktop/cadmus-itinera/seed-profile.json
 ./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/nodes.json cadmus-itinera-graph -g repository-provider.itinera
 ./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/triples.json cadmus-itinera-graph -g repository-provider.itinera -m t
 ./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/work-mappings-d.json cadmus-itinera-graph -g repository-provider.itinera -m m
@@ -150,7 +148,6 @@ sudo docker compose up
 
 ```bash
 ./cadmus-tool graph-deref ~/Documents/cadmus-itinera/work-mappings.json ~/Documents/cadmus-itinera/work-mappings-d.json
-./cadmus-tool index cadmus-itinera ~/Documents/cadmus-itinera/seed-profile.json
 ./cadmus-tool graph-import ~/Documents/cadmus-itinera/nodes.json cadmus-itinera-graph -g repository-provider.itinera
 ./cadmus-tool graph-import ~/Documents/cadmus-itinera/triples.json cadmus-itinera-graph -g repository-provider.itinera -m t
 ./cadmus-tool graph-import ~/Documents/cadmus-itinera/work-mappings-d.json cadmus-itinera-graph -g repository-provider.itinera -m m
