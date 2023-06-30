@@ -1,0 +1,3468 @@
+{
+  "namedMappings": {
+    "event_description": {
+      "name": "event/description",
+      "description": "Map the description of an event to EVENT crm:P3_has_note LITERAL.",
+      "source": "description",
+      "sid": "{$id}/description",
+      "output": {
+        "triples": ["{?event} crm:P3_has_note \"{$.}\""]
+      }
+    },
+    "event_note": {
+      "name": "event/note",
+      "description": "Map the note of an event to EVENT crm:P3_has_note LITERAL.",
+      "source": "note",
+      "sid": "{$id}/note",
+      "output": {
+        "triples": ["{?event} crm:P3_has_note \"{$.}\""]
+      }
+    },
+    "event_chronotopes": {
+      "name": "event/chronotopes",
+      "description": "For each chronotope, map the place/date of an event to triples which create a place node for the place and link it to the event via a triple using crm:P7_took_place_at for places; and to triples using crm:P4_has_time_span which in turn has a new timespan node has object.",
+      "source": "chronotopes",
+      "sid": "{$id}/chronotope",
+      "children": [
+        {
+          "name": "event/chronotopes/place",
+          "source": "place",
+          "output": {
+            "nodes": {
+              "place": "itn:places/{@value}"
+            },
+            "triples": [
+              "{?place} a crm:E53_Place",
+              "{?event} crm:P7_took_place_at {?place}"
+            ]
+          }
+        },
+        {
+          "name": "event/chronotopes/date",
+          "source": "date",
+          "output": {
+            "metadata": {
+              "date_value": "{!_hdate({@.} & value)}",
+              "date_text": "{!_hdate({@.} & text)}"
+            },
+            "nodes": {
+              "timespan": "itn:timespans/ts"
+            },
+            "triples": [
+              "{?event} crm:P4_has_time-span {?timespan}",
+              "{?timespan} crm:P82_at_some_time_within \"{$date_value}\"^^xs:float",
+              "{?timespan} crm:P87_is_identified_by \"{$date_text}\"@en"
+            ]
+          }
+        }
+      ]
+    },
+    "event_assertion": {
+      "name": "event/assertion",
+      "description": "Map the assertion of an event to EVENT itn:has_probability RANK^^xsd:float.",
+      "source": "assertion",
+      "sid": "{$id}/assertion",
+      "output": {
+        "nodes": {
+          "assertion": "itn/assertions/as"
+        },
+        "triples": [
+          "{?event} itn:has_probability \"{@rank}\"^^xsd:float",
+          "{?assertion} a crm:E13_attribute_assignment",
+          "{?assertion} crm:P140_assigned_attribute_to {?event}",
+          "{?assertion} crm:P141_assigned itn:has_probability",
+          "{?assertion} crm:P177_assigned_property_of_type crm:E55_type"
+        ]
+      },
+      "children": [
+        {
+          "name": "event/assertion/references",
+          "source": "references",
+          "sid": "{$id}/reference",
+          "children": [
+            {
+              "name": "event/references/citation",
+              "source": "citation",
+              "output": {
+                "nodes": {
+                  "citation": "itn:citations/cit"
+                },
+                "triples": [
+                  "{?citation} a crm:E31_Document",
+                  "{?citation} rdfs:label \"{@.}\"",
+                  "{?assertion} crm:P70i_is_documented_in {?citation}"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "event_period": {
+      "name": "event/tag",
+      "description": "Map the tag of an event to EVENT P9i_forms_part_of GROUP.",
+      "source": "tag",
+      "sid": "{$id}/tag",
+      "output": {
+        "nodes": {
+          "period": "itn:periods/{$part-id}/{@value}"
+        },
+        "triples": ["{?event} P9i_forms_part_of {?period}"]
+      }
+    }
+  },
+  "documentMappings": [
+    {
+      "name": "person",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.metadata",
+      "description": "Map a person item to a node via the item's EID extracted from its MetadataPart.",
+      "source": "metadata[?name=='eid']",
+      "sid": "{$part-id}/{@[0].value}",
+      "output": {
+        "nodes": {
+          "work": "itn:persons/{$item-id}/{@value} itn:persons/{@value}"
+        },
+        "triples": [
+          "{?person} a crm:E39_actor",
+          "{?person} a crm:E21_person",
+          "{?person} a crm:E74_group"
+        ]
+      }
+    },
+    {
+      "name": "person birth event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person birth event",
+      "source": "events[?type=='person.birth']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E67_birth",
+          "{?event} crm:P2_has_type itn:event-types/person.birth",
+          "{?event} crm:P98_brought_into_life {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person birth event/related/by_mother",
+          "source": "relatedEntities[?relation=='person:birth:mother']",
+          "output": {
+            "nodes": {
+              "mother": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P96_by_mother {?mother}"]
+          }
+        },
+        {
+          "name": "person birth event/related/from_father",
+          "source": "relatedEntities[?relation=='person:birth:father']",
+          "output": {
+            "nodes": {
+              "father": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P97_from_father {?father}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person family event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person family event",
+      "source": "events[?type=='person.family']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E74_Group",
+          "{?event} crm:P2_has_type itn:event-types/person.family",
+          "{?event} crm:P107_has_current_or_former_member {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person family event/related/has_current_or_former_member",
+          "source": "relatedEntities[?relation=='person:birth:son']",
+          "output": {
+            "nodes": {
+              "son": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P107_has_current_or_former_member {?son}"]
+          }
+        },
+        {
+          "name": "person family event/related/has_current_or_former_member",
+          "source": "relatedEntities[?relation=='person:birth:daughter']",
+          "output": {
+            "nodes": {
+              "daughter": "{@id.target.gid}"
+            },
+            "triples": [
+              "{?event} crm:P107_has_current_or_former_member {?daughter}"
+            ]
+          }
+        },
+        {
+          "name": "person family event/related/has_current_or_former_member",
+          "source": "relatedEntities[?relation=='person:birth:brother']",
+          "output": {
+            "nodes": {
+              "brother": "{@id.target.gid}"
+            },
+            "triples": [
+              "{?event} crm:P107_has_current_or_former_member {?brother}"
+            ]
+          }
+        },
+        {
+          "name": "person family event/related/has_current_or_former_member",
+          "source": "relatedEntities[?relation=='person:birth:sister']",
+          "output": {
+            "nodes": {
+              "sister": "{@id.target.gid}"
+            },
+            "triples": [
+              "{?event} crm:P107_has_current_or_former_member {?sister}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person death event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person death event",
+      "source": "events[?type=='person.death']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E69_death",
+          "{?event} crm:P2_has_type itn:event-types/person.death",
+          "{?event} crm:P100_was_death_of {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person marriage event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person marriage event",
+      "source": "events[?type=='person.marriage']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E85_joining",
+          "{?event} crm:P2_has_type itn:event-types/person.marriage",
+          "{?event} crm:P143_joined {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person marriage event/related/joined",
+          "source": "relatedEntities[?relation=='person:marriage:husband']",
+          "output": {
+            "nodes": {
+              "husband": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P143_joined {?husband}"]
+          }
+        },
+        {
+          "name": "person marriage event/related/joined",
+          "source": "relatedEntities[?relation=='person:marriage:wife']",
+          "output": {
+            "nodes": {
+              "wife": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P143_joined {?wife}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person job.pope event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.pope event",
+      "source": "events[?type=='person.job.pope']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.pope",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.cardinal event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.cardinal event",
+      "source": "events[?type=='person.job.cardinal']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.cardinal",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.bishop event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.bishop event",
+      "source": "events[?type=='person.job.bishop']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.bishop",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.friar event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.friar event",
+      "source": "events[?type=='person.job.friar']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.friar",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.prior event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.prior event",
+      "source": "events[?type=='person.job.prior']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.prior",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.canon event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.canon event",
+      "source": "events[?type=='person.job.canon']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.canon",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.king event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.king event",
+      "source": "events[?type=='person.job.king']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.king",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.politician event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.politician event",
+      "source": "events[?type=='person.job.politician']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.politician",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.teacher event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.teacher event",
+      "source": "events[?type=='person.job.teacher']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.teacher",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.lecturer event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.lecturer event",
+      "source": "events[?type=='person.job.lecturer']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.lecturer",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.jurist event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.jurist event",
+      "source": "events[?type=='person.job.jurist']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.jurist",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.diplomatic event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.diplomatic event",
+      "source": "events[?type=='person.job.diplomatic']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.diplomatic",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.notary event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.notary event",
+      "source": "events[?type=='person.job.notary']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.notary",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.military event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.military event",
+      "source": "events[?type=='person.job.military']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.military",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.scribe event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.scribe event",
+      "source": "events[?type=='person.job.scribe']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.scribe",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.artist event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.artist event",
+      "source": "events[?type=='person.job.artist']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.artist",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.musician event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.musician event",
+      "source": "events[?type=='person.job.musician']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.musician",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.apprentice event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.apprentice event",
+      "source": "events[?type=='person.job.apprentice']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.apprentice",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.counsellor event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.counsellor event",
+      "source": "events[?type=='person.job.counsellor']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.counsellor",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.chancellor event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.chancellor event",
+      "source": "events[?type=='person.job.chancellor']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.chancellor",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.secretary event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.secretary event",
+      "source": "events[?type=='person.job.secretary']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.secretary",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.merchant event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.merchant event",
+      "source": "events[?type=='person.job.merchant']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.merchant",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.banker event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.banker event",
+      "source": "events[?type=='person.job.banker']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.banker",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.artisan event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.artisan event",
+      "source": "events[?type=='person.job.artisan']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.artisan",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.servant event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.servant event",
+      "source": "events[?type=='person.job.servant']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.servant",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.emperor event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.emperor event",
+      "source": "events[?type=='person.job.emperor']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.emperor",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.physician event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.physician event",
+      "source": "events[?type=='person.job.physician']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.physician",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.duke event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.duke event",
+      "source": "events[?type=='person.job.duke']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.duke",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.earl event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.earl event",
+      "source": "events[?type=='person.job.earl']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.earl",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.prince event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.prince event",
+      "source": "events[?type=='person.job.prince']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.prince",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person teacher-of event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person teacher-of event",
+      "source": "events[?type=='person.teacher-of']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.teacher-of",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person teacher-of event/related/disciple",
+          "source": "relatedEntities[?relation=='person:teacher-of:disciple']",
+          "output": {
+            "nodes": {
+              "disciple": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?disciple}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person disciple-of event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person disciple-of event",
+      "source": "events[?type=='person.disciple-of']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.disciple-of",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person disciple-of event/related/teacher",
+          "source": "relatedEntities[?relation=='person:disciple-of:teacher']",
+          "output": {
+            "nodes": {
+              "teacher": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?teacher}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person counsellor-of event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person counsellor-of event",
+      "source": "events[?type=='person.counsellor-of']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.counsellor-of",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person counsellor-of event/related/person",
+          "source": "relatedEntities[?relation=='person:counsellor-of:person']",
+          "output": {
+            "nodes": {
+              "person": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?person}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person secretary-of event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person secretary-of event",
+      "source": "events[?type=='person.secretary-of']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.secretary-of",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person secretary-of event/related/person",
+          "source": "relatedEntities[?relation=='person:secretary-of:person']",
+          "output": {
+            "nodes": {
+              "person": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?person}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person secretary-of event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person secretary-of event",
+      "source": "events[?type=='person.secretary-of']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.secretary-of",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person secretary-of event/related/person",
+          "source": "relatedEntities[?relation=='person:secretary-of:person']",
+          "output": {
+            "nodes": {
+              "person": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?person}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person servant event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person servant event",
+      "source": "events[?type=='person.servant']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.servant",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person servant event/related/person",
+          "source": "relatedEntities[?relation=='person:servant:person']",
+          "output": {
+            "nodes": {
+              "person": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?person}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person at-service-of event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person at-service-of event",
+      "source": "events[?type=='person.at-service-of']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.at-service-of",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person at-service-of event/related/person",
+          "source": "relatedEntities[?relation=='person:at-service-of:person']",
+          "output": {
+            "nodes": {
+              "person": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?person}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person protector-of event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person protector-of event",
+      "source": "events[?type=='person.protector-of']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.protector-of",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person protector-of event/related/person",
+          "source": "relatedEntities[?relation=='person:protector-of:person']",
+          "output": {
+            "nodes": {
+              "person": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?person}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person officer event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person officer event",
+      "source": "events[?type=='person.officer']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.officer",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person officer event/related/office",
+          "source": "relatedEntities[?relation=='person:officer:office']",
+          "output": {
+            "nodes": {
+              "office": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P2_has_type {?office}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person title event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person title event",
+      "source": "events[?type=='person.title']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.title",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person appointment event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person appointment event",
+      "source": "events[?type=='person.appointment']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.appointment",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person group event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person group event",
+      "source": "events[?type=='person.group']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E74_Group",
+          "{?event} crm:P107_has_current_or_former_member {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person group event/related/member-of",
+          "source": "relatedEntities[?relation=='person:group:member-of']",
+          "output": {
+            "nodes": {
+              "member-of": "{@id.target.gid}"
+            },
+            "triples": [
+              "{?event} crm:P107i_is_current_or_former_member {?member-of}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person meeting event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person meeting event",
+      "source": "events[?type=='person.meeting']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E85_Joining",
+          "{?event} crm:P2_has_type itn:event-types/person.meeting",
+          "{?event} crm:P11_has_participant {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person meeting event/related/met",
+          "source": "relatedEntities[?relation=='person:meeting:met']",
+          "output": {
+            "nodes": {
+              "met": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?met}"]
+          }
+        },
+        {
+          "name": "person meeting event/related/spectator",
+          "source": "relatedEntities[?relation=='person:meeting:spectator']",
+          "output": {
+            "nodes": {
+              "spectator": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?spectator}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person travel event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person travel event",
+      "source": "events[?type=='person.travel']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E85_Joining",
+          "{?event} crm:P2_has_type itn:event-types/person.travel",
+          "{?event} crm:P11_has_participant {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person travel event/related/participant",
+          "source": "relatedEntities[?relation=='person:travel:participant']",
+          "output": {
+            "nodes": {
+              "participant": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?participant}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person participation event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person participation event",
+      "source": "events[?type=='person.participation']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E85_Joining",
+          "{?event} crm:P2_has_type itn:event-types/person.participation",
+          "{?event} crm:P11_has_participant {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person participation event/related/participant",
+          "source": "relatedEntities[?relation=='person:participation:participant']",
+          "output": {
+            "nodes": {
+              "participant": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?participant}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person documented event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person documentad event",
+      "source": "events[?type=='person.documented']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E70_Thing",
+          "{?event} crm:P2_has_type itn:event-types/person.documented",
+          "{?event} crm:P70_documents {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person documented event/related/participant",
+          "source": "relatedEntities[?relation=='person:documented:participant']",
+          "output": {
+            "nodes": {
+              "participant": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P70i_is_documented_in {?participant}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person send event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person send event",
+      "source": "events[?type=='person.send']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.send",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person send event/related/sent",
+          "source": "relatedEntities[?relation=='person:send:sent']",
+          "output": {
+            "nodes": {
+              "sent": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?sent}"]
+          }
+        },
+        {
+          "name": "person send event/related/recipient",
+          "source": "relatedEntities[?relation=='person:send:recipient']",
+          "output": {
+            "nodes": {
+              "recipient": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+          }
+        },
+        {
+          "name": "person send event/related/carrier",
+          "source": "relatedEntities[?relation=='person:send:carrier']",
+          "output": {
+            "nodes": {
+              "carrier": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?carrier}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person reception event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person reception event",
+      "source": "events[?type=='person.reception']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.reception",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person reception event/related/received",
+          "source": "relatedEntities[?relation=='person:reception:received']",
+          "output": {
+            "nodes": {
+              "received": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?received}"]
+          }
+        },
+        {
+          "name": "person reception event/related/sender",
+          "source": "relatedEntities[?relation=='person:reception:sender']",
+          "output": {
+            "nodes": {
+              "sender": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?sender}"]
+          }
+        },
+        {
+          "name": "person reception event/related/carrier",
+          "source": "relatedEntities[?relation=='person:reception:carrier']",
+          "output": {
+            "nodes": {
+              "carrier": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?carrier}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person exchange event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person exchange event",
+      "source": "events[?type=='person:exchange']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$item-id}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person:exchange",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person exchange event/related/exchanged",
+          "source": "relatedEntities[?relation=='person:exchange:exchanged']",
+          "output": {
+            "nodes": {
+              "exchanged": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?exchanged}"]
+          }
+        },
+        {
+          "name": "person exchange event/related/recipient",
+          "source": "relatedEntities[?relation=='person:exchange:recipient']",
+          "output": {
+            "nodes": {
+              "recipient": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person transcription event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person transcription event",
+      "source": "events[?type=='person.transcription']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.transcription",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ],
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:person/{$item-id}/{$item-eid}"
+        }
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person transcription event/related/copy",
+          "source": "relatedEntities[?relation=='person:transcription:copy']",
+          "output": {
+            "nodes": {
+              "copy": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P108_has_produced {?copy}"]
+          }
+        },
+        {
+          "name": "person transcription event/related/text",
+          "source": "relatedEntities[?relation=='person:transcription:text']",
+          "output": {
+            "nodes": {
+              "text": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?text}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person collection event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person collection event",
+      "source": "events[?type=='person.collection']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.collection",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ],
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:person/{$item-id}/{$item-eid}"
+        }
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person collection event/related/copy",
+          "source": "relatedEntities[?relation=='person:collection:copy']",
+          "output": {
+            "nodes": {
+              "copy": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P70i_is_documented_in {?copy}"]
+          }
+        },
+        {
+          "name": "person collection event/related/text",
+          "source": "relatedEntities[?relation=='person:collection:text']",
+          "output": {
+            "nodes": {
+              "text": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?text}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person annotation event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person annotation event",
+      "source": "events[?type=='person.annotation']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.annotation",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ],
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:person/{$item-id}/{$item-eid}"
+        }
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person annotation event/related/ms",
+          "source": "relatedEntities[?relation=='person:annotation:ms']",
+          "output": {
+            "nodes": {
+              "ms": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P70i_is_documented_in {?ms}"]
+          }
+        },
+        {
+          "name": "person annotation event/related/text",
+          "source": "relatedEntities[?relation=='person:annotation:text']",
+          "output": {
+            "nodes": {
+              "text": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?text}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person handwriting event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person handwriting event",
+      "source": "events[?type=='person.handwriting']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.handwriting",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ],
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:person/{$item-id}/{$item-eid}"
+        }
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person handwriting event/related/hand",
+          "source": "relatedEntities[?relation=='person:handwriting:hand']",
+          "output": {
+            "nodes": {
+              "hand": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P70i_is_documented_in {?hand}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person commission event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person commission event",
+      "source": "events[?type=='person.commission']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.commission",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ],
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:person/{$item-id}/{$item-eid}"
+        }
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person commission event/related/manuscript",
+          "source": "relatedEntities[?relation=='person:commission:manuscript']",
+          "output": {
+            "nodes": {
+              "manuscript": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?manuscript}"]
+          }
+        },
+        {
+          "name": "person commission event/related/maker",
+          "source": "relatedEntities[?relation=='person:commission:maker']",
+          "output": {
+            "nodes": {
+              "maker": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?maker}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person commissioned event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person commissioned event",
+      "source": "events[?type=='person.commissioned']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.commissioned",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ],
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:person/{$item-id}/{$item-eid}"
+        }
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person commissioned event/related/manuscript",
+          "source": "relatedEntities[?relation=='person:commissioned:manuscript']",
+          "output": {
+            "nodes": {
+              "manuscript": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?manuscript}"]
+          }
+        },
+        {
+          "name": "person commissioned event/related/client",
+          "source": "relatedEntities[?relation=='person:commissioned:client']",
+          "output": {
+            "nodes": {
+              "client": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?client}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person dedication event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person dedication event",
+      "source": "events[?type=='person.dedication']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.dedication",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ],
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:person/{$item-id}/{$item-eid}"
+        }
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person dedication event/related/manuscript",
+          "source": "relatedEntities[?relation=='person:dedication:manuscript']",
+          "output": {
+            "nodes": {
+              "manuscript": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?manuscript}"]
+          }
+        },
+        {
+          "name": "person dedication event/related/text",
+          "source": "relatedEntities[?relation=='person:dedication:text']",
+          "output": {
+            "nodes": {
+              "text": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?text}"]
+          }
+        },
+        {
+          "name": "person dedication event/related/recipient",
+          "source": "relatedEntities[?relation=='person:dedication:recipient']",
+          "output": {
+            "nodes": {
+              "recipient": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person dedicated event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person dedicated event",
+      "source": "events[?type=='person.dedicated']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.dedicated",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ],
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:person/{$item-id}/{$item-eid}"
+        }
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person dedicated event/related/manuscript",
+          "source": "relatedEntities[?relation=='person:dedicated:manuscript']",
+          "output": {
+            "nodes": {
+              "manuscript": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?manuscript}"]
+          }
+        },
+        {
+          "name": "person dedicated event/related/text",
+          "source": "relatedEntities[?relation=='person:dedicated:text']",
+          "output": {
+            "nodes": {
+              "text": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?text}"]
+          }
+        },
+        {
+          "name": "person dedicated event/related/maker",
+          "source": "relatedEntities[?relation=='person:dedicated:maker']",
+          "output": {
+            "nodes": {
+              "maker": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?maker}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person possession event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person possession event",
+      "source": "events[?type=='person.possession']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.possession",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ],
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:person/{$item-id}/{$item-eid}"
+        }
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person possession event/related/manuscript",
+          "source": "relatedEntities[?relation=='person:possession:manuscript']",
+          "output": {
+            "nodes": {
+              "manuscript": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P75i_possessed {?manuscript}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person borrowing event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person borrowing event",
+      "source": "events[?type=='person.borrowing']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E10_Transfer_of_Custody",
+          "{?event} crm:P29_custody_received_by {$person}"
+        ],
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:person/{$item-id}/{$item-eid}"
+        }
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person borrowing event/related/manuscript",
+          "source": "relatedEntities[?relation=='person:borrowing:manuscript']",
+          "output": {
+            "nodes": {
+              "manuscript": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P30_transferred_custody_of {?manuscript}"]
+          }
+        },
+        {
+          "name": "person borrowing event/related/lender",
+          "source": "relatedEntities[?relation=='person:borrowing:lender']",
+          "output": {
+            "nodes": {
+              "lender": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P28_custody_surrendered_by {?lender}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person lending event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person lending event",
+      "source": "events[?type=='person.lending']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E10_Transfer_of_Custody",
+          "{?event} crm:P28_custody_surrendered_by {$person}"
+        ],
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:person/{$item-id}/{$item-eid}"
+        }
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person lending event/related/manuscript",
+          "source": "relatedEntities[?relation=='person:lending:manuscript']",
+          "output": {
+            "nodes": {
+              "manuscript": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P30_transferred_custody_of {?manuscript}"]
+          }
+        },
+        {
+          "name": "person lending event/related/borrower",
+          "source": "relatedEntities[?relation=='person:lending:borrower']",
+          "output": {
+            "nodes": {
+              "borrower": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P29_custody_received_by {?borrower}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person returning event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person returning event",
+      "source": "events[?type=='person.returning']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E10_Transfer_of_Custody",
+          "{?event} crm:P28_custody_surrendered_by {$person}"
+        ],
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:person/{$item-id}/{$item-eid}"
+        }
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person returning event/related/manuscript",
+          "source": "relatedEntities[?relation=='person:returning:manuscript']",
+          "output": {
+            "nodes": {
+              "manuscript": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P30_transferred_custody_of {?manuscript}"]
+          }
+        },
+        {
+          "name": "person returning event/related/obtain-restitution",
+          "source": "relatedEntities[?relation=='person:returning:obtain-restitution']",
+          "output": {
+            "nodes": {
+              "obtain-restitution": "{@id.target.gid}"
+            },
+            "triples": [
+              "{?event} crm:P29_custody_received_by {?obtain-restitution}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person obtain-restitution event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person obtain-restitution event",
+      "source": "events[?type=='person.obtain-restitution']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E10_Transfer_of_Custody",
+          "{?event} crm:P29_custody_received_by {$person}"
+        ],
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:person/{$item-id}/{$item-eid}"
+        }
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person obtain-restitution event/related/manuscript",
+          "source": "relatedEntities[?relation=='person:obtain-restitution:manuscript']",
+          "output": {
+            "nodes": {
+              "manuscript": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P30_transferred_custody_of {?manuscript}"]
+          }
+        },
+        {
+          "name": "person obtain-restitution event/related/returning",
+          "source": "relatedEntities[?relation=='person:obtain-restitution:returning']",
+          "output": {
+            "nodes": {
+              "returning": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P28_custody_surrendered_by {?returning}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person buying event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person buying event",
+      "source": "events[?type=='person.buying']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E8_Acquisition",
+          "{?event} crm:P22_transferred_title_to {$person}"
+        ],
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:person/{$item-id}/{$item-eid}"
+        }
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person buying event/related/manuscript",
+          "source": "relatedEntities[?relation=='person:buying:manuscript']",
+          "output": {
+            "nodes": {
+              "manuscript": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P24_transferred_title_of {?manuscript}"]
+          }
+        },
+        {
+          "name": "person buying event/related/seller",
+          "source": "relatedEntities[?relation=='person:buying:seller']",
+          "output": {
+            "nodes": {
+              "seller": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P23_transferred_title_from {?seller}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "person selling event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person selling event",
+      "source": "events[?type=='person.selling']",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "nodes": {
+          "event": "itn:events/{$id} itn:events/{@eid}"
+        },
+        "triples": [
+          "{?event} a crm:E8_Acquisition",
+          "{?event} crm:P23_transferred_title_from {$person}"
+        ],
+        "metadata": {
+          "id": "{$part-id}/{@eid}",
+          "person": "itn:person/{$item-id}/{$item-eid}"
+        }
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person selling event/related/manuscript",
+          "source": "relatedEntities[?relation=='person:selling:manuscript']",
+          "output": {
+            "nodes": {
+              "manuscript": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P24_transferred_title_of {?manuscript}"]
+          }
+        },
+        {
+          "name": "person selling event/related/buyer",
+          "source": "relatedEntities[?relation=='person:selling:buyer']",
+          "output": {
+            "nodes": {
+              "buyer": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P22_transferred_title_to {?buyer}"]
+          }
+        }
+      ]
+    }
+  ]
+}
