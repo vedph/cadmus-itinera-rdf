@@ -196,8 +196,18 @@
           }
         },
         {
-          "name": "text sent event/related/has_participant",
-          "source": "relatedEntities[?relation=='text:send:recipient' && !id.target.name]",
+          "name": "text sent event/related/has_participant (external global)",
+          "source": "relatedEntities[?relation=='text:send:recipient' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "recipient": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+          }
+        },
+        {
+          "name": "text sent event/related/has_participant (external local)",
+          "source": "relatedEntities[?relation=='text:send:recipient' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "recipient": "{@id.target.gid}"
@@ -206,7 +216,7 @@
           }
         },
         {
-          "name": "text sent event/related/has_participant",
+          "name": "text sent event/related/has_participant (internal)",
           "source": "relatedEntities[?relation=='text:send:recipient' && id.target.name]",
           "output": {
             "nodes": {
@@ -216,8 +226,18 @@
           }
         },
         {
-          "name": "text sent event/related/has_participant",
-          "source": "relatedEntities[?relation=='text:send:carrier' && !id.target.name]",
+          "name": "text sent event/related/has_participant (external global)",
+          "source": "relatedEntities[?relation=='text:send:carrier' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "carrier": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?carrier}"]
+          }
+        },
+        {
+          "name": "text sent event/related/has_participant (external local)",
+          "source": "relatedEntities[?relation=='text:send:carrier' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "carrier": "{@id.target.gid}"
@@ -226,7 +246,7 @@
           }
         },
         {
-          "name": "text sent event/related/has_participant",
+          "name": "text sent event/related/has_participant (internal)",
           "source": "relatedEntities[?relation=='text:send:carrier' && id.target.name]",
           "output": {
             "nodes": {
@@ -270,8 +290,18 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "text reception event/related/carried_out_by",
-          "source": "relatedEntities[?relation=='text:reception:recipient' && !id.target.name]",
+          "name": "text reception event/related/carried_out_by (external global)",
+          "source": "relatedEntities[?relation=='text:reception:recipient' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "recipient": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P14_carried_out_by {?recipient}"]
+          }
+        },
+        {
+          "name": "text reception event/related/carried_out_by (external local)",
+          "source": "relatedEntities[?relation=='text:reception:recipient' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "recipient": "{@id.target.gid}"
@@ -280,7 +310,7 @@
           }
         },
         {
-          "name": "text reception event/related/carried_out_by",
+          "name": "text reception event/related/carried_out_by (internal)",
           "source": "relatedEntities[?relation=='text:reception:recipient' && id.target.name]",
           "output": {
             "nodes": {
@@ -290,8 +320,18 @@
           }
         },
         {
-          "name": "text reception event/related/has_participant",
-          "source": "relatedEntities[?relation=='text:reception:sender' && !id.target.name]",
+          "name": "text reception event/related/has_participant (external global)",
+          "source": "relatedEntities[?relation=='text:reception:sender' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "sender": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?sender}"]
+          }
+        },
+        {
+          "name": "text reception event/related/has_participant (external local)",
+          "source": "relatedEntities[?relation=='text:reception:sender' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "sender": "{@id.target.gid}"
@@ -300,7 +340,7 @@
           }
         },
         {
-          "name": "text reception event/related/has_participant",
+          "name": "text reception event/related/has_participant (internal)",
           "source": "relatedEntities[?relation=='text:reception:sender' && id.target.name]",
           "output": {
             "nodes": {
@@ -310,8 +350,18 @@
           }
         },
         {
-          "name": "text sent event/related/has_participant",
-          "source": "relatedEntities[?relation=='text:reception:carrier' && !id.target.name]",
+          "name": "text sent event/related/has_participant (external global)",
+          "source": "relatedEntities[?relation=='text:reception:carrier' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "carrier": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?carrier}"]
+          }
+        },
+        {
+          "name": "text sent event/related/has_participant (external local)",
+          "source": "relatedEntities[?relation=='text:reception:carrier' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "carrier": "{@id.target.gid}"
@@ -320,7 +370,7 @@
           }
         },
         {
-          "name": "text sent event/related/has_participant",
+          "name": "text sent event/related/has_participant (internal)",
           "source": "relatedEntities[?relation=='text:reception:carrier' && id.target.name]",
           "output": {
             "nodes": {
@@ -364,8 +414,18 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "text transcription event/related/carried_out_by",
-          "source": "relatedEntities[?relation=='text:transcription:transcriber' && !id.target.name]",
+          "name": "text transcription event/related/carried_out_by (external global)",
+          "source": "relatedEntities[?relation=='text:transcription:transcriber' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "transcriber": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P14_carried_out_by {?transcriber}"]
+          }
+        },
+        {
+          "name": "text transcription event/related/carried_out_by (external local)",
+          "source": "relatedEntities[?relation=='text:transcription:transcriber' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "transcriber": "{@id.target.gid}"
@@ -374,7 +434,7 @@
           }
         },
         {
-          "name": "text transcription event/related/carried_out_by",
+          "name": "text transcription event/related/carried_out_by (internal)",
           "source": "relatedEntities[?relation=='text:transcription:transcriber' && id.target.name]",
           "output": {
             "nodes": {
@@ -384,8 +444,18 @@
           }
         },
         {
-          "name": "text transcription event/related/has_produced",
-          "source": "relatedEntities[?relation=='text:transcription:copy' && id.target.name]",
+          "name": "text transcription event/related/has_produced (external global)",
+          "source": "relatedEntities[?relation=='text:transcription:copy' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "copy": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P108_has_produced {?copy}"]
+          }
+        },
+        {
+          "name": "text transcription event/related/has_produced (external local)",
+          "source": "relatedEntities[?relation=='text:transcription:copy' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "copy": "{@id.target.gid}"
@@ -394,8 +464,8 @@
           }
         },
         {
-          "name": "text transcription event/related/has_produced",
-          "source": "relatedEntities[?relation=='text:transcription:copy' && !id.target.name]",
+          "name": "text transcription event/related/has_produced (internal)",
+          "source": "relatedEntities[?relation=='text:transcription:copy' && id.target.name]",
           "output": {
             "nodes": {
               "copy": "itn:works/{@id.target.partId}/{@id.target.value}"
@@ -438,8 +508,18 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "text collection event/related/has_component",
-          "source": "relatedEntities[?relation=='text:collection:collector' && !id.target.name]",
+          "name": "text collection event/related/has_component (external global)",
+          "source": "relatedEntities[?relation=='text:collection:collector' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "collector": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P148_has_component {?collector}"]
+          }
+        },
+        {
+          "name": "text collection event/related/has_component (external local)",
+          "source": "relatedEntities[?relation=='text:collection:collector' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "collector": "{@id.target.gid}"
@@ -448,7 +528,7 @@
           }
         },
         {
-          "name": "text collection event/related/has_component",
+          "name": "text collection event/related/has_component (internal)",
           "source": "relatedEntities[?relation=='text:collection:collector' && id.target.name]",
           "output": {
             "nodes": {
@@ -492,8 +572,18 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "text collection event/related/refers_to",
-          "source": "relatedEntities[?relation=='text:version:previous' && !id.target.name]",
+          "name": "text collection event/related/refers_to (external global)",
+          "source": "relatedEntities[?relation=='text:version:previous' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "previous": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P67_refers_to {?previous}"]
+          }
+        },
+        {
+          "name": "text collection event/related/refers_to (external local)",
+          "source": "relatedEntities[?relation=='text:version:previous' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "previous": "{@id.target.gid}"
@@ -502,7 +592,7 @@
           }
         },
         {
-          "name": "text collection event/related/refers_to",
+          "name": "text collection event/related/refers_to (internal)",
           "source": "relatedEntities[?relation=='text:version:previous' && id.target.name]",
           "output": {
             "nodes": {
