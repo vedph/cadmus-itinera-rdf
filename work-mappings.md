@@ -149,7 +149,7 @@ When events are grouped via a common `tag` in the context of the same events par
 
 A period may consist of (`P9_consists_of`) any number of other periods (or events, as events derive from periods); or, inversely, a period (or event) may form part of (`P9i_forms_part_of`) another period. For instance, a birth event might be decomposed into its various stages, eventually involving different actors.
 
-So, whenever an event has a `tag` we will say that this event `P9i_forms_part_of` a new node of type `E4_Period`, whose URI will be built in such a way to be globally unique (e.g. with the part GUID and the tag value, given that event tags are assumed to be unique in the context of the same part).
+So, whenever an event has a `tag` we will say that this event `P9i_forms_part_of` a new node of type `E4_Period`, whose URI will be built in such a way to be globally unique, here using the constant prefix `itn:periods`, part GUID and tag value, all separated by slash (event tags are assumed to be unique in the context of the same part).
 
 ### General Conventions
 

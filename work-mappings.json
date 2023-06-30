@@ -97,6 +97,18 @@
           ]
         }
       ]
+    },
+    "event_period": {
+      "name": "event/tag",
+      "description": "Map the tag of an event to EVENT P9i_forms_part_of GROUP.",
+      "source": "tag",
+      "sid": "{$id}/tag",
+      "output": {
+        "nodes": {
+          "period": "itn:periods/{$part-id}/{@value}"
+        },
+        "triples": ["{?event} P9i_forms_part_of {?period}"]
+      }
     }
   },
   "documentMappings": [
@@ -146,6 +158,12 @@
         },
         {
           "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
         },
         {
           "name": "text sent event/related/carried_out_by (external global)",
