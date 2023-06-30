@@ -5,6 +5,8 @@ Static resources for Itinera graph.
 ## Documentation
 
 - [setup](setup.md)
+- [events](events.md)
+- [links](links.md)
 - [work mappings](work-mappings.md)
 
 ## Resources
