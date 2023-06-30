@@ -164,14 +164,18 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person birth event/related/by_mother (external global)",
+          "source": "relatedEntities[?relation=='person:birth:mother' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "mother": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P96_by_mother {?mother}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person birth event/related/by_mother",
-          "source": "relatedEntities[?relation=='person:birth:mother']",
+          "name": "person birth event/related/by_mother (external local)",
+          "source": "relatedEntities[?relation=='person:birth:mother' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "mother": "{@id.target.gid}"
@@ -180,11 +184,41 @@
           }
         },
         {
-          "name": "person birth event/related/from_father",
-          "source": "relatedEntities[?relation=='person:birth:father']",
+          "name": "person birth event/related/by_mother (internal)",
+          "source": "relatedEntities[?relation=='person:birth:mother' && id.target.name]",
+          "output": {
+            "nodes": {
+              "mother": "itn:persons/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": ["{?event} crm:P96_by_mother {?mother}"]
+          }
+        },
+        {
+          "name": "person birth event/related/from_father (external global)",
+          "source": "relatedEntities[?relation=='person:birth:father' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "father": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P97_from_father {?father}"]
+          }
+        },
+        {
+          "name": "person birth event/related/from_father (external local)",
+          "source": "relatedEntities[?relation=='person:birth:father' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "father": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P97_from_father {?father}"]
+          }
+        },
+        {
+          "name": "person birth event/related/from_father (internal)",
+          "source": "relatedEntities[?relation=='person:birth:father' && id.target.name]",
+          "output": {
+            "nodes": {
+              "father": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P97_from_father {?father}"]
           }
@@ -224,14 +258,18 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person family event/related/has_current_or_former_member (external global)",
+          "source": "relatedEntities[?relation=='person:birth:son' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "son": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P107_has_current_or_former_member {?son}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person family event/related/has_current_or_former_member",
-          "source": "relatedEntities[?relation=='person:birth:son']",
+          "name": "person family event/related/has_current_or_former_member (external local)",
+          "source": "relatedEntities[?relation=='person:birth:son' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "son": "{@id.target.gid}"
@@ -240,8 +278,30 @@
           }
         },
         {
-          "name": "person family event/related/has_current_or_former_member",
-          "source": "relatedEntities[?relation=='person:birth:daughter']",
+          "name": "person family event/related/has_current_or_former_member (internal)",
+          "source": "relatedEntities[?relation=='person:birth:son' && id.target.name]",
+          "output": {
+            "nodes": {
+              "son": "itn:persons/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": ["{?event} crm:P107_has_current_or_former_member {?son}"]
+          }
+        },
+        {
+          "name": "person family event/related/has_current_or_former_member (external global)",
+          "source": "relatedEntities[?relation=='person:birth:daughter' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "daughter": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": [
+              "{?event} crm:P107_has_current_or_former_member {?daughter}"
+            ]
+          }
+        },
+        {
+          "name": "person family event/related/has_current_or_former_member (external local)",
+          "source": "relatedEntities[?relation=='person:birth:daughter' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "daughter": "{@id.target.gid}"
@@ -252,8 +312,32 @@
           }
         },
         {
-          "name": "person family event/related/has_current_or_former_member",
-          "source": "relatedEntities[?relation=='person:birth:brother']",
+          "name": "person family event/related/has_current_or_former_member (internal)",
+          "source": "relatedEntities[?relation=='person:birth:daughter' && id.target.name]",
+          "output": {
+            "nodes": {
+              "daughter": "itn:persons/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": [
+              "{?event} crm:P107_has_current_or_former_member {?daughter}"
+            ]
+          }
+        },
+        {
+          "name": "person family event/related/has_current_or_former_member (external global)",
+          "source": "relatedEntities[?relation=='person:birth:brother' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "brother": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": [
+              "{?event} crm:P107_has_current_or_former_member {?brother}"
+            ]
+          }
+        },
+        {
+          "name": "person family event/related/has_current_or_former_member (external local)",
+          "source": "relatedEntities[?relation=='person:birth:brother' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "brother": "{@id.target.gid}"
@@ -264,11 +348,47 @@
           }
         },
         {
-          "name": "person family event/related/has_current_or_former_member",
-          "source": "relatedEntities[?relation=='person:birth:sister']",
+          "name": "person family event/related/has_current_or_former_member (internal)",
+          "source": "relatedEntities[?relation=='person:birth:brother' && id.target.name]",
+          "output": {
+            "nodes": {
+              "brother": "itn:persons/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": [
+              "{?event} crm:P107_has_current_or_former_member {?brother}"
+            ]
+          }
+        },
+        {
+          "name": "person family event/related/has_current_or_former_member (external global)",
+          "source": "relatedEntities[?relation=='person:birth:sister' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "sister": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": [
+              "{?event} crm:P107_has_current_or_former_member {?sister}"
+            ]
+          }
+        },
+        {
+          "name": "person family event/related/has_current_or_former_member (external local)",
+          "source": "relatedEntities[?relation=='person:birth:sister' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "sister": "{@id.target.gid}"
+            },
+            "triples": [
+              "{?event} crm:P107_has_current_or_former_member {?sister}"
+            ]
+          }
+        },
+        {
+          "name": "person family event/related/has_current_or_former_member (internal)",
+          "source": "relatedEntities[?relation=='person:birth:sister' && id.target.name]",
+          "output": {
+            "nodes": {
+              "sister": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": [
               "{?event} crm:P107_has_current_or_former_member {?sister}"
@@ -308,12 +428,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -350,14 +464,18 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person marriage event/related/joined (external global)",
+          "source": "relatedEntities[?relation=='person:marriage:husband' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "husband": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P143_joined {?husband}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person marriage event/related/joined",
-          "source": "relatedEntities[?relation=='person:marriage:husband']",
+          "name": "person marriage event/related/joined (external local)",
+          "source": "relatedEntities[?relation=='person:marriage:husband' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "husband": "{@id.target.gid}"
@@ -366,11 +484,41 @@
           }
         },
         {
-          "name": "person marriage event/related/joined",
-          "source": "relatedEntities[?relation=='person:marriage:wife']",
+          "name": "person marriage event/related/joined (internal)",
+          "source": "relatedEntities[?relation=='person:marriage:husband' && id.target.name]",
+          "output": {
+            "nodes": {
+              "husband": "itn:persons/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": ["{?event} crm:P143_joined {?husband}"]
+          }
+        },
+        {
+          "name": "person marriage event/related/joined (external global)",
+          "source": "relatedEntities[?relation=='person:marriage:wife' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "wife": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P143_joined {?wife}"]
+          }
+        },
+        {
+          "name": "person marriage event/related/joined (external local)",
+          "source": "relatedEntities[?relation=='person:marriage:wife' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "wife": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P143_joined {?wife}"]
+          }
+        },
+        {
+          "name": "person marriage event/related/joined (internal)",
+          "source": "relatedEntities[?relation=='person:marriage:wife' && id.target.name]",
+          "output": {
+            "nodes": {
+              "wife": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P143_joined {?wife}"]
           }
@@ -408,12 +556,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -448,12 +590,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -488,12 +624,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -528,12 +658,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -568,12 +692,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -608,12 +726,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -648,12 +760,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -688,12 +794,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -728,12 +828,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -768,12 +862,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -808,12 +896,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -848,12 +930,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -888,12 +964,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -928,12 +998,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -968,12 +1032,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -1008,12 +1066,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -1048,12 +1100,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -1088,12 +1134,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -1128,12 +1168,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -1168,12 +1202,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -1208,12 +1236,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -1248,12 +1270,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -1288,12 +1304,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -1328,12 +1338,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -1368,12 +1372,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -1408,12 +1406,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -1448,12 +1440,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -1488,12 +1474,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -1528,12 +1508,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -1568,12 +1542,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -1610,17 +1578,31 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person teacher-of event/related/disciple (external global)",
+          "source": "relatedEntities[?relation=='person:teacher-of:disciple' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "disciple": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?disciple}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person teacher-of event/related/disciple",
-          "source": "relatedEntities[?relation=='person:teacher-of:disciple']",
+          "name": "person teacher-of event/related/disciple (external local)",
+          "source": "relatedEntities[?relation=='person:teacher-of:disciple' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "disciple": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?disciple}"]
+          }
+        },
+        {
+          "name": "person teacher-of event/related/disciple (internal)",
+          "source": "relatedEntities[?relation=='person:teacher-of:disciple' && id.target.name]",
+          "output": {
+            "nodes": {
+              "disciple": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P11_has_participant {?disciple}"]
           }
@@ -1660,17 +1642,31 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person disciple-of event/related/teacher (external global)",
+          "source": "relatedEntities[?relation=='person:disciple-of:teacher' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "teacher": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?teacher}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person disciple-of event/related/teacher",
-          "source": "relatedEntities[?relation=='person:disciple-of:teacher']",
+          "name": "person disciple-of event/related/teacher (external local)",
+          "source": "relatedEntities[?relation=='person:disciple-of:teacher' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "teacher": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?teacher}"]
+          }
+        },
+        {
+          "name": "person disciple-of event/related/teacher (internal)",
+          "source": "relatedEntities[?relation=='person:disciple-of:teacher' && id.target.name]",
+          "output": {
+            "nodes": {
+              "teacher": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P11_has_participant {?teacher}"]
           }
@@ -1710,17 +1706,31 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person counsellor-of event/related/person (external global)",
+          "source": "relatedEntities[?relation=='person:counsellor-of:person' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "person": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?person}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person counsellor-of event/related/person",
-          "source": "relatedEntities[?relation=='person:counsellor-of:person']",
+          "name": "person counsellor-of event/related/person (external local)",
+          "source": "relatedEntities[?relation=='person:counsellor-of:person' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "person": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?person}"]
+          }
+        },
+        {
+          "name": "person counsellor-of event/related/person (internal)",
+          "source": "relatedEntities[?relation=='person:counsellor-of:person' && id.target.name]",
+          "output": {
+            "nodes": {
+              "person": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P11_has_participant {?person}"]
           }
@@ -1760,67 +1770,31 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person secretary-of event/related/person (external global)",
+          "source": "relatedEntities[?relation=='person:secretary-of:person' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "person": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?person}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person secretary-of event/related/person",
-          "source": "relatedEntities[?relation=='person:secretary-of:person']",
+          "name": "person secretary-of event/related/person (external local)",
+          "source": "relatedEntities[?relation=='person:secretary-of:person' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "person": "{@id.target.gid}"
             },
             "triples": ["{?event} crm:P11_has_participant {?person}"]
           }
-        }
-      ]
-    },
-    {
-      "name": "person secretary-of event",
-      "sourceType": 2,
-      "facetFilter": "person",
-      "partTypeFilter": "it.vedph.historical-events",
-      "description": "Map person secretary-of event",
-      "source": "events[?type=='person.secretary-of']",
-      "sid": "{$part-id}/{@[0].eid}",
-      "output": {
-        "metadata": {
-          "id": "{$part-id}/{@eid}",
-          "person": "itn:persons/{$item-id}/{$item-eid}"
-        },
-        "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
-        },
-        "triples": [
-          "{?event} a crm:E7_Activity",
-          "{?event} crm:P2_has_type itn:event-types/person.secretary-of",
-          "{?event} crm:P14_carried_out_by {$person}"
-        ]
-      },
-      "children": [
-        {
-          "name": "event_description"
         },
         {
-          "name": "event_note"
-        },
-        {
-          "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
-        },
-        {
-          "name": "person secretary-of event/related/person",
-          "source": "relatedEntities[?relation=='person:secretary-of:person']",
+          "name": "person secretary-of event/related/person (internal)",
+          "source": "relatedEntities[?relation=='person:secretary-of:person' && id.target.name]",
           "output": {
             "nodes": {
-              "person": "{@id.target.gid}"
+              "person": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P11_has_participant {?person}"]
           }
@@ -1860,17 +1834,31 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person servant event/related/person (external global)",
+          "source": "relatedEntities[?relation=='person:servant:person' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "person": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?person}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person servant event/related/person",
-          "source": "relatedEntities[?relation=='person:servant:person']",
+          "name": "person servant event/related/person (external local)",
+          "source": "relatedEntities[?relation=='person:servant:person' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "person": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?person}"]
+          }
+        },
+        {
+          "name": "person servant event/related/person (internal)",
+          "source": "relatedEntities[?relation=='person:servant:person' && id.target.name]",
+          "output": {
+            "nodes": {
+              "person": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P11_has_participant {?person}"]
           }
@@ -1910,17 +1898,31 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person at-service-of event/related/person (external global)",
+          "source": "relatedEntities[?relation=='person:at-service-of:person' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "person": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?person}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person at-service-of event/related/person",
-          "source": "relatedEntities[?relation=='person:at-service-of:person']",
+          "name": "person at-service-of event/related/person (external local)",
+          "source": "relatedEntities[?relation=='person:at-service-of:person' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "person": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?person}"]
+          }
+        },
+        {
+          "name": "person at-service-of event/related/person (internal)",
+          "source": "relatedEntities[?relation=='person:at-service-of:person' && id.target.name]",
+          "output": {
+            "nodes": {
+              "person": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P11_has_participant {?person}"]
           }
@@ -1960,17 +1962,31 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person protector-of event/related/person (external global)",
+          "source": "relatedEntities[?relation=='person:protector-of:person' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "person": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?person}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person protector-of event/related/person",
-          "source": "relatedEntities[?relation=='person:protector-of:person']",
+          "name": "person protector-of event/related/person (external local)",
+          "source": "relatedEntities[?relation=='person:protector-of:person' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "person": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?person}"]
+          }
+        },
+        {
+          "name": "person protector-of event/related/person (internal)",
+          "source": "relatedEntities[?relation=='person:protector-of:person' && id.target.name]",
+          "output": {
+            "nodes": {
+              "person": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P11_has_participant {?person}"]
           }
@@ -2010,17 +2026,31 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person officer event/related/office (external global)",
+          "source": "relatedEntities[?relation=='person:officer:office' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "office": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P2_has_type {?office}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person officer event/related/office",
-          "source": "relatedEntities[?relation=='person:officer:office']",
+          "name": "person officer event/related/office (external local)",
+          "source": "relatedEntities[?relation=='person:officer:office' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "office": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P2_has_type {?office}"]
+          }
+        },
+        {
+          "name": "person officer event/related/office (internal)",
+          "source": "relatedEntities[?relation=='person:officer:office' && id.target.name]",
+          "output": {
+            "nodes": {
+              "office": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P2_has_type {?office}"]
           }
@@ -2058,12 +2088,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -2098,12 +2122,6 @@
         },
         {
           "name": "event_chronotopes"
-        },
-        {
-          "name": "event_assertion"
-        },
-        {
-          "name": "event_period"
         }
       ]
     },
@@ -2139,17 +2157,35 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person group event/related/member-of (external global)",
+          "source": "relatedEntities[?relation=='person:group:member-of' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "member-of": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": [
+              "{?event} crm:P107i_is_current_or_former_member {?member-of}"
+            ]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person group event/related/member-of",
-          "source": "relatedEntities[?relation=='person:group:member-of']",
+          "name": "person group event/related/member-of (external local)",
+          "source": "relatedEntities[?relation=='person:group:member-of' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "member-of": "{@id.target.gid}"
+            },
+            "triples": [
+              "{?event} crm:P107i_is_current_or_former_member {?member-of}"
+            ]
+          }
+        },
+        {
+          "name": "person group event/related/member-of (internal)",
+          "source": "relatedEntities[?relation=='person:group:member-of' && id.target.name]",
+          "output": {
+            "nodes": {
+              "member-of": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": [
               "{?event} crm:P107i_is_current_or_former_member {?member-of}"
@@ -2191,14 +2227,18 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person meeting event/related/met (external global)",
+          "source": "relatedEntities[?relation=='person:meeting:met' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "met": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?met}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person meeting event/related/met",
-          "source": "relatedEntities[?relation=='person:meeting:met']",
+          "name": "person meeting event/related/met (external local)",
+          "source": "relatedEntities[?relation=='person:meeting:met' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "met": "{@id.target.gid}"
@@ -2207,11 +2247,41 @@
           }
         },
         {
-          "name": "person meeting event/related/spectator",
-          "source": "relatedEntities[?relation=='person:meeting:spectator']",
+          "name": "person meeting event/related/met (internal)",
+          "source": "relatedEntities[?relation=='person:meeting:met' && id.target.name]",
+          "output": {
+            "nodes": {
+              "met": "itn:persons/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?met}"]
+          }
+        },
+        {
+          "name": "person meeting event/related/spectator (external global)",
+          "source": "relatedEntities[?relation=='person:meeting:spectator' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "spectator": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?spectator}"]
+          }
+        },
+        {
+          "name": "person meeting event/related/spectator (external local)",
+          "source": "relatedEntities[?relation=='person:meeting:spectator' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "spectator": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?spectator}"]
+          }
+        },
+        {
+          "name": "person meeting event/related/spectator (internal)",
+          "source": "relatedEntities[?relation=='person:meeting:spectator' && id.target.name]",
+          "output": {
+            "nodes": {
+              "spectator": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P11_has_participant {?spectator}"]
           }
@@ -2251,17 +2321,31 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person travel event/related/participant (external global)",
+          "source": "relatedEntities[?relation=='person:travel:participant' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "participant": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?participant}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person travel event/related/participant",
-          "source": "relatedEntities[?relation=='person:travel:participant']",
+          "name": "person travel event/related/participant (external local)",
+          "source": "relatedEntities[?relation=='person:travel:participant' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "participant": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?participant}"]
+          }
+        },
+        {
+          "name": "person travel event/related/participant (internal)",
+          "source": "relatedEntities[?relation=='person:travel:participant' && id.target.name]",
+          "output": {
+            "nodes": {
+              "participant": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P11_has_participant {?participant}"]
           }
@@ -2301,17 +2385,31 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person participation event/related/participant (external global)",
+          "source": "relatedEntities[?relation=='person:participation:participant' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "participant": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?participant}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person participation event/related/participant",
-          "source": "relatedEntities[?relation=='person:participation:participant']",
+          "name": "person participation event/related/participant (external local)",
+          "source": "relatedEntities[?relation=='person:participation:participant' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "participant": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?participant}"]
+          }
+        },
+        {
+          "name": "person participation event/related/participant (internal)",
+          "source": "relatedEntities[?relation=='person:participation:participant' && id.target.name]",
+          "output": {
+            "nodes": {
+              "participant": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P11_has_participant {?participant}"]
           }
@@ -2351,17 +2449,31 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person documented event/related/participant (external global)",
+          "source": "relatedEntities[?relation=='person:documented:participant' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "participant": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P70i_is_documented_in {?participant}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person documented event/related/participant",
-          "source": "relatedEntities[?relation=='person:documented:participant']",
+          "name": "person documented event/related/participant (external local)",
+          "source": "relatedEntities[?relation=='person:documented:participant' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "participant": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P70i_is_documented_in {?participant}"]
+          }
+        },
+        {
+          "name": "person documented event/related/participant (internal)",
+          "source": "relatedEntities[?relation=='person:documented:participant' && id.target.name]",
+          "output": {
+            "nodes": {
+              "participant": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P70i_is_documented_in {?participant}"]
           }
@@ -2401,14 +2513,18 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person send event/related/sent (external global)",
+          "source": "relatedEntities[?relation=='person:send:sent' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "sent": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?sent}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person send event/related/sent",
-          "source": "relatedEntities[?relation=='person:send:sent']",
+          "name": "person send event/related/sent (external local)",
+          "source": "relatedEntities[?relation=='person:send:sent' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "sent": "{@id.target.gid}"
@@ -2417,8 +2533,28 @@
           }
         },
         {
-          "name": "person send event/related/recipient",
-          "source": "relatedEntities[?relation=='person:send:recipient']",
+          "name": "person send event/related/sent (internal)",
+          "source": "relatedEntities[?relation=='person:send:sent' && id.target.name]",
+          "output": {
+            "nodes": {
+              "sent": "itn:works/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?sent}"]
+          }
+        },
+        {
+          "name": "person send event/related/recipient (external global)",
+          "source": "relatedEntities[?relation=='person:send:recipient' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "recipient": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+          }
+        },
+        {
+          "name": "person send event/related/recipient (external local)",
+          "source": "relatedEntities[?relation=='person:send:recipient' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "recipient": "{@id.target.gid}"
@@ -2427,11 +2563,41 @@
           }
         },
         {
-          "name": "person send event/related/carrier",
-          "source": "relatedEntities[?relation=='person:send:carrier']",
+          "name": "person send event/related/recipient (internal)",
+          "source": "relatedEntities[?relation=='person:send:recipient' && id.target.name]",
+          "output": {
+            "nodes": {
+              "recipient": "itn:persons/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+          }
+        },
+        {
+          "name": "person send event/related/carrier (external global)",
+          "source": "relatedEntities[?relation=='person:send:carrier' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "carrier": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?carrier}"]
+          }
+        },
+        {
+          "name": "person send event/related/carrier (external local)",
+          "source": "relatedEntities[?relation=='person:send:carrier' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "carrier": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?carrier}"]
+          }
+        },
+        {
+          "name": "person send event/related/carrier (internal)",
+          "source": "relatedEntities[?relation=='person:send:carrier' && id.target.name]",
+          "output": {
+            "nodes": {
+              "carrier": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P11_has_participant {?carrier}"]
           }
@@ -2471,14 +2637,18 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person reception event/related/received (external global)",
+          "source": "relatedEntities[?relation=='person:reception:received' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "received": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?received}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person reception event/related/received",
-          "source": "relatedEntities[?relation=='person:reception:received']",
+          "name": "person reception event/related/received (external local)",
+          "source": "relatedEntities[?relation=='person:reception:received' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "received": "{@id.target.gid}"
@@ -2487,8 +2657,28 @@
           }
         },
         {
-          "name": "person reception event/related/sender",
-          "source": "relatedEntities[?relation=='person:reception:sender']",
+          "name": "person reception event/related/received (internal)",
+          "source": "relatedEntities[?relation=='person:reception:received' && id.target.name]",
+          "output": {
+            "nodes": {
+              "received": "itn:works/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?received}"]
+          }
+        },
+        {
+          "name": "person reception event/related/sender (external global)",
+          "source": "relatedEntities[?relation=='person:reception:sender' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "sender": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?sender}"]
+          }
+        },
+        {
+          "name": "person reception event/related/sender (external local)",
+          "source": "relatedEntities[?relation=='person:reception:sender' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "sender": "{@id.target.gid}"
@@ -2497,11 +2687,41 @@
           }
         },
         {
-          "name": "person reception event/related/carrier",
-          "source": "relatedEntities[?relation=='person:reception:carrier']",
+          "name": "person reception event/related/sender (internal)",
+          "source": "relatedEntities[?relation=='person:reception:sender' && id.target.name]",
+          "output": {
+            "nodes": {
+              "sender": "itn:persons/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?sender}"]
+          }
+        },
+        {
+          "name": "person reception event/related/carrier (external global)",
+          "source": "relatedEntities[?relation=='person:reception:carrier' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "carrier": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?carrier}"]
+          }
+        },
+        {
+          "name": "person reception event/related/carrier (external local)",
+          "source": "relatedEntities[?relation=='person:reception:carrier' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "carrier": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?carrier}"]
+          }
+        },
+        {
+          "name": "person reception event/related/carrier (internal)",
+          "source": "relatedEntities[?relation=='person:reception:carrier' && id.target.name]",
+          "output": {
+            "nodes": {
+              "carrier": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P11_has_participant {?carrier}"]
           }
@@ -2541,14 +2761,18 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person exchange event/related/exchanged (external global)",
+          "source": "relatedEntities[?relation=='person:exchange:exchanged' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "exchanged": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?exchanged}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person exchange event/related/exchanged",
-          "source": "relatedEntities[?relation=='person:exchange:exchanged']",
+          "name": "person exchange event/related/exchanged (external local)",
+          "source": "relatedEntities[?relation=='person:exchange:exchanged' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "exchanged": "{@id.target.gid}"
@@ -2557,11 +2781,41 @@
           }
         },
         {
-          "name": "person exchange event/related/recipient",
-          "source": "relatedEntities[?relation=='person:exchange:recipient']",
+          "name": "person exchange event/related/exchanged (internal)",
+          "source": "relatedEntities[?relation=='person:exchange:exchanged' && id.target.name]",
+          "output": {
+            "nodes": {
+              "exchanged": "itn:works/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?exchanged}"]
+          }
+        },
+        {
+          "name": "person exchange event/related/recipient (external global)",
+          "source": "relatedEntities[?relation=='person:exchange:recipient' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "recipient": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+          }
+        },
+        {
+          "name": "person exchange event/related/recipient (external local)",
+          "source": "relatedEntities[?relation=='person:exchange:recipient' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "recipient": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+          }
+        },
+        {
+          "name": "person exchange event/related/recipient (internal)",
+          "source": "relatedEntities[?relation=='person:exchange:recipient' && id.target.name]",
+          "output": {
+            "nodes": {
+              "recipient": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P11_has_participant {?recipient}"]
           }
@@ -2601,14 +2855,18 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person transcription event/related/copy (external global)",
+          "source": "relatedEntities[?relation=='person:transcription:copy' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "copy": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P108_has_produced {?copy}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person transcription event/related/copy",
-          "source": "relatedEntities[?relation=='person:transcription:copy']",
+          "name": "person transcription event/related/copy (external local)",
+          "source": "relatedEntities[?relation=='person:transcription:copy' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "copy": "{@id.target.gid}"
@@ -2617,11 +2875,41 @@
           }
         },
         {
-          "name": "person transcription event/related/text",
-          "source": "relatedEntities[?relation=='person:transcription:text']",
+          "name": "person transcription event/related/copy (internal)",
+          "source": "relatedEntities[?relation=='person:transcription:copy' && id.target.name]",
+          "output": {
+            "nodes": {
+              "copy": "itn:manuscripts/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": ["{?event} crm:P108_has_produced {?copy}"]
+          }
+        },
+        {
+          "name": "person transcription event/related/text (external global)",
+          "source": "relatedEntities[?relation=='person:transcription:text' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "text": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?text}"]
+          }
+        },
+        {
+          "name": "person transcription event/related/text (external local)",
+          "source": "relatedEntities[?relation=='person:transcription:text' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "text": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?text}"]
+          }
+        },
+        {
+          "name": "person transcription event/related/text (internal)",
+          "source": "relatedEntities[?relation=='person:transcription:text' && id.target.name]",
+          "output": {
+            "nodes": {
+              "text": "itn:works/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P16_used_specific_object {?text}"]
           }
@@ -2661,14 +2949,18 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person collection event/related/copy (external global)",
+          "source": "relatedEntities[?relation=='person:collection:copy' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "copy": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P70i_is_documented_in {?copy}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person collection event/related/copy",
-          "source": "relatedEntities[?relation=='person:collection:copy']",
+          "name": "person collection event/related/copy (external local)",
+          "source": "relatedEntities[?relation=='person:collection:copy' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "copy": "{@id.target.gid}"
@@ -2677,11 +2969,41 @@
           }
         },
         {
-          "name": "person collection event/related/text",
-          "source": "relatedEntities[?relation=='person:collection:text']",
+          "name": "person collection event/related/copy (internal)",
+          "source": "relatedEntities[?relation=='person:collection:copy' && id.target.name]",
+          "output": {
+            "nodes": {
+              "copy": "itn:manuscripts/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": ["{?event} crm:P70i_is_documented_in {?copy}"]
+          }
+        },
+        {
+          "name": "person collection event/related/text (external global)",
+          "source": "relatedEntities[?relation=='person:collection:text' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "text": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?text}"]
+          }
+        },
+        {
+          "name": "person collection event/related/text (external local)",
+          "source": "relatedEntities[?relation=='person:collection:text' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "text": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?text}"]
+          }
+        },
+        {
+          "name": "person collection event/related/text (internal)",
+          "source": "relatedEntities[?relation=='person:collection:text' && id.target.name]",
+          "output": {
+            "nodes": {
+              "text": "itn:works/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P16_used_specific_object {?text}"]
           }
@@ -2721,14 +3043,18 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person annotation event/related/ms (external global)",
+          "source": "relatedEntities[?relation=='person:annotation:ms' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "ms": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P70i_is_documented_in {?ms}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person annotation event/related/ms",
-          "source": "relatedEntities[?relation=='person:annotation:ms']",
+          "name": "person annotation event/related/ms (external local)",
+          "source": "relatedEntities[?relation=='person:annotation:ms' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "ms": "{@id.target.gid}"
@@ -2737,11 +3063,41 @@
           }
         },
         {
-          "name": "person annotation event/related/text",
-          "source": "relatedEntities[?relation=='person:annotation:text']",
+          "name": "person annotation event/related/ms (internal)",
+          "source": "relatedEntities[?relation=='person:annotation:ms' && id.target.name]",
+          "output": {
+            "nodes": {
+              "ms": "itn:manuscripts/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": ["{?event} crm:P70i_is_documented_in {?ms}"]
+          }
+        },
+        {
+          "name": "person annotation event/related/text (external global)",
+          "source": "relatedEntities[?relation=='person:annotation:text' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "text": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?text}"]
+          }
+        },
+        {
+          "name": "person annotation event/related/text (external local)",
+          "source": "relatedEntities[?relation=='person:annotation:text' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "text": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?text}"]
+          }
+        },
+        {
+          "name": "person annotation event/related/text (internal)",
+          "source": "relatedEntities[?relation=='person:annotation:text' && id.target.name]",
+          "output": {
+            "nodes": {
+              "text": "itn:works/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P16_used_specific_object {?text}"]
           }
@@ -2781,17 +3137,31 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person handwriting event/related/hand (external global)",
+          "source": "relatedEntities[?relation=='person:handwriting:hand' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "hand": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P70i_is_documented_in {?hand}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person handwriting event/related/hand",
-          "source": "relatedEntities[?relation=='person:handwriting:hand']",
+          "name": "person handwriting event/related/hand (external local)",
+          "source": "relatedEntities[?relation=='person:handwriting:hand' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "hand": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P70i_is_documented_in {?hand}"]
+          }
+        },
+        {
+          "name": "person handwriting event/related/hand (internal",
+          "source": "relatedEntities[?relation=='person:handwriting:hand' && id.target.name]",
+          "output": {
+            "nodes": {
+              "hand": "itn:hands/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P70i_is_documented_in {?hand}"]
           }
@@ -2831,14 +3201,18 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person commission event/related/manuscript (external global)",
+          "source": "relatedEntities[?relation=='person:commission:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "manuscript": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?manuscript}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person commission event/related/manuscript",
-          "source": "relatedEntities[?relation=='person:commission:manuscript']",
+          "name": "person commission event/related/manuscript (external local)",
+          "source": "relatedEntities[?relation=='person:commission:manuscript' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "manuscript": "{@id.target.gid}"
@@ -2847,11 +3221,41 @@
           }
         },
         {
-          "name": "person commission event/related/maker",
-          "source": "relatedEntities[?relation=='person:commission:maker']",
+          "name": "person commission event/related/manuscript (internal)",
+          "source": "relatedEntities[?relation=='person:commission:manuscript' && id.target.name]",
+          "output": {
+            "nodes": {
+              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?manuscript}"]
+          }
+        },
+        {
+          "name": "person commission event/related/maker (external global)",
+          "source": "relatedEntities[?relation=='person:commission:maker' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "maker": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?maker}"]
+          }
+        },
+        {
+          "name": "person commission event/related/maker (external local)",
+          "source": "relatedEntities[?relation=='person:commission:maker' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "maker": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?maker}"]
+          }
+        },
+        {
+          "name": "person commission event/related/maker (internal)",
+          "source": "relatedEntities[?relation=='person:commission:maker' && id.target.name]",
+          "output": {
+            "nodes": {
+              "maker": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P11_has_participant {?maker}"]
           }
@@ -2891,14 +3295,18 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person commissioned event/related/manuscript (external global)",
+          "source": "relatedEntities[?relation=='person:commissioned:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "manuscript": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?manuscript}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person commissioned event/related/manuscript",
-          "source": "relatedEntities[?relation=='person:commissioned:manuscript']",
+          "name": "person commissioned event/related/manuscript (external local)",
+          "source": "relatedEntities[?relation=='person:commissioned:manuscript' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "manuscript": "{@id.target.gid}"
@@ -2907,11 +3315,41 @@
           }
         },
         {
-          "name": "person commissioned event/related/client",
-          "source": "relatedEntities[?relation=='person:commissioned:client']",
+          "name": "person commissioned event/related/manuscript (internal)",
+          "source": "relatedEntities[?relation=='person:commissioned:manuscript' && id.target.name]",
+          "output": {
+            "nodes": {
+              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?manuscript}"]
+          }
+        },
+        {
+          "name": "person commissioned event/related/client (external global)",
+          "source": "relatedEntities[?relation=='person:commissioned:client' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "client": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?client}"]
+          }
+        },
+        {
+          "name": "person commissioned event/related/client (external local)",
+          "source": "relatedEntities[?relation=='person:commissioned:client' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "client": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?client}"]
+          }
+        },
+        {
+          "name": "person commissioned event/related/client (internal)",
+          "source": "relatedEntities[?relation=='person:commissioned:client' && id.target.name]",
+          "output": {
+            "nodes": {
+              "client": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P11_has_participant {?client}"]
           }
@@ -2951,14 +3389,18 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person dedication event/related/manuscript (external global)",
+          "source": "relatedEntities[?relation=='person:dedication:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "manuscript": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?manuscript}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person dedication event/related/manuscript",
-          "source": "relatedEntities[?relation=='person:dedication:manuscript']",
+          "name": "person dedication event/related/manuscript (external local)",
+          "source": "relatedEntities[?relation=='person:dedication:manuscript' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "manuscript": "{@id.target.gid}"
@@ -2967,8 +3409,28 @@
           }
         },
         {
-          "name": "person dedication event/related/text",
-          "source": "relatedEntities[?relation=='person:dedication:text']",
+          "name": "person dedication event/related/manuscript (internal)",
+          "source": "relatedEntities[?relation=='person:dedication:manuscript' && id.target.name]",
+          "output": {
+            "nodes": {
+              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?manuscript}"]
+          }
+        },
+        {
+          "name": "person dedication event/related/text (external global)",
+          "source": "relatedEntities[?relation=='person:dedication:text' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "text": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?text}"]
+          }
+        },
+        {
+          "name": "person dedication event/related/text (external local)",
+          "source": "relatedEntities[?relation=='person:dedication:text' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "text": "{@id.target.gid}"
@@ -2977,11 +3439,41 @@
           }
         },
         {
-          "name": "person dedication event/related/recipient",
-          "source": "relatedEntities[?relation=='person:dedication:recipient']",
+          "name": "person dedication event/related/text (internal)",
+          "source": "relatedEntities[?relation=='person:dedication:text' && id.target.name]",
+          "output": {
+            "nodes": {
+              "text": "itn:works/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?text}"]
+          }
+        },
+        {
+          "name": "person dedication event/related/recipient (external global)",
+          "source": "relatedEntities[?relation=='person:dedication:recipient' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "recipient": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+          }
+        },
+        {
+          "name": "person dedication event/related/recipient (external local)",
+          "source": "relatedEntities[?relation=='person:dedication:recipient' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "recipient": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+          }
+        },
+        {
+          "name": "person dedication event/related/recipient (internal)",
+          "source": "relatedEntities[?relation=='person:dedication:recipient' && id.target.name]",
+          "output": {
+            "nodes": {
+              "recipient": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P11_has_participant {?recipient}"]
           }
@@ -3021,14 +3513,18 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person dedicated event/related/manuscript (external global)",
+          "source": "relatedEntities[?relation=='person:dedicated:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "manuscript": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?manuscript}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person dedicated event/related/manuscript",
-          "source": "relatedEntities[?relation=='person:dedicated:manuscript']",
+          "name": "person dedicated event/related/manuscript (external local)",
+          "source": "relatedEntities[?relation=='person:dedicated:manuscript' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "manuscript": "{@id.target.gid}"
@@ -3037,8 +3533,28 @@
           }
         },
         {
-          "name": "person dedicated event/related/text",
-          "source": "relatedEntities[?relation=='person:dedicated:text']",
+          "name": "person dedicated event/related/manuscript (internal)",
+          "source": "relatedEntities[?relation=='person:dedicated:manuscript' && id.target.name]",
+          "output": {
+            "nodes": {
+              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?manuscript}"]
+          }
+        },
+        {
+          "name": "person dedicated event/related/text (external global)",
+          "source": "relatedEntities[?relation=='person:dedicated:text' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "text": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?text}"]
+          }
+        },
+        {
+          "name": "person dedicated event/related/text (external local)",
+          "source": "relatedEntities[?relation=='person:dedicated:text' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "text": "{@id.target.gid}"
@@ -3047,11 +3563,41 @@
           }
         },
         {
-          "name": "person dedicated event/related/maker",
-          "source": "relatedEntities[?relation=='person:dedicated:maker']",
+          "name": "person dedicated event/related/text (internal)",
+          "source": "relatedEntities[?relation=='person:dedicated:text' && id.target.name]",
+          "output": {
+            "nodes": {
+              "text": "itn:works/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?text}"]
+          }
+        },
+        {
+          "name": "person dedicated event/related/maker (external global)",
+          "source": "relatedEntities[?relation=='person:dedicated:maker' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "maker": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?maker}"]
+          }
+        },
+        {
+          "name": "person dedicated event/related/maker (external local)",
+          "source": "relatedEntities[?relation=='person:dedicated:maker' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "maker": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?maker}"]
+          }
+        },
+        {
+          "name": "person dedicated event/related/maker (internal)",
+          "source": "relatedEntities[?relation=='person:dedicated:maker' && id.target.name]",
+          "output": {
+            "nodes": {
+              "maker": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P11_has_participant {?maker}"]
           }
@@ -3091,17 +3637,31 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person possession event/related/manuscript (external global)",
+          "source": "relatedEntities[?relation=='person:possession:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "manuscript": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P75i_possessed {?manuscript}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person possession event/related/manuscript",
-          "source": "relatedEntities[?relation=='person:possession:manuscript']",
+          "name": "person possession event/related/manuscript (external local)",
+          "source": "relatedEntities[?relation=='person:possession:manuscript' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "manuscript": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P75i_possessed {?manuscript}"]
+          }
+        },
+        {
+          "name": "person possession event/related/manuscript (internal)",
+          "source": "relatedEntities[?relation=='person:possession:manuscript' && id.target.name]",
+          "output": {
+            "nodes": {
+              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P75i_possessed {?manuscript}"]
           }
@@ -3140,14 +3700,18 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person borrowing event/related/manuscript (external global)",
+          "source": "relatedEntities[?relation=='person:borrowing:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "manuscript": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P30_transferred_custody_of {?manuscript}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person borrowing event/related/manuscript",
-          "source": "relatedEntities[?relation=='person:borrowing:manuscript']",
+          "name": "person borrowing event/related/manuscript (external local)",
+          "source": "relatedEntities[?relation=='person:borrowing:manuscript' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "manuscript": "{@id.target.gid}"
@@ -3156,11 +3720,41 @@
           }
         },
         {
-          "name": "person borrowing event/related/lender",
-          "source": "relatedEntities[?relation=='person:borrowing:lender']",
+          "name": "person borrowing event/related/manuscript (internal)",
+          "source": "relatedEntities[?relation=='person:borrowing:manuscript' && id.target.name]",
+          "output": {
+            "nodes": {
+              "manuscript": "itn:persons/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": ["{?event} crm:P30_transferred_custody_of {?manuscript}"]
+          }
+        },
+        {
+          "name": "person borrowing event/related/lender (external global)",
+          "source": "relatedEntities[?relation=='person:borrowing:lender' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "lender": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P28_custody_surrendered_by {?lender}"]
+          }
+        },
+        {
+          "name": "person borrowing event/related/lender (external local)",
+          "source": "relatedEntities[?relation=='person:borrowing:lender' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "lender": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P28_custody_surrendered_by {?lender}"]
+          }
+        },
+        {
+          "name": "person borrowing event/related/lender (internal)",
+          "source": "relatedEntities[?relation=='person:borrowing:lender' && id.target.name]",
+          "output": {
+            "nodes": {
+              "lender": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P28_custody_surrendered_by {?lender}"]
           }
@@ -3199,14 +3793,18 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person lending event/related/manuscript (external global)",
+          "source": "relatedEntities[?relation=='person:lending:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "manuscript": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P30_transferred_custody_of {?manuscript}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person lending event/related/manuscript",
-          "source": "relatedEntities[?relation=='person:lending:manuscript']",
+          "name": "person lending event/related/manuscript (external local)",
+          "source": "relatedEntities[?relation=='person:lending:manuscript' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "manuscript": "{@id.target.gid}"
@@ -3215,11 +3813,41 @@
           }
         },
         {
-          "name": "person lending event/related/borrower",
-          "source": "relatedEntities[?relation=='person:lending:borrower']",
+          "name": "person lending event/related/manuscript (internal)",
+          "source": "relatedEntities[?relation=='person:lending:manuscript' && id.target.name]",
+          "output": {
+            "nodes": {
+              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": ["{?event} crm:P30_transferred_custody_of {?manuscript}"]
+          }
+        },
+        {
+          "name": "person lending event/related/borrower (external global)",
+          "source": "relatedEntities[?relation=='person:lending:borrower' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "borrower": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P29_custody_received_by {?borrower}"]
+          }
+        },
+        {
+          "name": "person lending event/related/borrower (external local)",
+          "source": "relatedEntities[?relation=='person:lending:borrower' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "borrower": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P29_custody_received_by {?borrower}"]
+          }
+        },
+        {
+          "name": "person lending event/related/borrower (internal)",
+          "source": "relatedEntities[?relation=='person:lending:borrower' && id.target.name]",
+          "output": {
+            "nodes": {
+              "borrower": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P29_custody_received_by {?borrower}"]
           }
@@ -3258,14 +3886,18 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person returning event/related/manuscript (external global)",
+          "source": "relatedEntities[?relation=='person:returning:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "manuscript": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P30_transferred_custody_of {?manuscript}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person returning event/related/manuscript",
-          "source": "relatedEntities[?relation=='person:returning:manuscript']",
+          "name": "person returning event/related/manuscript (external local)",
+          "source": "relatedEntities[?relation=='person:returning:manuscript' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "manuscript": "{@id.target.gid}"
@@ -3274,11 +3906,45 @@
           }
         },
         {
-          "name": "person returning event/related/obtain-restitution",
-          "source": "relatedEntities[?relation=='person:returning:obtain-restitution']",
+          "name": "person returning event/related/manuscript (internal)",
+          "source": "relatedEntities[?relation=='person:returning:manuscript' && id.target.name]",
+          "output": {
+            "nodes": {
+              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": ["{?event} crm:P30_transferred_custody_of {?manuscript}"]
+          }
+        },
+        {
+          "name": "person returning event/related/obtain-restitution (external global)",
+          "source": "relatedEntities[?relation=='person:returning:obtain-restitution' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "obtain-restitution": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": [
+              "{?event} crm:P29_custody_received_by {?obtain-restitution}"
+            ]
+          }
+        },
+        {
+          "name": "person returning event/related/obtain-restitution (external local)",
+          "source": "relatedEntities[?relation=='person:returning:obtain-restitution' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "obtain-restitution": "{@id.target.gid}"
+            },
+            "triples": [
+              "{?event} crm:P29_custody_received_by {?obtain-restitution}"
+            ]
+          }
+        },
+        {
+          "name": "person returning event/related/obtain-restitution (internal)",
+          "source": "relatedEntities[?relation=='person:returning:obtain-restitution' && id.target.name]",
+          "output": {
+            "nodes": {
+              "obtain-restitution": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": [
               "{?event} crm:P29_custody_received_by {?obtain-restitution}"
@@ -3319,14 +3985,18 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person obtain-restitution event/related/manuscript (external global)",
+          "source": "relatedEntities[?relation=='person:obtain-restitution:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "manuscript": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P30_transferred_custody_of {?manuscript}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person obtain-restitution event/related/manuscript",
-          "source": "relatedEntities[?relation=='person:obtain-restitution:manuscript']",
+          "name": "person obtain-restitution event/related/manuscript (external local)",
+          "source": "relatedEntities[?relation=='person:obtain-restitution:manuscript' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "manuscript": "{@id.target.gid}"
@@ -3335,11 +4005,41 @@
           }
         },
         {
-          "name": "person obtain-restitution event/related/returning",
-          "source": "relatedEntities[?relation=='person:obtain-restitution:returning']",
+          "name": "person obtain-restitution event/related/manuscript (internal)",
+          "source": "relatedEntities[?relation=='person:obtain-restitution:manuscript' && id.target.name]",
+          "output": {
+            "nodes": {
+              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": ["{?event} crm:P30_transferred_custody_of {?manuscript}"]
+          }
+        },
+        {
+          "name": "person obtain-restitution event/related/returning (external global)",
+          "source": "relatedEntities[?relation=='person:obtain-restitution:returning' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "returning": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P28_custody_surrendered_by {?returning}"]
+          }
+        },
+        {
+          "name": "person obtain-restitution event/related/returning (external local)",
+          "source": "relatedEntities[?relation=='person:obtain-restitution:returning' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "returning": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P28_custody_surrendered_by {?returning}"]
+          }
+        },
+        {
+          "name": "person obtain-restitution event/related/returning (internal)",
+          "source": "relatedEntities[?relation=='person:obtain-restitution:returning' && id.target.name]",
+          "output": {
+            "nodes": {
+              "returning": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P28_custody_surrendered_by {?returning}"]
           }
@@ -3378,14 +4078,18 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person buying event/related/manuscript (external global)",
+          "source": "relatedEntities[?relation=='person:buying:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "manuscript": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P24_transferred_title_of {?manuscript}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person buying event/related/manuscript",
-          "source": "relatedEntities[?relation=='person:buying:manuscript']",
+          "name": "person buying event/related/manuscript (external local)",
+          "source": "relatedEntities[?relation=='person:buying:manuscript' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "manuscript": "{@id.target.gid}"
@@ -3394,11 +4098,41 @@
           }
         },
         {
-          "name": "person buying event/related/seller",
-          "source": "relatedEntities[?relation=='person:buying:seller']",
+          "name": "person buying event/related/manuscript (internal)",
+          "source": "relatedEntities[?relation=='person:buying:manuscript' && id.target.name]",
+          "output": {
+            "nodes": {
+              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": ["{?event} crm:P24_transferred_title_of {?manuscript}"]
+          }
+        },
+        {
+          "name": "person buying event/related/seller (external global)",
+          "source": "relatedEntities[?relation=='person:buying:seller' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "seller": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P23_transferred_title_from {?seller}"]
+          }
+        },
+        {
+          "name": "person buying event/related/seller (external local)",
+          "source": "relatedEntities[?relation=='person:buying:seller' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "seller": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P23_transferred_title_from {?seller}"]
+          }
+        },
+        {
+          "name": "person buying event/related/seller (internal)",
+          "source": "relatedEntities[?relation=='person:buying:seller' && id.target.name]",
+          "output": {
+            "nodes": {
+              "seller": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P23_transferred_title_from {?seller}"]
           }
@@ -3437,14 +4171,18 @@
           "name": "event_chronotopes"
         },
         {
-          "name": "event_assertion"
+          "name": "person selling event/related/manuscript (external global)",
+          "source": "relatedEntities[?relation=='person:selling:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "manuscript": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P24_transferred_title_of {?manuscript}"]
+          }
         },
         {
-          "name": "event_period"
-        },
-        {
-          "name": "person selling event/related/manuscript",
-          "source": "relatedEntities[?relation=='person:selling:manuscript']",
+          "name": "person selling event/related/manuscript (external local)",
+          "source": "relatedEntities[?relation=='person:selling:manuscript' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "manuscript": "{@id.target.gid}"
@@ -3453,11 +4191,41 @@
           }
         },
         {
-          "name": "person selling event/related/buyer",
-          "source": "relatedEntities[?relation=='person:selling:buyer']",
+          "name": "person selling event/related/manuscript (internal)",
+          "source": "relatedEntities[?relation=='person:selling:manuscript' && id.target.name]",
+          "output": {
+            "nodes": {
+              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value}"
+            },
+            "triples": ["{?event} crm:P24_transferred_title_of {?manuscript}"]
+          }
+        },
+        {
+          "name": "person selling event/related/buyer (external global)",
+          "source": "relatedEntities[?relation=='person:selling:buyer' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "buyer": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P22_transferred_title_to {?buyer}"]
+          }
+        },
+        {
+          "name": "person selling event/related/buyer (external local)",
+          "source": "relatedEntities[?relation=='person:selling:buyer' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
               "buyer": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P22_transferred_title_to {?buyer}"]
+          }
+        },
+        {
+          "name": "person selling event/related/buyer (internal)",
+          "source": "relatedEntities[?relation=='person:selling:buyer' && id.target.name]",
+          "output": {
+            "nodes": {
+              "buyer": "itn:persons/{@id.target.partId}/{@id.target.value}"
             },
             "triples": ["{?event} crm:P22_transferred_title_to {?buyer}"]
           }

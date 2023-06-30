@@ -9,10 +9,14 @@ Static resources for Itinera graph.
 - [links](links.md)
 - [work mappings](work-mappings.md)
 
-## Resources
+## Code
 
-- [JSON work mappings](work-mappings.json)
-- [JSON sample events for work mappings](work-events.json)
-- [JSON person mappings](person-mappings.json)
+- mappings:
+  - [person mappings](code/person-mappings.json)
+  - [manuscript mappings](code/ms-mappings.json)
+  - [work mappings](code/work-mappings.json)
+
+- sample data:
+  - [sample events for work mappings](code/sample-work-events.json)
 
 >Note: to avoid casing issues in RDBMS, all the CIDOC-CRM URI names are lowercased except for `E` (entity) and `P` (property) followed by their number.

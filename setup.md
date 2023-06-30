@@ -14,14 +14,14 @@ You will need:
 
 (1) Itinera resources:
 
-- [Itinera Docker compose script with graph](https://github.com/vedph/cadmus-itinera-app/blob/master/docker-compose_graph.yml)
-- [Itinera seed profile](https://github.com/vedph/cadmus-itinera-api/blob/master/CadmusItineraApi/wwwroot/seed-profile.json)
+- [Itinera Docker compose script with graph](https://github.com/vedph/cadmus-itinera-app/blob/master/code/docker-compose_graph.yml)
+- [Itinera seed profile](https://github.com/vedph/cadmus-itinera-api/blob/master/code/CadmusItineraApi/wwwroot/seed-profile.json)
 
 (2) Itinera presets:
 
-- [nodes.json](nodes.json)
-- [triples.json](triples.json)
-- [work-mappings.json](work-mappings.json)
+- [nodes.json](code/nodes.json)
+- [triples.json](code/triples.json)
+- [work-mappings.json](code/work-mappings.json)
 
 (3) Cadmus CLI tool and its Itinera plugin:
 
@@ -37,8 +37,8 @@ You will need:
 (1) create a `cadmus-itinera` folder in your desktop, and download in it:
 
 - all the Itinera presets listed [above](#requirements);
-- the [Itinera seed profile](https://github.com/vedph/cadmus-itinera-api/blob/master/CadmusItineraApi/wwwroot/seed-profile.json);
-- the [Docker compose script](https://github.com/vedph/cadmus-itinera-app/blob/master/docker-compose_graph.yml), renaming it to `docker-compose.yml`.
+- the [Itinera seed profile](https://github.com/vedph/cadmus-itinera-api/blob/master/code/CadmusItineraApi/wwwroot/seed-profile.json);
+- the [Docker compose script](https://github.com/vedph/cadmus-itinera-app/blob/master/code/docker-compose_graph.yml), renaming it to `docker-compose.yml`.
 
 (2) download the [Cadmus CLI tool](https://github.com/vedph/cadmus_tool/releases) and unzip it in `C:/exe/cadmus-tool` (preserving its directory structure).
 
@@ -65,9 +65,9 @@ cd C:\exe\cadmus-tool
 # download resources in desktop\cadmus-itinera
 md $HOME/Desktop/cadmus-itinera
 cd $HOME/Desktop/cadmus-itinera
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/nodes.json" -OutFile nodes.json
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/triples.json" -OutFile triples.json
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/work-mappings.json" -OutFile work-mappings.json
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/code/nodes.json" -OutFile nodes.json
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/code/triples.json" -OutFile triples.json
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/code/work-mappings.json" -OutFile work-mappings.json
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vedph/cadmus-itinera-api/master/CadmusItineraApi/wwwroot/seed-profile.json" -OutFile seed-profile.json
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vedph/cadmus-itinera-app/master/docker-compose_graph.yml" -OutFile "docker-compose.yml"
 
@@ -118,11 +118,11 @@ cd C:\exe\cadmus-tool
 cd ~/Documents
 mkdir cadmus-itinera
 cd cadmus-itinera
-wget https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/nodes.json
-wget https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/triples.json
-wget https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/work-mappings.json
-wget https://raw.githubusercontent.com/vedph/cadmus-itinera-api/master/CadmusItineraApi/wwwroot/seed-profile.json
-wget https://raw.githubusercontent.com/vedph/cadmus-itinera-app/master/docker-compose_graph.yml
+wget https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/code/nodes.json
+wget https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/code/triples.json
+wget https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/code/work-mappings.json
+wget https://raw.githubusercontent.com/vedph/cadmus-itinera-api/master/code/CadmusItineraApi/wwwroot/seed-profile.json
+wget https://raw.githubusercontent.com/vedph/cadmus-itinera-app/master/code/docker-compose_graph.yml
 mv docker-compose_graph.yml docker-compose.yml
 ```
 
