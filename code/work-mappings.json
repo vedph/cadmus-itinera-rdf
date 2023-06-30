@@ -290,6 +290,12 @@
           "name": "event_chronotopes"
         },
         {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
           "name": "text reception event/related/carried_out_by (external global)",
           "source": "relatedEntities[?relation=='text:reception:recipient' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
@@ -414,6 +420,12 @@
           "name": "event_chronotopes"
         },
         {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
           "name": "text transcription event/related/carried_out_by (external global)",
           "source": "relatedEntities[?relation=='text:transcription:transcriber' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
@@ -508,6 +520,12 @@
           "name": "event_chronotopes"
         },
         {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
           "name": "text collection event/related/has_component (external global)",
           "source": "relatedEntities[?relation=='text:collection:collector' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
@@ -570,6 +588,12 @@
         },
         {
           "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
         },
         {
           "name": "text collection event/related/refers_to (external global)",
