@@ -480,7 +480,7 @@
           "source": "relatedEntities[?relation=='text:transcription:copy' && id.target.name]",
           "output": {
             "nodes": {
-              "copy": "itn:works/{@id.target.partId}/{@id.target.value}"
+              "copy": "itn:works/{@id.target.partId}/{@id.target.value} itn:works/{@id.target.value}"
             },
             "triples": ["{?event} crm:P108_has_produced {?copy}"]
           }
@@ -550,7 +550,7 @@
           "source": "relatedEntities[?relation=='text:collection:collector' && id.target.name]",
           "output": {
             "nodes": {
-              "collector": "itn:works/{@id.target.partId}/{@id.target.value}"
+              "collector": "itn:works/{@id.target.partId}/{@id.target.value} itn:works/{@id.target.value}"
             },
             "triples": ["{?event} crm:P148_has_component {?collector}"]
           }
@@ -596,7 +596,7 @@
           "name": "event_period"
         },
         {
-          "name": "text collection event/related/refers_to (external global)",
+          "name": "text version event/related/refers_to (external global)",
           "source": "relatedEntities[?relation=='text:version:previous' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -606,7 +606,7 @@
           }
         },
         {
-          "name": "text collection event/related/refers_to (external local)",
+          "name": "text version event/related/refers_to (external local)",
           "source": "relatedEntities[?relation=='text:version:previous' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -616,11 +616,11 @@
           }
         },
         {
-          "name": "text collection event/related/refers_to (internal)",
+          "name": "text version event/related/refers_to (internal)",
           "source": "relatedEntities[?relation=='text:version:previous' && id.target.name]",
           "output": {
             "nodes": {
-              "previous": "itn:works/{@id.target.partId}/{@id.target.value}"
+              "previous": "itn:works/{@id.target.partId}/{@id.target.value} itn:works/{@id.target.value}"
             },
             "triples": ["{?event} crm:P67_refers_to {?previous}"]
           }
