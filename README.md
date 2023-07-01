@@ -20,5 +20,3 @@ Static resources for Itinera graph.
 
 - sample data:
   - [sample events for work mappings](code/sample-work-events.json)
-
->Note: to avoid casing issues in RDBMS, all the CIDOC-CRM URI names are lowercased except for `E` (entity) and `P` (property) followed by their number.
