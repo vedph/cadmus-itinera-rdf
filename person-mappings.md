@@ -28,3 +28,18 @@ Also, this node is the subject of a **triple** telling that the person is a CIDO
 Other than the person itself, Itinera maps its [events](events.md). The events connected to a person are the backbone of his/her bio.
 
 The general mappings for events apply, using the person-specific thesaurus entries for event types and their related entities.
+
+## Person Works Part
+
+The works by a person. This is an Itinera-specific part, representing a simple list of work IDs with a conventional title and optional assertion, related to the attribution of the work to the corresponding person item. The part model is:
+
+- `works` (`PersonWork[]`):
+  - `eid` (`string`)
+  - `title`\* (`string`)
+  - `assertion` (`Assertion`)
+
+For each work:
+
+- CREATION `a E65_Creation`;
+- `E65_creation` `P94_has_created` WORK,
+- `P14_carried_out_by` PERSON.

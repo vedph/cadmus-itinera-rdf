@@ -124,9 +124,7 @@
         "nodes": {
           "person": "itn:persons/{$part-id}/{@value} itn:persons/{@value}"
         },
-        "triples": [
-          "{?person} a crm:E21_person"
-        ]
+        "triples": ["{?person} a crm:E21_person"]
       }
     },
     {
@@ -4631,6 +4629,29 @@
           }
         }
       ]
+    },
+    {
+      "name": "person-work",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.itinera.person-works",
+      "description": "Map a person's work item to a work creation event by the container person.",
+      "source": "works",
+      "sid": "{$part-id}/{@[0].eid}",
+      "output": {
+        "metadata": {
+          "person": "itn:persons/{$metadata-pid}/{$item-eid}"
+        },
+        "nodes": {
+          "creation": "itn:events/creation## itn:events/creation",
+          "work": "itn:works/{$id}/{$eid} itn:works/{@eid}"
+        },
+        "triples": [
+          "{?creation} a crm:E65_creation",
+          "{?creation} crm:P94_has_created {?work}",
+          "{?creation} crm:P14_carried_out_by {$person}"
+        ]
+      }
     }
   ]
 }
