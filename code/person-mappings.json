@@ -4644,7 +4644,7 @@
         },
         "nodes": {
           "creation": "itn:events/creation## itn:events/creation",
-          "work": "itn:works/{$id}/{$eid} itn:works/{@eid}"
+          "work": "itn:works/{$item-id}/{@eid} itn:works/{@eid}"
         },
         "triples": [
           "{?creation} a crm:E65_creation",

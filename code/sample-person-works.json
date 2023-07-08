@@ -1,0 +1,12 @@
+{
+  "works": [
+    {
+      "eid": "alpha",
+      "title": "Alpha Work"
+    },
+    {
+      "eid": "beta",
+      "title": "Beta Work"
+    }
+  ]
+}
