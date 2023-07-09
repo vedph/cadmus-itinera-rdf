@@ -33,29 +33,29 @@ Other than the work itself, Itinera maps its [events](events.md). The general ma
 
 Information about the literary work represented by the item.
 
-- authorIds (AssertedCompositeId[])
-  - target (PinLinkTarget):
-    - gid\* (string)
-    - label\* (string)
-    - itemId (string)
-    - partId (string)
-    - partTypeId (string)
-    - roleId (string)
-    - name (string)
-    - value (string)
-  - scope (string)
-  - tag (string)
-  - assertion (Assertion)
-- languages\* (string[]) T:literary-work-languages
-- genre\* (string) T:literary-work-genres (hierarchical, single choice)
-- metres (string[]) T:literary-work-metres
-- strophes (string[])
-- isLost (boolean)
-- titles\* (AssertedTitle[]):
-  - language (string) T:literary-work-languages
-  - value (string)
-  - assertion (Assertion)
-- note (string)
+- `authorIds` (`AssertedCompositeId[]`)
+  - `target` (`PinLinkTarget`):
+    - `gid`\* (`string`)
+    - `label`\* (`string`)
+    - `itemId` (`string`)
+    - `partId` (`string`)
+    - `partTypeId` (`string`)
+    - `roleId` (`string`)
+    - `name` (`string`)
+    - `value` (`string`)
+  - `scope` (`string`)
+  - `tag` (`string`)
+  - `assertion` (`Assertion`)
+- `languages`\* (`string[]`)
+- `genre`\* (`string`)
+- `metres` (`string[]`)
+- `strophes` (`string[]`)
+- `isLost` (`boolean`)
+- `titles`\* (`AssertedTitle[]`):
+  - `language` (`string`)
+  - `value` (`string`)
+  - `assertion` (`Assertion`)
+- `note` (`string`)
 
 A creation event creates the **work**:
 
@@ -79,4 +79,76 @@ If the work is **lost**:
 - DESTRUCTION `a E6_Destruction`;
 - DESTRUCTION `P13_destroyed` WORK.
 
-TODO The optional **assertion** is mapped like events assertions.
+TODO optional **assertion**
+
+### Example
+
+Say we have this mock information:
+
+```json
+{
+  "authorIds": [
+    {
+      "id": {
+        "target": {
+          "gid": "http://www.dbpedia.org/resource/John_Milton",
+          "label": "John Milton"
+        },
+        "languages": ["en"]
+      }
+    }
+  ],
+  "genre": "epic",
+  "metre": "blank verse",
+  "isLost": true,
+  "titles": [
+    {
+      "language": "en",
+      "value": "Paradise Lost"
+    },
+    {
+      "language": "it",
+      "value": "Paradiso perduto"
+    }
+  ]
+}
+```
+
+These mappings generate 6 nodes, representing (here `44897701-9354-44aa-8903-86885a98c0f7` is the work item's metadata part ID) a creation event which creates the work, the work itself, a couple of its titles, and a destruction event because this work is marked as lost:
+
+| label                                                | uri                                                  |
+|------------------------------------------------------|------------------------------------------------------|
+| itn:events/creation                                  | itn:events/creation#32                               |
+| itn:works/44897701-9354-44aa-8903-86885a98c0f7/alpha | itn:works/44897701-9354-44aa-8903-86885a98c0f7/alpha |
+| http://www.dbpedia.org/resource/john_milton          | http://www.dbpedia.org/resource/john_milton          |
+| itn:titles/title#33                                  | itn:titles/title#33                                  |
+| itn:titles/title#34                                  | itn:titles/title#34                                  |
+| itn:events/destruction                               | itn:events/destruction#35                            |
+
+The SID for all the nodes is `87654321-4321-4321-cba9876543210`.
+
+The generated triples are 13:
+
+| S                                                    | P                             | O                                                    |
+|------------------------------------------------------|-------------------------------|------------------------------------------------------|
+| itn:events/creation#32                               | rdf:type                      | crm:e65_creation                                     |
+| itn:events/creation#32                               | crm:p94_has_created           | itn:works/44897701-9354-44aa-8903-86885a98c0f7/alpha |
+| itn:events/creation#32                               | crm:p14_carried_out_by        | http://www.dbpedia.org/resource/john_milton          |
+| itn:works/44897701-9354-44aa-8903-86885a98c0f7/alpha | crm:p102_has_title            | itn:titles/title#33                                  |
+| itn:titles/title#33                                  | rdf:type                      | crm:e35_title                                        |
+| itn:titles/title#33                                  | crm:p190_has_symbolic_content | Paradise Lost                                        |
+| itn:titles/title#33                                  | p72_has_language              | en                                                   |
+| itn:works/44897701-9354-44aa-8903-86885a98c0f7/alpha | crm:p102_has_title            | itn:titles/title#34                                  |
+| itn:titles/title#34                                  | rdf:type                      | crm:e35_title                                        |
+| itn:titles/title#34                                  | crm:p190_has_symbolic_content | Paradiso perduto                                     |
+| itn:titles/title#34                                  | p72_has_language              | it                                                   |
+| itn:events/destruction#35                            | rdf:type                      | crm:e6_destruction                                   |
+| itn:events/destruction#35                            | crm:p13_destroyed             | itn:works/44897701-9354-44aa-8903-86885a98c0f7/alpha |
+
+The SID for all the triples is `87654321-4321-4321-cba9876543210`.
+
+These triples say that:
+
+- the creation event created the work and was carried out by John Milton;
+- the work has two titles, having two different languages;
+- the destruction event destroyed the work (so that now it is lost).
