@@ -152,3 +152,54 @@ These triples say that:
 - the creation event created the work and was carried out by John Milton;
 - the work has two titles, having two different languages;
 - the destruction event destroyed the work (so that now it is lost).
+
+## Referenced Texts Part
+
+Special part about texts referenced by the item's text. This is a list of all the item's text relevant passages which explicitly or implicitly refer to another text.
+
+The source part's model is:
+
+- `texts` (`ReferencedText[]`):
+  - `type`\* (`string`)
+  - `targetId`\* (`AssertedCompositeId`)
+  - `targetCitation` (`string`)
+  - `sourceCitations` (`string[]`)
+  - `assertion` (`Assertion`)
+
+The work item represents the referencing text; target ID identifies the referenced text.
+
+In general, to say that work A's chapter 10 is referred to bywork B's chapter 3, we can use `P67i_is_referred_to_by` to link the chapters as instances of `E33_Linguistic_Object`, and use `P3_has_note` to document their chapter numbers as literals.
+
+So in the end you for each textual link will create an entity for the referencing text (as `E33_Linguistic_Object`) and a note for its citation, e.g.:
+
+- WORK_A_CHAPTER_10 `a E33_Linguistic_Object`;
+- WORK_A_CHAPTER_10 `P106i_forms_part_of` WORK_A;
+- WORK_A_CHAPTER_10 `P3_has_note` "Chapter 10";
+- WORK_A_CHAPTER_10 `P67i_is_referred_to_by` WORK_B_CHAPTER_3;
+
+- WORK_B_CHAPTER_3 a `E33_Linguistic_Object`;
+- WORK_A_CHAPTER_3 `P106i_forms_part_of` WORK_B;
+- WORK_B_CHAPTER_3 `P3_has_note` "Chapter 3".
+
+This means that work A's chapter 10 is a propositional object that is referred to by work B's chapter 3, and both chapters have notes with literals that indicate their chapter numbers.
+
+>Alternatively, you could use `P148_has_component` to link the chapters as instances of `E33_Linguistic_Object`, and use `P149_is_identified_by` to link them to instances of `E75_Conceptual_Object_Appellation` that have literals as their values. For example, you could output something like:
+
+```txt
+- WORK_A_CHAPTER_10 a E33_Linguistic_Object;
+- WORK_A_CHAPTER_10 P148_has_component WORK_B_CHAPTER_3;
+- WORK_A_CHAPTER_10 P149_is_identified_by WORK_A_CHAPTER_10_NUMBER;
+
+- WORK_B_CHAPTER_3 a E33_Linguistic_Object;
+- WORK_B_CHAPTER_3 P149_is_identified_by WORK_B_CHAPTER_3_NUMBER;
+
+- WORK_A_CHAPTER_10_NUMBER a E75_Conceptual_Object_Appellation;
+- WORK_A_CHAPTER_10_NUMBER rdfs:label "Chapter 10";
+
+- WORK_B_CHAPTER_3_NUMBER a E75_Conceptual_Object_Appellation;
+- WORK_B_CHAPTER_3_NUMBER rdfs:label "Chapter 3".
+```
+
+>This means that work A's chapter 10 is a propositional object that has component work B's chapter 3, and both chapters are identified by conceptual object appellations that have literals as their labels.
+
+So, here for each referenced text we enumerate each of its source citations. By focusing on source citations, we can handle pairs of citations, each related to a work.
