@@ -4644,12 +4644,16 @@
         },
         "nodes": {
           "creation": "itn:events/creation## itn:events/creation",
-          "work": "itn:works/{$item-id}/{@eid} itn:works/{@eid}"
+          "work": "itn:works/{$item-id}/{@eid} itn:works/{@eid}",
+          "title": "itn:titles/title## itn:titles/title"
         },
         "triples": [
           "{?creation} a crm:E65_creation",
           "{?creation} crm:P94_has_created {?work}",
-          "{?creation} crm:P14_carried_out_by {$person}"
+          "{?creation} crm:P14_carried_out_by {$person}",
+          "{?title} a crm:E35_title",
+          "{?title} crm:P190_has_symbolic_content \"{@title}\"",
+          "{?work} P102_has_title {?title}"
         ]
       },
       "children": [

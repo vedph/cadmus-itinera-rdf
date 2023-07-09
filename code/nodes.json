@@ -288,6 +288,11 @@
     "label": "p100_was_death_of"
   },
   {
+    "uri": "crm:p102_has_title",
+    "tag": "property",
+    "label": "p102_has_title"
+  },
+  {
     "uri": "crm:p107_has_current_or_former_member",
     "tag": "property",
     "label": "p107_has_current_or_former_member"
@@ -331,6 +336,11 @@
     "uri": "crm:p152i_is_parent_of",
     "tag": "property",
     "label": "p152i_is_parent_of"
+  },
+  {
+    "uri": "crm:p190_has_symbolic_content",
+    "tag": "property",
+    "label": "p190_has_symbolic_content"
   },
   {
     "uri": "itn:event-types/text.send",
