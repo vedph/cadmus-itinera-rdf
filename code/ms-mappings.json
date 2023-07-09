@@ -64,7 +64,7 @@
       "sid": "{$id}/assertion",
       "output": {
         "nodes": {
-          "assertion": "itn/assertions/as##"
+          "assertion": "itn:assertions/as##"
         },
         "triples": [
           "{?event} itn:has_probability \"{@rank}\"^^xsd:float",

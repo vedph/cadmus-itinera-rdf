@@ -45,3 +45,5 @@ For each work:
 - `P14_carried_out_by` PERSON.
 
 This assumes that the person has already been mapped to an entity via its metadata part eid (with a URI equal to `itn:persons/` + metadata part GUID + `/` + EID), while the work entity is created by this mapping, as it has no other source in the database than this relation with its author. This is because such works have no independent existence, as often they are just cited and lost, or the like. So, the work's URI is just `itn:works/` + the person item GUID + `/` + work's EID.
+
+The optional `assertion` is mapped like events assertions.

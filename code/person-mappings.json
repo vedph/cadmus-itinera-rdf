@@ -64,7 +64,7 @@
       "sid": "{$id}/assertion",
       "output": {
         "nodes": {
-          "assertion": "itn/assertions/as##"
+          "assertion": "itn:assertions/as##"
         },
         "triples": [
           "{?event} itn:has_probability \"{@rank}\"^^xsd:float",
@@ -4651,7 +4651,48 @@
           "{?creation} crm:P94_has_created {?work}",
           "{?creation} crm:P14_carried_out_by {$person}"
         ]
-      }
+      },
+      "children": [
+        {
+          "name": "person-work/assertion",
+          "description": "Map the assertion of the person's work creation event to EVENT itn:has_probability RANK^^xsd:float.",
+          "source": "assertion",
+          "output": {
+            "nodes": {
+              "assertion": "itn:assertions/as##"
+            },
+            "triples": [
+              "{?creation} itn:has_probability \"{@rank}\"^^xsd:float",
+              "{?assertion} a crm:E13_attribute_assignment",
+              "{?assertion} crm:P140_assigned_attribute_to {?creation}",
+              "{?assertion} crm:P141_assigned itn:has_probability",
+              "{?assertion} crm:P177_assigned_property_of_type crm:E55_type"
+            ]
+          },
+          "children": [
+            {
+              "name": "person-work/assertion/references",
+              "source": "references",
+              "children": [
+                {
+                  "name": "event/references/citation",
+                  "source": "citation",
+                  "output": {
+                    "nodes": {
+                      "citation": "itn:citations/cit##"
+                    },
+                    "triples": [
+                      "{?citation} a crm:E31_Document",
+                      "{?citation} rdfs:label \"{@.}\"",
+                      "{?assertion} crm:P70i_is_documented_in {?citation}"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ]
 }
