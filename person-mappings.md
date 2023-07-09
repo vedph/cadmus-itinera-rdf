@@ -11,7 +11,7 @@ Related resources:
 - [events mapping](events.md)
 - [links](links.md)
 - [JSON mappings](code/person-mappings.json)
-- sample events
+- [sample person works](code/sample-person-works.json)
 
 These mappings refer to _person items_. A _person item_ is an item representing a person, usually the author of a work. The persons's EID is provided in the item's `MetadataPart`.
 
