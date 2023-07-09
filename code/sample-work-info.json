@@ -1,13 +1,11 @@
 {
   "authorIds": [
     {
-      "id": {
-        "target": {
-          "gid": "http://www.dbpedia.org/resource/John_Milton",
-          "label": "John Milton"
-        },
-        "languages": ["en"]
-      }
+      "target": {
+        "gid": "http://www.dbpedia.org/resource/John_Milton",
+        "label": "John Milton"
+      },
+      "languages": ["en"]
     }
   ],
   "genre": "epic",

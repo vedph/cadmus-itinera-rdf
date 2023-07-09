@@ -66,6 +66,12 @@
     "label": "e31_document"
   },
   {
+    "uri": "E33_Linguistic_Object",
+    "isclass": true,
+    "tag": null,
+    "label": "e33_linguistic_object"
+  },
+  {
     "uri": "crm:e39_actor",
     "isclass": true,
     "tag": null,
@@ -291,6 +297,11 @@
     "uri": "crm:p102_has_title",
     "tag": "property",
     "label": "p102_has_title"
+  },
+  {
+    "uri": "P106i_forms_part_of",
+    "tag": "property",
+    "label": "P106i_forms_part_of"
   },
   {
     "uri": "crm:p107_has_current_or_former_member",

@@ -648,61 +648,112 @@
       "children": [
         {
           "name": "work-info/author-ids (external global)",
-          "source": "authorIds[?!id.target.name && starts_with(id.target.gid, '@')]",
+          "source": "authorIds[?!target.name && starts_with(target.gid, '@')]",
           "output": {
             "nodes": {
-              "author": "{@slice(id.target.gid, 1)}"
+              "author": "{@slice(target.gid, 1)}"
             },
             "triples": ["{?creation} crm:P14_carried_out_by {?author}"]
           }
         },
         {
           "name": "work-info/author-ids (external local)",
-          "source": "authorIds[?!id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "source": "authorIds[?!target.name && !(starts_with(target.gid, '@'))]",
           "output": {
             "nodes": {
-              "author": "{@id.target.gid}"
+              "author": "{@target.gid}"
             },
             "triples": ["{?creation} crm:P14_carried_out_by {?author}"]
           }
         },
         {
           "name": "work-info/author-ids (internal)",
-          "source": "authorIds[?id.target.name]",
+          "source": "authorIds[?target.name]",
           "output": {
             "nodes": {
-              "author": "itn:persons/{@id.target.partId}/{@id.target.value} itn:persons/{@id.target.value}"
+              "author": "itn:persons/{@target.partId}/{@target.value} itn:persons/{@target.value}"
             },
             "triples": ["{?creation} crm:P14_carried_out_by {?author}"]
           }
         },
         {
-          "name": "work-info/titles",
-          "source": "titles",
+          "name": "work info",
+          "sourceType": 2,
+          "facetFilter": "work",
+          "partTypeFilter": "it.vedph.itinera.literary-work-info",
+          "description": "Map work info",
+          "source": ".",
+          "sid": "{$part-id}",
           "output": {
             "nodes": {
-              "title": "itn:titles/title##"
+              "creation": "itn:events/creation## itn:events/creation",
+              "work": "itn:works/{$metadata-pid}/{$item-eid}"
             },
             "triples": [
-              "{?work} crm:P102_has_title {?title}",
-              "{?title} a crm:E35_Title",
-              "{?title} crm:P190_has_symbolic_content \"{@value}\"",
-              "{?title} P72_has_language \"{@language}\""
+              "{?creation} a crm:E65_Creation",
+              "{?creation} crm:P94_has_created {?work}"
             ]
-          }
-        },
-        {
-          "name": "work-info/isLost",
-          "source": "isLost",
-          "output": {
-            "nodes": {
-              "destruction": "itn:events/destruction## itn:events/destruction"
+          },
+          "children": [
+            {
+              "name": "work-info/author-ids (external global)",
+              "source": "authorIds[?!target.name && starts_with(target.gid, '@')]",
+              "output": {
+                "nodes": {
+                  "author": "{@slice(target.gid, 1)}"
+                },
+                "triples": ["{?creation} crm:P14_carried_out_by {?author}"]
+              }
             },
-            "triples": [
-              "{?destruction} a crm:E6_Destruction",
-              "{?destruction} crm:P13_destroyed {?work}"
-            ]
-          }
+            {
+              "name": "work-info/author-ids (external local)",
+              "source": "authorIds[?!target.name && !(starts_with(target.gid, '@'))]",
+              "output": {
+                "nodes": {
+                  "author": "{@target.gid}"
+                },
+                "triples": ["{?creation} crm:P14_carried_out_by {?author}"]
+              }
+            },
+            {
+              "name": "work-info/author-ids (internal)",
+              "source": "authorIds[?target.name]",
+              "output": {
+                "nodes": {
+                  "author": "itn:persons/{@target.partId}/{@target.value} itn:persons/{@target.value}"
+                },
+                "triples": ["{?creation} crm:P14_carried_out_by {?author}"]
+              }
+            },
+            {
+              "name": "work-info/titles",
+              "source": "titles",
+              "output": {
+                "nodes": {
+                  "title": "itn:titles/title##"
+                },
+                "triples": [
+                  "{?work} crm:P102_has_title {?title}",
+                  "{?title} a crm:E35_Title",
+                  "{?title} crm:P190_has_symbolic_content \"{@value}\"",
+                  "{?title} P72_has_language \"{@language}\""
+                ]
+              }
+            },
+            {
+              "name": "work-info/isLost",
+              "source": "isLost",
+              "output": {
+                "nodes": {
+                  "destruction": "itn:events/destruction## itn:events/destruction"
+                },
+                "triples": [
+                  "{?destruction} a crm:E6_Destruction",
+                  "{?destruction} crm:P13_destroyed {?work}"
+                ]
+              }
+            }
+          ]
         }
       ]
     },
@@ -712,13 +763,13 @@
       "facetFilter": "work",
       "partTypeFilter": "it.vedph.itinera.referenced-texts",
       "description": "Links referencing and referenced texts via E33_Linguistic_Object",
-      "source": "texts[?!id.target.name && starts_with(id.target.gid, '@')]",
+      "source": "texts[?!targetId.target.name && starts_with(targetId.target.gid, '@')]",
       "sid": "{$part-id}",
       "output": {
         "nodes": {
           "source_work": "itn:works/{$metadata-pid}/{$item-eid}",
           "target_text": "itn:cited-texts/cit## itn:cited-texts/cit",
-          "target_work": "{@slice(id.target.gid, 1)}"
+          "target_work": "{@slice(targetId.target.gid, 1)}"
         },
         "triples": [
           "{?target_text} a crm:E33_Linguistic_Object",
