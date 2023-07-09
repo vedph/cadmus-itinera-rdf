@@ -677,16 +677,16 @@
           }
         },
         {
-          "name": "work-info/title",
-          "source": "title",
+          "name": "work-info/titles",
+          "source": "titles",
           "output": {
             "nodes": {
               "title": "itn:titles/title##"
             },
             "triples": [
               "{?work} crm:P102_has_title {?title}",
-              "{title} a crm:E35_Title",
-              "{title} crm:P190_has_symbolic_content \"{@value}\"",
+              "{?title} a crm:E35_Title",
+              "{?title} crm:P190_has_symbolic_content \"{@value}\"",
               "{?title} P72_has_language \"{@language}\""
             ]
           }
