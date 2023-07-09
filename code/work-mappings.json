@@ -170,7 +170,7 @@
           "source": "relatedEntities[?relation=='text:send:sender' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "sender": "{@slice(id.target.gid, 1)}"
+              "sender": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P14_carried_out_by {?sender}"]
           }
@@ -200,7 +200,7 @@
           "source": "relatedEntities[?relation=='text:send:recipient' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "recipient": "{@slice(id.target.gid, 1)}"
+              "recipient": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?recipient}"]
           }
@@ -230,7 +230,7 @@
           "source": "relatedEntities[?relation=='text:send:carrier' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "carrier": "{@slice(id.target.gid, 1)}"
+              "carrier": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?carrier}"]
           }
@@ -300,7 +300,7 @@
           "source": "relatedEntities[?relation=='text:reception:recipient' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "recipient": "{@slice(id.target.gid, 1)}"
+              "recipient": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P14_carried_out_by {?recipient}"]
           }
@@ -330,7 +330,7 @@
           "source": "relatedEntities[?relation=='text:reception:sender' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "sender": "{@slice(id.target.gid, 1)}"
+              "sender": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?sender}"]
           }
@@ -360,7 +360,7 @@
           "source": "relatedEntities[?relation=='text:reception:carrier' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "carrier": "{@slice(id.target.gid, 1)}"
+              "carrier": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?carrier}"]
           }
@@ -430,7 +430,7 @@
           "source": "relatedEntities[?relation=='text:transcription:transcriber' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "transcriber": "{@slice(id.target.gid, 1)}"
+              "transcriber": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P14_carried_out_by {?transcriber}"]
           }
@@ -460,7 +460,7 @@
           "source": "relatedEntities[?relation=='text:transcription:copy' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "copy": "{@slice(id.target.gid, 1)}"
+              "copy": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P108_has_produced {?copy}"]
           }
@@ -530,7 +530,7 @@
           "source": "relatedEntities[?relation=='text:collection:collector' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "collector": "{@slice(id.target.gid, 1)}"
+              "collector": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P148_has_component {?collector}"]
           }
@@ -600,7 +600,7 @@
           "source": "relatedEntities[?relation=='text:version:previous' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "previous": "{@slice(id.target.gid, 1)}"
+              "previous": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P67_refers_to {?previous}"]
           }
@@ -651,7 +651,7 @@
           "source": "authorIds[?!target.name && starts_with(target.gid, '@')]",
           "output": {
             "nodes": {
-              "author": "{@slice(target.gid, 1)}"
+              "author": "{!_substring({@target.gid} & 1)}"
             },
             "triples": ["{?creation} crm:P14_carried_out_by {?author}"]
           }
@@ -700,7 +700,7 @@
               "source": "authorIds[?!target.name && starts_with(target.gid, '@')]",
               "output": {
                 "nodes": {
-                  "author": "{@slice(target.gid, 1)}"
+                  "author": "{!_substring({@target.gid} & 1)}"
                 },
                 "triples": ["{?creation} crm:P14_carried_out_by {?author}"]
               }
@@ -769,7 +769,7 @@
         "nodes": {
           "source_work": "itn:works/{$metadata-pid}/{$item-eid}",
           "target_text": "itn:cited-texts/cit## itn:cited-texts/cit",
-          "target_work": "{@slice(targetId.target.gid, 1)}"
+          "target_work": "{!_substring({@targetId.target.gid} & 1)}"
         },
         "triples": [
           "{?target_text} a crm:E33_Linguistic_Object",

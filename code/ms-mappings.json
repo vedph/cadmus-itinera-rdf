@@ -170,7 +170,7 @@
           "source": "relatedEntities[?relation=='manuscript:handwriting:hand' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "hand": "{@slice(id.target.gid, 1)}"
+              "hand": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P70i_is_documented_in {?hand}"]
           }
@@ -200,7 +200,7 @@
           "source": "relatedEntities[?relation=='manuscript:handwriting:person' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "person": "{@slice(id.target.gid, 1)}"
+              "person": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P14_carried_out_by {?person}"]
           }
@@ -270,7 +270,7 @@
           "source": "relatedEntities[?relation=='manuscript:editing:maker' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "maker": "{@slice(id.target.gid, 1)}"
+              "maker": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P14_carried_out_by {?maker}"]
           }
@@ -300,7 +300,7 @@
           "source": "relatedEntities[?relation=='manuscript:editing:eid' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "eid": "{@slice(id.target.gid, 1)}"
+              "eid": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P108_has_produced {?eid}"]
           }
@@ -370,7 +370,7 @@
           "source": "relatedEntities[?relation=='manuscript:commission:client' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "client": "{@slice(id.target.gid, 1)}"
+              "client": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?client}"]
           }
@@ -400,7 +400,7 @@
           "source": "relatedEntities[?relation=='manuscript:commission:maker' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "maker": "{@slice(id.target.gid, 1)}"
+              "maker": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?maker}"]
           }
@@ -470,7 +470,7 @@
           "source": "relatedEntities[?relation=='manuscript:dedication:maker' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "maker": "{@slice(id.target.gid, 1)}"
+              "maker": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?maker}"]
           }
@@ -500,7 +500,7 @@
           "source": "relatedEntities[?relation=='manuscript:dedication:recipient' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "recipient": "{@slice(id.target.gid, 1)}"
+              "recipient": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?recipient}"]
           }
@@ -570,7 +570,7 @@
           "source": "relatedEntities[?relation=='manuscript:possession:owner' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "owner": "{@slice(id.target.gid, 1)}"
+              "owner": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P75_possesses {?owner}"]
           }
@@ -600,7 +600,7 @@
           "source": "relatedEntities[?relation=='manuscript:possession:attest' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "attest": "{@slice(id.target.gid, 1)}"
+              "attest": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P70i_is_documented_in {?attest}"]
           }
@@ -670,7 +670,7 @@
           "source": "relatedEntities[?relation=='manuscript:lend:lender' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "lender": "{@slice(id.target.gid, 1)}"
+              "lender": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P28_custody_surrendered_by {?lender}"]
           }
@@ -700,7 +700,7 @@
           "source": "relatedEntities[?relation=='manuscript:lend:borrower' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "borrower": "{@slice(id.target.gid, 1)}"
+              "borrower": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P29_custody_received_by {?borrower}"]
           }
@@ -770,7 +770,7 @@
           "source": "relatedEntities[?relation=='manuscript:return:returned' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "returned": "{@slice(id.target.gid, 1)}"
+              "returned": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P28_custody_surrendered_by {?returned}"]
           }
@@ -800,7 +800,7 @@
           "source": "relatedEntities[?relation=='manuscript:return:return-to' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "return-to": "{@slice(id.target.gid, 1)}"
+              "return-to": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P29_custody_received_by {?return-to}"]
           }
@@ -869,7 +869,7 @@
           "source": "relatedEntities[?relation=='manuscript:buy:buyer' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "buyer": "{@slice(id.target.gid, 1)}"
+              "buyer": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P22_transferred_title_to {?buyer}"]
           }
@@ -899,7 +899,7 @@
           "source": "relatedEntities[?relation=='manuscript:buy:seller' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "seller": "{@slice(id.target.gid, 1)}"
+              "seller": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P23_transferred_title_from {?seller}"]
           }
@@ -969,7 +969,7 @@
           "source": "relatedEntities[?relation=='manuscript:send:sender' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "sender": "{@slice(id.target.gid, 1)}"
+              "sender": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P14_carried_out_by {?sender}"]
           }
@@ -999,7 +999,7 @@
           "source": "relatedEntities[?relation=='manuscript:send:recipient' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "recipient": "{@slice(id.target.gid, 1)}"
+              "recipient": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?recipient}"]
           }
@@ -1029,7 +1029,7 @@
           "source": "relatedEntities[?relation=='manuscript:send:carrier' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "carrier": "{@slice(id.target.gid, 1)}"
+              "carrier": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?carrier}"]
           }
@@ -1099,7 +1099,7 @@
           "source": "relatedEntities[?relation=='manuscript:reception:sender' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "recipient": "{@slice(id.target.gid, 1)}"
+              "recipient": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P14_carried_out_by {?recipient}"]
           }
@@ -1129,7 +1129,7 @@
           "source": "relatedEntities[?relation=='manuscript:reception:sender' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "sender": "{@slice(id.target.gid, 1)}"
+              "sender": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?sender}"]
           }
@@ -1159,7 +1159,7 @@
           "source": "relatedEntities[?relation=='manuscript:reception:carrier' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "carrier": "{@slice(id.target.gid, 1)}"
+              "carrier": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?carrier}"]
           }
@@ -1229,7 +1229,7 @@
           "source": "relatedEntities[?relation=='manuscript:deliver:carrier' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "carrier": "{@slice(id.target.gid, 1)}"
+              "carrier": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P14_carried_out_by {?carrier}"]
           }
@@ -1259,7 +1259,7 @@
           "source": "relatedEntities[?relation=='manuscript:deliver:sender' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "sender": "{@slice(id.target.gid, 1)}"
+              "sender": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?sender}"]
           }
@@ -1289,7 +1289,7 @@
           "source": "relatedEntities[?relation=='manuscript:deliver:recipient' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "recipient": "{@slice(id.target.gid, 1)}"
+              "recipient": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?recipient}"]
           }
@@ -1359,7 +1359,7 @@
           "source": "relatedEntities[?relation=='manuscript:restore:restorer' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "restorer": "{@slice(id.target.gid, 1)}"
+              "restorer": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P14_carried_out_by {?restorer}"]
           }
