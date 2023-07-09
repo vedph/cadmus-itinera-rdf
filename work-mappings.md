@@ -28,3 +28,55 @@ Also, this node is the subject of a **triple** telling that the work is a CIDOC-
 ## Historical Events Part
 
 Other than the work itself, Itinera maps its [events](events.md). The general mappings for events apply, using the work-specific thesaurus entries for event types and their related entities.
+
+## Work Info Part
+
+Information about the literary work represented by the item.
+
+- authorIds (AssertedCompositeId[])
+  - target (PinLinkTarget):
+    - gid\* (string)
+    - label\* (string)
+    - itemId (string)
+    - partId (string)
+    - partTypeId (string)
+    - roleId (string)
+    - name (string)
+    - value (string)
+  - scope (string)
+  - tag (string)
+  - assertion (Assertion)
+- languages\* (string[]) T:literary-work-languages
+- genre\* (string) T:literary-work-genres (hierarchical, single choice)
+- metres (string[]) T:literary-work-metres
+- strophes (string[])
+- isLost (boolean)
+- titles\* (AssertedTitle[]):
+  - language (string) T:literary-work-languages
+  - value (string)
+  - assertion (Assertion)
+- note (string)
+
+A creation event creates the **work**:
+
+- CREATION `a E65_Creation`;
+- CREATION `P94_has_created` WORK.
+
+For each **author**:
+
+- AUTHOR `a E21_Person`;
+- CREATION `P14_carried_out_by` AUTHOR.
+
+For each **title**:
+
+- TITLE `a E35_title`;
+- TITLE `P190_has_symbolic_content` "TITLE VALUE";
+- TITLE `P72_has_language` "language";
+- WORK `P102_has_title` TITLE.
+
+If the work is **lost**:
+
+- DESTRUCTION `a E6_Destruction`;
+- DESTRUCTION `P13_destroyed` WORK.
+
+TODO The optional **assertion** is mapped like events assertions.

@@ -1,0 +1,24 @@
+{
+  "authorIds": [
+    {
+      "target": {
+        "gid": "http://www.dbpedia.org/resource/John_Milton",
+        "label": "John Milton"
+      },
+      "languages": ["en"]
+    }
+  ],
+  "genre": "epic",
+  "metre": "blank verse",
+  "isLost": true,
+  "titles": [
+    {
+      "lang": "en",
+      "value": "Paradise Lost"
+    },
+    {
+      "lang": "it",
+      "value": "Paradiso perduto"
+    }
+  ]
+}
