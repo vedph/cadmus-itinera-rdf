@@ -215,7 +215,7 @@ Say we have this mock part data, being the part of a work item:
       "type": "imitation",
       "targetId": {
         "target": {
-          "gid": "@http://www.dbpedia.com/resource/Iliad",
+          "gid": "@http://www.dbpedia.org/resource/Iliad",
           "label": "Iliad"
         }
       },
@@ -237,7 +237,7 @@ The [mappings](code/work-mappings.json) generate 5 nodes: one for the source wor
 |---------------------------------------|------------------------------------------------------|
 | itn:works/alpha                       | itn:works/59cdac8e-4152-43c3-9226-36763748cf84/alpha |
 | itn:cited-texts/cit                   | itn:cited-texts/cit#11                               |
-| http://www.dbpedia.com/resource/Iliad | http://www.dbpedia.com/resource/iliad                |
+| http://www.dbpedia.org/resource/Iliad | http://www.dbpedia.org/resource/iliad                |
 | itn:cited-texts/cit                   | itn:cited-texts/cit#12                               |
 | itn:cited-texts/cit                   | itn:cited-texts/cit#13                               |
 
@@ -248,7 +248,7 @@ The triples are 11:
 | S                      | P                       | O                                                    |
 |------------------------|-------------------------|------------------------------------------------------|
 | itn:cited-texts/cit#11 | rdf:type                | crm:e33_linguistic_object                            |
-| itn:cited-texts/cit#11 | crm:p106i_forms_part_of | http://www.dbpedia.com/resource/iliad                |
+| itn:cited-texts/cit#11 | crm:p106i_forms_part_of | http://www.dbpedia.org/resource/iliad                |
 | itn:cited-texts/cit#11 | crm:p3_has_note         | 1.1                                                  |
 | itn:cited-texts/cit#12 | rdf:type                | crm:e33_linguistic_object                            |
 | itn:cited-texts/cit#12 | crm:p106i_forms_part_of | itn:works/59cdac8e-4152-43c3-9226-36763748cf84/alpha |
@@ -263,3 +263,12 @@ The SID of all the triples is `87654321-4321-4321-cba9876543210`. These triples 
 
 - the target citation (an `E33_linguistic_object`) is 1.1 from work _Iliad_;
 - each of the two source citations (other `E33_linguistic_object`'s) is from the work item, and they refer to its passages `12.34` and `56.78` respectively.
+
+## Related Persons Part
+
+Textual labels referencing a person to be identified:
+
+- `persons` (`RelatedPerson[]`):
+  - `type`\* (`string`)
+  - `name`\* (`string`)
+  - `ids`\* (`AssertedCompositeId[]`)

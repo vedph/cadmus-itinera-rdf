@@ -4,7 +4,7 @@
       "type": "imitation",
       "targetId": {
         "target": {
-          "gid": "@http://www.dbpedia.com/resource/Iliad",
+          "gid": "@http://www.dbpedia.org/resource/Iliad",
           "label": "Iliad"
         }
       },
