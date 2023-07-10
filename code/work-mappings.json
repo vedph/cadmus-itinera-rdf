@@ -792,7 +792,7 @@
               "{?source_text} a crm:E33_Linguistic_Object",
               "{?source_text} crm:P106i_forms_part_of {?source_work}",
               "{?source_text} crm:P3_has_note \"{@.}\"",
-              "{?source_text} P67_refers_to \"{?target_text}\""
+              "{?source_text} P67_refers_to {?target_text}"
             ]
           }
         }
