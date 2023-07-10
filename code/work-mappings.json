@@ -767,9 +767,51 @@
       "sid": "{$part-id}",
       "output": {
         "nodes": {
-          "source_work": "itn:works/{$metadata-pid}/{$item-eid}",
+          "source_work": "itn:works/{$metadata-pid}/{$item-eid} itn:works/{$item-eid}",
           "target_text": "itn:cited-texts/cit## itn:cited-texts/cit",
-          "target_work": "{!_substring({@targetId.target.gid} & 1)}"
+          "target_work": "{$target_gid} {$target_gid}"
+        },
+        "triples": [
+          "{?target_text} a crm:E33_Linguistic_Object",
+          "{?target_text} crm:P106i_forms_part_of {?target_work}",
+          "{?target_text} crm:P3_has_note \"{@targetCitation}\""
+        ],
+        "metadata": {
+          "target_cit": "{@targetCitation}",
+          "target_gid": "{!_substring({@targetId.target.gid} & 1)}"
+        }
+      },
+      "children": [
+        {
+          "name": "ref-text-parts (external global)/sourceCits",
+          "source": "sourceCitations",
+          "output": {
+            "nodes": {
+              "source_text": "itn:cited-texts/cit## itn:cited-texts/cit"
+            },
+            "triples": [
+              "{?source_text} a crm:E33_Linguistic_Object",
+              "{?source_text} crm:P106i_forms_part_of {?source_work}",
+              "{?source_text} crm:P3_has_note \"{@.}\"",
+              "{?source_text} P67_refers_to {?target_text}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "ref-text-parts (external local)",
+      "sourceType": 2,
+      "facetFilter": "work",
+      "partTypeFilter": "it.vedph.itinera.referenced-texts",
+      "description": "Links referencing and referenced texts via E33_Linguistic_Object",
+      "source": "texts[?!targetId.target.name && !starts_with(targetId.target.gid, '@')]",
+      "sid": "{$part-id}",
+      "output": {
+        "nodes": {
+          "source_work": "itn:works/{$metadata-pid}/{$item-eid} itn:works/{$item-eid}",
+          "target_text": "itn:cited-texts/cit## itn:cited-texts/cit",
+          "target_work": "{@targetId.target.gid}"
         },
         "triples": [
           "{?target_text} a crm:E33_Linguistic_Object",
@@ -782,7 +824,48 @@
       },
       "children": [
         {
-          "name": "ref-text-parts (external global)/sourceCits",
+          "name": "ref-text-parts (external local)/sourceCits",
+          "source": "sourceCitations",
+          "output": {
+            "nodes": {
+              "source_text": "itn:cited-texts/cit## itn:cited-texts/cit"
+            },
+            "triples": [
+              "{?source_text} a crm:E33_Linguistic_Object",
+              "{?source_text} crm:P106i_forms_part_of {?source_work}",
+              "{?source_text} crm:P3_has_note \"{@.}\"",
+              "{?source_text} P67_refers_to {?target_text}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "ref-text-parts (internal)",
+      "sourceType": 2,
+      "facetFilter": "work",
+      "partTypeFilter": "it.vedph.itinera.referenced-texts",
+      "description": "Links referencing and referenced texts via E33_Linguistic_Object",
+      "source": "texts[?targetId.target.name]",
+      "sid": "{$part-id}",
+      "output": {
+        "nodes": {
+          "source_work": "itn:works/{$metadata-pid}/{$item-eid} itn:works/{$item-eid}",
+          "target_text": "itn:cited-texts/cit## itn:cited-texts/cit",
+          "target_work": "itn:works/{@targetId.target.partId}/{@targetId.target.value}"
+        },
+        "triples": [
+          "{?target_text} a crm:E33_Linguistic_Object",
+          "{?target_text} crm:P106i_forms_part_of {?target_work}",
+          "{?target_text} crm:P3_has_note \"{@targetCitation}\""
+        ],
+        "metadata": {
+          "target_cit": "{@targetCitation}"
+        }
+      },
+      "children": [
+        {
+          "name": "ref-text-parts (internal)/sourceCits",
           "source": "sourceCitations",
           "output": {
             "nodes": {

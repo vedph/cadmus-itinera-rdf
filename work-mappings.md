@@ -81,9 +81,9 @@ If the work is **lost**:
 
 TODO optional **assertion**
 
-### Example
+### Work Info Part Example
 
-Say we have this mock information:
+Say we have this mock part data:
 
 ```json
 {
@@ -203,3 +203,63 @@ This means that work A's chapter 10 is a propositional object that is referred t
 >This means that work A's chapter 10 is a propositional object that has component work B's chapter 3, and both chapters are identified by conceptual object appellations that have literals as their labels.
 
 So, here for each referenced text we enumerate each of its source citations. By focusing on source citations, we can handle pairs of citations, each related to a work.
+
+### Referenced Texts Part Example
+
+Say we have this mock part data, being the part of a work item:
+
+```json
+{
+  "texts": [
+    {
+      "type": "imitation",
+      "targetId": {
+        "target": {
+          "gid": "@http://www.dbpedia.com/resource/Iliad",
+          "label": "Iliad"
+        }
+      },
+      "targetCitation": "1.1",
+      "sourceCitations": [
+        "12.34",
+        "56.78"
+      ]
+    }
+  ]
+}
+```
+
+This part tells us that the work represented by our item (whose metadata part GUID is `59cdac8e-4152-43c3-9226-36763748cf84`) has two passages (12.34 and 56.78) referring to passage `1.1` of another work, the _Iliad_, here identified by an external global ID from DBPedia (and as such, conventionally prefixed by `@`).
+
+The [mappings](code/work-mappings.json) generate 5 nodes: one for the source work, one for the target work (_Iliad_), and 3 citations:
+
+| label                                 | uri                                                  |
+|---------------------------------------|------------------------------------------------------|
+| itn:works/alpha                       | itn:works/59cdac8e-4152-43c3-9226-36763748cf84/alpha |
+| itn:cited-texts/cit                   | itn:cited-texts/cit#11                               |
+| http://www.dbpedia.com/resource/Iliad | http://www.dbpedia.com/resource/iliad                |
+| itn:cited-texts/cit                   | itn:cited-texts/cit#12                               |
+| itn:cited-texts/cit                   | itn:cited-texts/cit#13                               |
+
+The SID of all the nodes is `87654321-4321-4321-cba9876543210`.
+
+The triples are 11:
+
+| S                      | P                       | O                                                    |
+|------------------------|-------------------------|------------------------------------------------------|
+| itn:cited-texts/cit#11 | rdf:type                | crm:e33_linguistic_object                            |
+| itn:cited-texts/cit#11 | crm:p106i_forms_part_of | http://www.dbpedia.com/resource/iliad                |
+| itn:cited-texts/cit#11 | crm:p3_has_note         | 1.1                                                  |
+| itn:cited-texts/cit#12 | rdf:type                | crm:e33_linguistic_object                            |
+| itn:cited-texts/cit#12 | crm:p106i_forms_part_of | itn:works/59cdac8e-4152-43c3-9226-36763748cf84/alpha |
+| itn:cited-texts/cit#12 | crm:p3_has_note         | 12.34                                                |
+| itn:cited-texts/cit#12 | p67_refers_to           | itn:cited-texts/cit#11                               |
+| itn:cited-texts/cit#13 | rdf:type                | crm:e33_linguistic_object                            |
+| itn:cited-texts/cit#13 | crm:p106i_forms_part_of | itn:works/59cdac8e-4152-43c3-9226-36763748cf84/alpha |
+| itn:cited-texts/cit#13 | crm:p3_has_note         | 56.78                                                |
+| itn:cited-texts/cit#13 | p67_refers_to           | itn:cited-texts/cit#11                               |
+
+The SID of all the triples is `87654321-4321-4321-cba9876543210`. These triples say that:
+
+- the target citation (an `E33_linguistic_object`) is 1.1 from work _Iliad_;
+- each of the two source citations (other `E33_linguistic_object`'s) is from the work item, and they refer to its passages `12.34` and `56.78` respectively.
