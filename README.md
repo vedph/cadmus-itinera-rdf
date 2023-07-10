@@ -19,4 +19,7 @@ Static resources for Itinera graph.
   - [work mappings](code/work-mappings.json)
 
 - sample data:
-  - [sample events for work mappings](code/sample-work-events.json)
+  - [sample person works](code/sample-person-works.json)
+  - [sample referenced texts](code/sample-referenced-texts.json)
+  - [sample work events](code/sample-work-events.json)
+  - [sample work info](code/sample-work-info.json)
