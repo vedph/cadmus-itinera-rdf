@@ -259,6 +259,11 @@
     "label": "p70i_is_documented_in"
   },
   {
+    "uri": "crm:p72_has_language",
+    "tag": "property",
+    "label": "p72_has_language"
+  },
+  {
     "uri": "crm:p75_possesses",
     "tag": "property",
     "label": "p75_possesses"
