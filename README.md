@@ -1,6 +1,6 @@
 # Cadmus Itinera RDF
 
-Static resources for Itinera graph.
+Static resources for _Itinera_ graph.
 
 ## Documentation
 
@@ -13,13 +13,17 @@ Static resources for Itinera graph.
 
 ## Code
 
+- presets:
+  - [nodes](code/nodes.json)
+  - [triples](code/triples.json)
+
 - mappings:
   - [person mappings](code/person-mappings.json)
   - [manuscript mappings](code/ms-mappings.json)
   - [work mappings](code/work-mappings.json)
 
 - sample data:
-  - [sample person works](code/sample-person-works.json)
-  - [sample referenced texts](code/sample-referenced-texts.json)
-  - [sample work events](code/sample-work-events.json)
-  - [sample work info](code/sample-work-info.json)
+  - [sample person works](code/samples/person-works.json)
+  - [sample referenced texts](code/samples/referenced-texts.json)
+  - [sample work events](code/samples/work-events.json)
+  - [sample work info](code/samples/work-info.json)

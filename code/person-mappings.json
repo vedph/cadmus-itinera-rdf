@@ -119,7 +119,7 @@
       "partTypeFilter": "it.vedph.metadata",
       "description": "Map a person item to a node via the item's EID extracted from its MetadataPart.",
       "source": "metadata[?name=='eid']",
-      "sid": "{$part-id}/{@[0].value}",
+      "sid": "{$part-id}/{@value}",
       "output": {
         "nodes": {
           "person": "itn:persons/{$part-id}/{@value} itn:persons/{@value}"
@@ -134,7 +134,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person birth event",
       "source": "events[?type=='person.birth']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -234,7 +234,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person family event",
       "source": "events[?type=='person.family']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -412,7 +412,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person death event",
       "source": "events[?type=='person.death']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -452,7 +452,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person marriage event",
       "source": "events[?type=='person.marriage']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -552,7 +552,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.pope event",
       "source": "events[?type=='person.job.pope']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -592,7 +592,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.cardinal event",
       "source": "events[?type=='person.job.cardinal']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -632,7 +632,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.bishop event",
       "source": "events[?type=='person.job.bishop']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -672,7 +672,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.friar event",
       "source": "events[?type=='person.job.friar']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -712,7 +712,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.prior event",
       "source": "events[?type=='person.job.prior']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -752,7 +752,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.canon event",
       "source": "events[?type=='person.job.canon']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -792,7 +792,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.king event",
       "source": "events[?type=='person.job.king']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -832,7 +832,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.politician event",
       "source": "events[?type=='person.job.politician']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -872,7 +872,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.teacher event",
       "source": "events[?type=='person.job.teacher']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -912,7 +912,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.lecturer event",
       "source": "events[?type=='person.job.lecturer']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -952,7 +952,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.jurist event",
       "source": "events[?type=='person.job.jurist']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -992,7 +992,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.diplomatic event",
       "source": "events[?type=='person.job.diplomatic']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -1032,7 +1032,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.notary event",
       "source": "events[?type=='person.job.notary']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -1072,7 +1072,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.military event",
       "source": "events[?type=='person.job.military']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -1112,7 +1112,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.scribe event",
       "source": "events[?type=='person.job.scribe']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -1152,7 +1152,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.artist event",
       "source": "events[?type=='person.job.artist']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -1192,7 +1192,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.musician event",
       "source": "events[?type=='person.job.musician']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -1232,7 +1232,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.apprentice event",
       "source": "events[?type=='person.job.apprentice']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -1272,7 +1272,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.counsellor event",
       "source": "events[?type=='person.job.counsellor']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -1312,7 +1312,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.chancellor event",
       "source": "events[?type=='person.job.chancellor']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -1352,7 +1352,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.secretary event",
       "source": "events[?type=='person.job.secretary']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -1392,7 +1392,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.merchant event",
       "source": "events[?type=='person.job.merchant']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -1432,7 +1432,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.banker event",
       "source": "events[?type=='person.job.banker']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -1472,7 +1472,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.artisan event",
       "source": "events[?type=='person.job.artisan']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -1512,7 +1512,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.servant event",
       "source": "events[?type=='person.job.servant']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -1552,7 +1552,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.emperor event",
       "source": "events[?type=='person.job.emperor']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -1592,7 +1592,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.physician event",
       "source": "events[?type=='person.job.physician']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -1632,7 +1632,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.duke event",
       "source": "events[?type=='person.job.duke']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -1672,7 +1672,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.earl event",
       "source": "events[?type=='person.job.earl']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -1712,7 +1712,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.prince event",
       "source": "events[?type=='person.job.prince']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -1752,7 +1752,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person teacher-of event",
       "source": "events[?type=='person.teacher-of']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -1822,7 +1822,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person disciple-of event",
       "source": "events[?type=='person.disciple-of']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -1892,7 +1892,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person counsellor-of event",
       "source": "events[?type=='person.counsellor-of']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -1962,7 +1962,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person secretary-of event",
       "source": "events[?type=='person.secretary-of']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -2032,7 +2032,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person servant event",
       "source": "events[?type=='person.servant']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -2102,7 +2102,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person at-service-of event",
       "source": "events[?type=='person.at-service-of']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -2172,7 +2172,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person protector-of event",
       "source": "events[?type=='person.protector-of']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -2242,7 +2242,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person officer event",
       "source": "events[?type=='person.officer']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -2312,7 +2312,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person title event",
       "source": "events[?type=='person.title']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -2352,7 +2352,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person appointment event",
       "source": "events[?type=='person.appointment']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -2392,7 +2392,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person group event",
       "source": "events[?type=='person.group']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -2467,7 +2467,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person meeting event",
       "source": "events[?type=='person.meeting']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -2567,7 +2567,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person travel event",
       "source": "events[?type=='person.travel']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -2637,7 +2637,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person participation event",
       "source": "events[?type=='person.participation']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -2707,7 +2707,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person documentad event",
       "source": "events[?type=='person.documented']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -2777,7 +2777,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person send event",
       "source": "events[?type=='person.send']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -2907,7 +2907,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person reception event",
       "source": "events[?type=='person.reception']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -3037,7 +3037,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person exchange event",
       "source": "events[?type=='person:exchange']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -3137,7 +3137,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person transcription event",
       "source": "events[?type=='person.transcription']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
           "event": "itn:events/{$id} itn:events/{@eid}"
@@ -3237,7 +3237,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person collection event",
       "source": "events[?type=='person.collection']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
           "event": "itn:events/{$id} itn:events/{@eid}"
@@ -3337,7 +3337,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person annotation event",
       "source": "events[?type=='person.annotation']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
           "event": "itn:events/{$id} itn:events/{@eid}"
@@ -3437,7 +3437,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person handwriting event",
       "source": "events[?type=='person.handwriting']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
           "event": "itn:events/{$id} itn:events/{@eid}"
@@ -3507,7 +3507,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person commission event",
       "source": "events[?type=='person.commission']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
           "event": "itn:events/{$id} itn:events/{@eid}"
@@ -3607,7 +3607,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person commissioned event",
       "source": "events[?type=='person.commissioned']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
           "event": "itn:events/{$id} itn:events/{@eid}"
@@ -3707,7 +3707,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person dedication event",
       "source": "events[?type=='person.dedication']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
           "event": "itn:events/{$id} itn:events/{@eid}"
@@ -3837,7 +3837,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person dedicated event",
       "source": "events[?type=='person.dedicated']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
           "event": "itn:events/{$id} itn:events/{@eid}"
@@ -3967,7 +3967,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person possession event",
       "source": "events[?type=='person.possession']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
           "event": "itn:events/{$id} itn:events/{@eid}"
@@ -4037,7 +4037,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person borrowing event",
       "source": "events[?type=='person.borrowing']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
           "event": "itn:events/{$id} itn:events/{@eid}"
@@ -4136,7 +4136,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person lending event",
       "source": "events[?type=='person.lending']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
           "event": "itn:events/{$id} itn:events/{@eid}"
@@ -4235,7 +4235,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person returning event",
       "source": "events[?type=='person.returning']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
           "event": "itn:events/{$id} itn:events/{@eid}"
@@ -4340,7 +4340,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person obtain-restitution event",
       "source": "events[?type=='person.obtain-restitution']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
           "event": "itn:events/{$id} itn:events/{@eid}"
@@ -4439,7 +4439,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person buying event",
       "source": "events[?type=='person.buying']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
           "event": "itn:events/{$id} itn:events/{@eid}"
@@ -4538,7 +4538,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person selling event",
       "source": "events[?type=='person.selling']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
           "event": "itn:events/{$id} itn:events/{@eid}"

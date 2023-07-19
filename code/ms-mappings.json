@@ -119,7 +119,7 @@
       "partTypeFilter": "it.vedph.metadata",
       "description": "Map a manuscript item to a node via the item's EID extracted from its MetadataPart.",
       "source": "metadata[?name=='eid']",
-      "sid": "{$part-id}/{@[0].value}",
+      "sid": "{$part-id}/{@value}",
       "output": {
         "nodes": {
           "ms": "itn:manuscripts/{$part-id}/{@value} itn:manuscripts/{@value}"
@@ -134,7 +134,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map manuscript handwriting event",
       "source": "events[?type=='manuscript.handwriting']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -234,7 +234,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map manuscript editing event",
       "source": "events[?type=='manuscript.editing']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -334,7 +334,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map manuscript commission event",
       "source": "events[?type=='manuscript.commission']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -434,7 +434,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map manuscript dedication event",
       "source": "events[?type=='manuscript.dedication']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -534,7 +534,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map manuscript possession event",
       "source": "events[?type=='manuscript.possession']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -634,7 +634,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map manuscript lend event",
       "source": "events[?type=='manuscript.lend']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -734,7 +734,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map manuscript return event",
       "source": "events[?type=='manuscript.return']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -834,7 +834,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map manuscript buy event",
       "source": "events[?type=='manuscript.buy']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -933,7 +933,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map manuscript sent event",
       "source": "events[?type=='manuscript.send']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -1063,7 +1063,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map manuscript reception event",
       "source": "events[?type=='manuscript.reception']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -1193,7 +1193,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map manuscript deliver event",
       "source": "events[?type=='manuscript.deliver']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
@@ -1323,7 +1323,7 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map manuscript restore event",
       "source": "events[?type=='manuscript.restore']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
