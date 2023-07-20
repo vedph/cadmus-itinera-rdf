@@ -4637,7 +4637,7 @@
       "partTypeFilter": "it.vedph.itinera.person-works",
       "description": "Map a person's work item to a work creation event by the container person.",
       "source": "works",
-      "sid": "{$part-id}/{@[$index].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
