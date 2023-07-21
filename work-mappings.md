@@ -11,6 +11,13 @@ These mappings refer to _work items_. A _work item_ is an item representing a li
 
 ## Metadata Part
 
+A metadata part has this schema:
+
+- `metadata` (`Metadatum[]`):
+  - `type` (`string`)
+  - `name`\* (`string`)
+  - `value`\* (`string`)
+
 As each work item has a metadata part, we map its `eid` metadatum as the work's ID. So, the mapping refers to an item's part (the metadata part), rather than directly to the item.
 
 A globally unique URI for the **work** is built as follows:
@@ -21,13 +28,173 @@ A globally unique URI for the **work** is built as follows:
 
 Here (2) grants the URI's uniqueness, and (1+3) its friendliness.
 
-Also, this node is the subject of a **triple** telling that the work is a CIDOC-CRM _E90 symbolic object_.
-
 >Note that here we pick the item's _metadata part_ GUID, rather than the _item_'s GUID itself. Of course, nothing changes for the URI, as the GUID is opaque, and its only purpose is making the URI globally unique. Anyway, the part's GUID here is chosen to be consistent with event's related entities URIs, which refer to parts GUIDs, as nothing ensures that the related entity always corresponds to a whole item, rather then being defined in any of its parts only. Thus, always picking the part's GUID allows consistency, whatever the details of source data modeling, unless of course you are dealing with entities derived from items rather than from any of its parts.
 
-## Historical Events Part
+Besides the work's node, another node is generated to represent its **creation**; this is because other work item's parts will eventually attach more data to it, like datation and location (chronotopes part) or authors (work info part). So, the creation event is generated once, with a predictable URI; and all the other parts will build triples assuming it as their subject.
 
-Other than the work itself, Itinera maps its [events](events.md). The general mappings for events apply, using the work-specific thesaurus entries for event types and their related entities.
+The work node is the subject of these **triples**:
+
+- work is a `E90_symbolic_object`;
+- event is a `E65_creation`;
+- event `crm:p94_has_created` work.
+
+### Metadata Part Example
+
+Say you have these metadata for a work item:
+
+```json
+{
+  "metadata": [
+    {
+      "name": "eid",
+      "value": "alpha"
+    },
+    {
+      "name": "copyright",
+      "value": "(C) some guy 2023"
+    }
+  ]
+}
+```
+
+The generated **nodes** are 2, one for the work and another for the event creating it:
+
+| label            | uri                                               |
+|------------------|---------------------------------------------------|
+| itn:works/alpha  | itn:works/87654321-4321-4321-cba9876543210/alpha  |
+| itn:events/alpha | itn:events/87654321-4321-4321-cba9876543210/alpha |
+
+All the nodes have their SID equal to the metadata part's GUID + `/alpha`.
+
+The generated **triples** are 3, telling that the work is an `E90_Symbolic_object`, the event is an `E65_Creation`, and it created that work:
+
+| S                                                 | P                   | O                                                |
+|---------------------------------------------------|---------------------|--------------------------------------------------|
+| itn:works/87654321-4321-4321-cba9876543210/alpha  | rdf:type            | crm:e90_symbolic_object                          |
+| itn:events/87654321-4321-4321-cba9876543210/alpha | rdf:type            | crm:e65_creation                                 |
+| itn:events/87654321-4321-4321-cba9876543210/alpha | crm:p94_has_created | itn:works/87654321-4321-4321-cba9876543210/alpha |
+
+As for nodes, all the triples have their SID equal to the metadata part's GUID + `/alpha`.
+
+## Work Chronotopes Part
+
+In Cadmus models, a "chronotope" represents the pairing of a date and a place. Work's chronotopes are represented by a generic chronotopes part. Its model is:
+
+- `chronotopes` (`AssertedChronotope[]`):
+  - `place` (`AssertedPlace`)
+    - `tag` (`string`)
+    - `value` (`string`)
+    - `assertion` (`Assertion`):
+      - `tag` (`string`)
+      - `rank` (`short`)
+      - `references` (`DocReference[]`):
+        - `type` (`string`)
+        - `tag` (`string`)
+        - `citation` (`string`)
+        - `note` (`string`)
+  - `date` (`AssertedDate`):
+    - `a`\* (`Datation`):
+      - `value`\* (`int`): the numeric value of the point. Its interpretation depends on other points properties: it may represent a year or a century, or a span between two consecutive Gregorian years.
+      - `isCentury` (`boolean`): true if value is a century number; false if it's a Gregorian year.
+      - `isSpan` (`boolean`): true if the value is the first year of a pair of two consecutive years. This is used for calendars which span across two Gregorian years, e.g. 776/5 BC.
+      - `month` (`short`): the month number (1-12) or 0.
+      - `day` (`short`): the day number (1-31) or 0.
+      - `isApproximate` (`boolean`): true if the point is approximate ("about").
+      - `isDubious` (`boolean`): true if the point is dubious ("perhaphs").
+      - `hint` (`string`): a short textual hint used to better explain or motivate the datation point.
+    - `b` (`Datation`)
+    - `tag` (`string`)
+    - `assertion` (`Assertion`)
+
+For each chronotope, the mappings may generate a **timespan** node for the datation, and a **place** node for the location; also, other nodes and triples may come from their assertions if any.
+
+### Work Chronotopes Part Example
+
+Say we start from this part, representing two chronotopes alternatives, the first being defined as more probable than the second (via their `rank`):
+
+- (A) place `Arezzo`, date `May 1234`. References:
+  - a short bibliographic item (`Rossi 1963`);
+  - a manuscript (`Vat.Lat.123`).
+- (B) place `Roma`, date `1262`. References:
+  - a short bibliographic item (`Verdi 1941`).
+
+```json
+{
+  "chronotopes": [
+    {
+      "place": {
+        "value": "Arezzo"
+      },
+      "date": {
+        "a": {
+          "value": 1234,
+          "month": 5
+        }
+      },
+      "assertion": {
+        "rank": 1,
+        "references": [
+          {
+            "type": "biblio",
+            "citation": "Rossi 1963"
+          },
+          {
+            "type": "ms",
+            "citation": "Vat.Lat.123"
+          }
+        ]
+      }
+    },
+    {
+      "place": {
+        "value": "Roma"
+      },
+      "date": {
+        "a": {
+          "value": 1262
+        }
+      },
+      "assertion": {
+        "rank": 2,
+        "references": [
+          {
+            "type": "biblio",
+            "citation": "Verdi 1941"
+          }
+        ]
+      }
+    }
+  ]
+}
+```
+
+As we have 2 chronotopes, each with both place and date, the mapping generates 4 **nodes** for each of them, plus other nodes for their assertions:
+
+| label              | uri                |
+|--------------------|--------------------|
+| itn:places/arezzo  | itn:places/arezzo  |
+| itn:timespans/ts#8 | itn:timespans/ts#8 |
+| itn:places/roma    | itn:places/roma    |
+| itn:timespans/ts#9 | itn:timespans/ts#9 |
+
+Their SID is just the part ID plus suffix `/chronotope`.
+
+The generated **triples** are 10: the event which generated the work took place at Arezzo, which is an `E53_Place` at about 1234; or, it took place at Rome, another `E53_Place`, at about 1262 (of course, these data are totally mock; we just provide a couple of them to show how you can represent different alternatives).
+
+| S                                                 | P                           | O                  |
+|---------------------------------------------------|-----------------------------|--------------------|
+| itn:places/arezzo                                 | rdf:type                    | crm:e53_place      |
+| itn:events/87654321-4321-4321-cba9876543210/alpha | crm:p7_took_place_at        | itn:places/arezzo  |
+| itn:events/87654321-4321-4321-cba9876543210/alpha | crm:p4_has_time-span        | itn:timespans/ts#8 |
+| itn:timespans/ts#8                                | crm:p82_at_some_time_within | 1234.416           |
+| itn:timespans/ts#8                                | crm:p87_is_identified_by    | May 1234 AD        |
+| itn:places/roma                                   | rdf:type                    | crm:e53_place      |
+| itn:events/87654321-4321-4321-cba9876543210/alpha | crm:p7_took_place_at        | itn:places/roma    |
+| itn:events/87654321-4321-4321-cba9876543210/alpha | crm:p4_has_time-span        | itn:timespans/ts#9 |
+| itn:timespans/ts#9                                | crm:p82_at_some_time_within | 1262               |
+| itn:timespans/ts#9                                | crm:p87_is_identified_by    | 1262 AD            |
+
+>Notice that here the URI representing the event which generated the work is provided in the mapping as a metadatum, because it is assumed that the item's mapping is generating it as explained [above](#metadata-part). This is why this event's URI is designed to be predictable.
 
 ## Work Info Part
 
@@ -152,6 +319,10 @@ These triples say that:
 - the creation event created the work and was carried out by John Milton;
 - the work has two titles, having two different languages;
 - the destruction event destroyed the work (so that now it is lost).
+
+## Historical Events Part
+
+A number of [events](events.md) are related to works. The general mappings for events apply, using the work-specific thesaurus entries for event types and their related entities.
 
 ## Referenced Texts Part
 

@@ -7,6 +7,7 @@ Static resources for _Itinera_ graph.
 - [setup](setup.md)
 - [events](events.md)
 - [links](links.md)
+- [named mappings](named-mappings.md)
 - [person mappings](person-mappings.md)
 - [manuscript mappings](ms-mappings.md)
 - [work mappings](work-mappings.md)
