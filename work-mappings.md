@@ -326,7 +326,7 @@ These mappings generate 7 nodes, representing a creation event which creates the
 | itn:titles/title#9                            | itn:titles/title#9                            | PID                     |
 | itn:events/destruction                        | itn:events/destruction#11                     | PID                     |
 
-The generated triples are 13:
+The generated triples are 19:
 
 | S                         | P                                  | O                                             | sid                     |
 |---------------------------|------------------------------------|-----------------------------------------------|-------------------------|
@@ -440,13 +440,13 @@ This part tells us that the work represented by our item (whose metadata part GU
 
 The [mappings](code/work-mappings.json) generate 5 nodes: one for the source work, one for the target work (_Iliad_), and 3 citations:
 
-| label                                 | uri                                                  |
-|---------------------------------------|------------------------------------------------------|
-| itn:works/alpha                       | itn:works/59cdac8e-4152-43c3-9226-36763748cf84/alpha |
-| itn:cited-texts/cit                   | itn:cited-texts/cit#11                               |
-| http://www.dbpedia.org/resource/Iliad | http://www.dbpedia.org/resource/iliad                |
-| itn:cited-texts/cit                   | itn:cited-texts/cit#12                               |
-| itn:cited-texts/cit                   | itn:cited-texts/cit#13                               |
+| label                                   | uri                                                  |
+|-----------------------------------------|------------------------------------------------------|
+| itn:works/alpha                         | itn:works/59cdac8e-4152-43c3-9226-36763748cf84/alpha |
+| itn:cited-texts/cit                     | itn:cited-texts/cit#11                               |
+| <http://www.dbpedia.org/resource/Iliad> | <http://www.dbpedia.org/resource/iliad>              |
+| itn:cited-texts/cit                     | itn:cited-texts/cit#12                               |
+| itn:cited-texts/cit                     | itn:cited-texts/cit#13                               |
 
 The SID of all the nodes is `87654321-4321-4321-cba9876543210`.
 
@@ -455,7 +455,7 @@ The triples are 11:
 | S                      | P                       | O                                                    |
 |------------------------|-------------------------|------------------------------------------------------|
 | itn:cited-texts/cit#11 | rdf:type                | crm:e33_linguistic_object                            |
-| itn:cited-texts/cit#11 | crm:p106i_forms_part_of | http://www.dbpedia.org/resource/iliad                |
+| itn:cited-texts/cit#11 | crm:p106i_forms_part_of | <http://www.dbpedia.org/resource/iliad>              |
 | itn:cited-texts/cit#11 | crm:p3_has_note         | 1.1                                                  |
 | itn:cited-texts/cit#12 | rdf:type                | crm:e33_linguistic_object                            |
 | itn:cited-texts/cit#12 | crm:p106i_forms_part_of | itn:works/59cdac8e-4152-43c3-9226-36763748cf84/alpha |
