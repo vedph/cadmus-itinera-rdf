@@ -122,8 +122,8 @@
       "sid": "{$part-id}/{@value}",
       "output": {
         "nodes": {
-          "work": "itn:works/{$part-id}/{@value} itn:works/{@value}",
-          "creation": "itn:events/{$part-id}/{@value} itn:events/{@value}"
+          "work": "itn:works/{$part-id}/{@value} [itn:works/{@value}]",
+          "creation": "itn:events/{$part-id}/{@value} [itn:events/{@value}]"
         },
         "triples": [
           "{?work} a crm:E90_symbolic_object",
@@ -241,7 +241,7 @@
           "creation": "itn:events/{$item-eid}/{$metadata-pid}"
         },
         "nodes": {
-          "work": "itn:works/{$metadata-pid}/{$item-eid}"
+          "work": "itn:works/{$metadata-pid}/{$item-eid} [itn:works/{$item-eid}]"
         }
       },
       "children": [
@@ -270,7 +270,7 @@
           "source": "authorIds[?target.name]",
           "output": {
             "nodes": {
-              "author": "itn:persons/{@target.partId}/{@target.value} itn:persons/{@target.value}"
+              "author": "itn:persons/{@target.partId}/{@target.value} [itn:persons/{@target.value}]"
             },
             "triples": ["{$creation} crm:P14_carried_out_by {?author}"]
           }
@@ -295,7 +295,7 @@
           "source": "isLost",
           "output": {
             "nodes": {
-              "destruction": "itn:events/destruction## itn:events/destruction"
+              "destruction": "itn:events/destruction## [itn:events/destruction]"
             },
             "triples": [
               "{?destruction} a crm:E6_Destruction",
@@ -319,7 +319,7 @@
           "work": "itn:works/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$sid} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -368,7 +368,7 @@
           "source": "relatedEntities[?relation=='text:send:sender' && id.target.name]",
           "output": {
             "nodes": {
-              "sender": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "sender": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P14_carried_out_by {?sender}"]
           }
@@ -398,7 +398,7 @@
           "source": "relatedEntities[?relation=='text:send:recipient' && id.target.name]",
           "output": {
             "nodes": {
-              "recipient": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "recipient": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?recipient}"]
           }
@@ -428,7 +428,7 @@
           "source": "relatedEntities[?relation=='text:send:carrier' && id.target.name]",
           "output": {
             "nodes": {
-              "carrier": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "carrier": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?carrier}"]
           }
@@ -445,7 +445,7 @@
       "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
-          "event": "itn:events/{$sid} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -498,7 +498,7 @@
           "source": "relatedEntities[?relation=='text:reception:recipient' && id.target.name]",
           "output": {
             "nodes": {
-              "recipient": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "recipient": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P14_carried_out_by {?recipient}"]
           }
@@ -528,7 +528,7 @@
           "source": "relatedEntities[?relation=='text:reception:sender' && id.target.name]",
           "output": {
             "nodes": {
-              "sender": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "sender": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?sender}"]
           }
@@ -558,7 +558,7 @@
           "source": "relatedEntities[?relation=='text:reception:carrier' && id.target.name]",
           "output": {
             "nodes": {
-              "carrier": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "carrier": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?carrier}"]
           }
@@ -575,7 +575,7 @@
       "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
-          "event": "itn:events/{$sid} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -628,7 +628,7 @@
           "source": "relatedEntities[?relation=='text:transcription:transcriber' && id.target.name]",
           "output": {
             "nodes": {
-              "transcriber": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "transcriber": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P14_carried_out_by {?transcriber}"]
           }
@@ -658,7 +658,7 @@
           "source": "relatedEntities[?relation=='text:transcription:copy' && id.target.name]",
           "output": {
             "nodes": {
-              "copy": "itn:works/{@id.target.partId}/{@id.target.value} itn:works/{@id.target.value}"
+              "copy": "itn:works/{@id.target.partId}/{@id.target.value} [itn:works/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P108_has_produced {?copy}"]
           }
@@ -675,7 +675,7 @@
       "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
-          "event": "itn:events/{$sid} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E89_propositional_object",
@@ -728,7 +728,7 @@
           "source": "relatedEntities[?relation=='text:collection:collector' && id.target.name]",
           "output": {
             "nodes": {
-              "collector": "itn:works/{@id.target.partId}/{@id.target.value} itn:works/{@id.target.value}"
+              "collector": "itn:works/{@id.target.partId}/{@id.target.value} [itn:works/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P148_has_component {?collector}"]
           }
@@ -745,7 +745,7 @@
       "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
-          "event": "itn:events/{$sid} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -798,7 +798,7 @@
           "source": "relatedEntities[?relation=='text:version:previous' && id.target.name]",
           "output": {
             "nodes": {
-              "previous": "itn:works/{@id.target.partId}/{@id.target.value} itn:works/{@id.target.value}"
+              "previous": "itn:works/{@id.target.partId}/{@id.target.value} [itn:works/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P67_refers_to {?previous}"]
           }
@@ -815,9 +815,9 @@
       "sid": "{$part-id}",
       "output": {
         "nodes": {
-          "source_work": "itn:works/{$metadata-pid}/{$item-eid} itn:works/{$item-eid}",
-          "target_text": "itn:cited-texts/cit## itn:cited-texts/cit",
-          "target_work": "{$target_gid} {$target_gid}"
+          "source_work": "itn:works/{$metadata-pid}/{$item-eid} [itn:works/{$item-eid}]",
+          "target_text": "itn:cited-texts/cit##",
+          "target_work": "{$target_gid}"
         },
         "triples": [
           "{?target_text} a crm:E33_Linguistic_Object",
@@ -835,7 +835,7 @@
           "source": "sourceCitations",
           "output": {
             "nodes": {
-              "source_text": "itn:cited-texts/cit## itn:cited-texts/cit"
+              "source_text": "itn:cited-texts/cit##"
             },
             "triples": [
               "{?source_text} a crm:E33_Linguistic_Object",
@@ -857,8 +857,8 @@
       "sid": "{$part-id}",
       "output": {
         "nodes": {
-          "source_work": "itn:works/{$metadata-pid}/{$item-eid} itn:works/{$item-eid}",
-          "target_text": "itn:cited-texts/cit## itn:cited-texts/cit",
+          "source_work": "itn:works/{$metadata-pid}/{$item-eid} [itn:works/{$item-eid}]",
+          "target_text": "itn:cited-texts/cit##",
           "target_work": "{@targetId.target.gid}"
         },
         "triples": [
@@ -876,7 +876,7 @@
           "source": "sourceCitations",
           "output": {
             "nodes": {
-              "source_text": "itn:cited-texts/cit## itn:cited-texts/cit"
+              "source_text": "itn:cited-texts/cit##"
             },
             "triples": [
               "{?source_text} a crm:E33_Linguistic_Object",
@@ -898,9 +898,9 @@
       "sid": "{$part-id}",
       "output": {
         "nodes": {
-          "source_work": "itn:works/{$metadata-pid}/{$item-eid} itn:works/{$item-eid}",
-          "target_text": "itn:cited-texts/cit## itn:cited-texts/cit",
-          "target_work": "itn:works/{@targetId.target.partId}/{@targetId.target.value}"
+          "source_work": "itn:works/{$metadata-pid}/{$item-eid} [itn:works/{$item-eid}]",
+          "target_text": "itn:cited-texts/cit##",
+          "target_work": "itn:works/{@targetId.target.partId}/{@targetId.target.value} [itn:works/{@targetId.target.value}]"
         },
         "triples": [
           "{?target_text} a crm:E33_Linguistic_Object",
@@ -917,7 +917,7 @@
           "source": "sourceCitations",
           "output": {
             "nodes": {
-              "source_text": "itn:cited-texts/cit## itn:cited-texts/cit"
+              "source_text": "itn:cited-texts/cit##"
             },
             "triples": [
               "{?source_text} a crm:E33_Linguistic_Object",

@@ -122,7 +122,7 @@
       "sid": "{$part-id}/{@value}",
       "output": {
         "nodes": {
-          "ms": "itn:manuscripts/{$part-id}/{@value} itn:manuscripts/{@value}"
+          "ms": "itn:manuscripts/{$part-id}/{@value} [itn:manuscripts/{@value}]"
         },
         "triples": ["{?ms} a crm:E18_physical_thing"]
       }
@@ -141,7 +141,7 @@
           "manuscript": "itn:manuscript/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$sid} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -190,7 +190,7 @@
           "source": "relatedEntities[?relation=='manuscript:handwriting:hand' && id.target.name]",
           "output": {
             "nodes": {
-              "hand": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "hand": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P70i_is_documented_in {?hand}"]
           }
@@ -220,7 +220,7 @@
           "source": "relatedEntities[?relation=='manuscript:handwriting:person' && id.target.name]",
           "output": {
             "nodes": {
-              "maker": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "maker": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P14_carried_out_by {?person}"]
           }
@@ -241,7 +241,7 @@
           "manuscript": "itn:manuscript/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$sid} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -290,7 +290,7 @@
           "source": "relatedEntities[?relation=='manuscript:editing:maker' && id.target.name]",
           "output": {
             "nodes": {
-              "maker": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "maker": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P14_carried_out_by {?maker}"]
           }
@@ -320,7 +320,7 @@
           "source": "relatedEntities[?relation=='manuscript:editing:eid' && id.target.name]",
           "output": {
             "nodes": {
-              "eid": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "eid": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P108_has_produced {?eid}"]
           }
@@ -341,7 +341,7 @@
           "manuscript": "itn:manuscript/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$sid} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -390,7 +390,7 @@
           "source": "relatedEntities[?relation=='manuscript:commission:client' && id.target.name]",
           "output": {
             "nodes": {
-              "client": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "client": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?client}"]
           }
@@ -420,7 +420,7 @@
           "source": "relatedEntities[?relation=='manuscript:commission:maker' && id.target.name]",
           "output": {
             "nodes": {
-              "maker": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "maker": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?maker}"]
           }
@@ -441,7 +441,7 @@
           "manuscript": "itn:manuscript/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$sid} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -490,7 +490,7 @@
           "source": "relatedEntities[?relation=='manuscript:dedication:maker' && id.target.name]",
           "output": {
             "nodes": {
-              "maker": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "maker": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?maker}"]
           }
@@ -520,7 +520,7 @@
           "source": "relatedEntities[?relation=='manuscript:dedication:recipient' && id.target.name]",
           "output": {
             "nodes": {
-              "recipient": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "recipient": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?recipient}"]
           }
@@ -541,7 +541,7 @@
           "manuscript": "itn:manuscript/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$sid} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -590,7 +590,7 @@
           "source": "relatedEntities[?relation=='manuscript:possession:owner' && id.target.name]",
           "output": {
             "nodes": {
-              "owner": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "owner": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P75_possesses {?owner}"]
           }
@@ -620,7 +620,7 @@
           "source": "relatedEntities[?relation=='manuscript:possession:attest' && id.target.name]",
           "output": {
             "nodes": {
-              "attest": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "attest": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P70i_is_documented_in {?attest}"]
           }
@@ -641,7 +641,7 @@
           "manuscript": "itn:manuscript/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$sid} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E10_Transfer_of_Custody",
@@ -690,7 +690,7 @@
           "source": "relatedEntities[?relation=='manuscript:lend:lender' && id.target.name]",
           "output": {
             "nodes": {
-              "lender": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "lender": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P28_custody_surrendered_by {?lender}"]
           }
@@ -720,7 +720,7 @@
           "source": "relatedEntities[?relation=='manuscript:lend:borrower' && id.target.name]",
           "output": {
             "nodes": {
-              "borrower": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "borrower": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P29_custody_received_by {?borrower}"]
           }
@@ -741,7 +741,7 @@
           "manuscript": "itn:manuscript/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$sid} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E10_Transfer_of_Custody",
@@ -790,7 +790,7 @@
           "source": "relatedEntities[?relation=='manuscript:return:returned' && id.target.name]",
           "output": {
             "nodes": {
-              "returned": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "returned": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P28_custody_surrendered_by {?returned}"]
           }
@@ -820,7 +820,7 @@
           "source": "relatedEntities[?relation=='manuscript:return:return-to' && id.target.name]",
           "output": {
             "nodes": {
-              "return-to": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "return-to": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P29_custody_received_by {?return-to}"]
           }
@@ -841,7 +841,7 @@
           "manuscript": "itn:manuscript/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$sid} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E8_Acquisition",
@@ -889,7 +889,7 @@
           "source": "relatedEntities[?relation=='manuscript:buy:buyer' && id.target.name]",
           "output": {
             "nodes": {
-              "buyer": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "buyer": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P22_transferred_title_to {?buyer}"]
           }
@@ -919,7 +919,7 @@
           "source": "relatedEntities[?relation=='manuscript:buy:seller' && id.target.name]",
           "output": {
             "nodes": {
-              "seller": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "seller": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P23_transferred_title_from {?seller}"]
           }
@@ -940,7 +940,7 @@
           "manuscript": "itn:manuscript/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$sid} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -989,7 +989,7 @@
           "source": "relatedEntities[?relation=='manuscript:send:sender' && id.target.name]",
           "output": {
             "nodes": {
-              "sender": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "sender": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P14_carried_out_by {?sender}"]
           }
@@ -1019,7 +1019,7 @@
           "source": "relatedEntities[?relation=='manuscript:send:recipient' && id.target.name]",
           "output": {
             "nodes": {
-              "recipient": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "recipient": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?recipient}"]
           }
@@ -1049,7 +1049,7 @@
           "source": "relatedEntities[?relation=='manuscript:send:carrier' && id.target.name]",
           "output": {
             "nodes": {
-              "carrier": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "carrier": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?carrier}"]
           }
@@ -1070,7 +1070,7 @@
           "manuscript": "itn:manuscript/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$sid} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -1119,7 +1119,7 @@
           "source": "relatedEntities[?relation=='manuscript:reception:recipient' && id.target.name]",
           "output": {
             "nodes": {
-              "recipient": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "recipient": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P14_carried_out_by {?recipient}"]
           }
@@ -1149,7 +1149,7 @@
           "source": "relatedEntities[?relation=='manuscript:reception:sender' && id.target.name]",
           "output": {
             "nodes": {
-              "sender": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "sender": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?sender}"]
           }
@@ -1179,7 +1179,7 @@
           "source": "relatedEntities[?relation=='manuscript:reception:carrier' && id.target.name]",
           "output": {
             "nodes": {
-              "carrier": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "carrier": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?carrier}"]
           }
@@ -1200,7 +1200,7 @@
           "manuscript": "itn:manuscript/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$sid} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -1249,7 +1249,7 @@
           "source": "relatedEntities[?relation=='manuscript:deliver:carrier' && id.target.name]",
           "output": {
             "nodes": {
-              "carrier": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "carrier": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P14_carried_out_by {?carrier}"]
           }
@@ -1279,7 +1279,7 @@
           "source": "relatedEntities[?relation=='manuscript:deliver:sender' && id.target.name]",
           "output": {
             "nodes": {
-              "sender": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "sender": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?sender}"]
           }
@@ -1309,7 +1309,7 @@
           "source": "relatedEntities[?relation=='manuscript:deliver:recipient' && id.target.name]",
           "output": {
             "nodes": {
-              "recipient": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "recipient": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?recipient}"]
           }
@@ -1330,7 +1330,7 @@
           "manuscript": "itn:manuscript/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$sid} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -1379,7 +1379,7 @@
           "source": "relatedEntities[?relation=='manuscript:restore:restorer' && id.target.name]",
           "output": {
             "nodes": {
-              "restorer": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "restorer": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P14_carried_out_by {?restorer}"]
           }
