@@ -11,6 +11,8 @@ Currently, all these mappings refer to events, and _assume the following output_
 
 `event_assertion` matches `assertion`. It emits an assertion node with a number of triples for it and its optional references.
 
+A variant of this mapping used for works is `work_assertion`, which is equal to `event_assertion` except that it uses a metadatum named `event` for the event (rather than a node).
+
 ## Chronotopes
 
 `event_chronotopes` matches `chronotopes`. For each chronotope, it matches `place` and `date`; both these create a node (for place and timespan) and some triples for them.

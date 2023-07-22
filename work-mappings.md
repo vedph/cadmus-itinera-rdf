@@ -352,7 +352,7 @@ The generated triples are 19:
 
 These triples say that:
 
-- the creation event created the work and was carried out by John Milton;
+- the creation event created the work and was carried out by John Milton; also, its probability is defined by an assertion which in turn is documented by some cited references;
 - the work has two titles, having two different languages;
 - the destruction event destroyed the work (so that now it is lost).
 
