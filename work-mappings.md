@@ -270,8 +270,6 @@ If the work is **lost**:
 - DESTRUCTION `a E6_Destruction`;
 - DESTRUCTION `P13_destroyed` WORK.
 
-TODO optional **assertion**
-
 ### Work Info Part Example
 
 Say we have this mock part data:

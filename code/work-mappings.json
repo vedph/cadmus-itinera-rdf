@@ -238,7 +238,7 @@
       "sid": "{$part-id}",
       "output": {
         "metadata": {
-          "creation": "itn:events/{$item-eid}/{$metadata-pid}"
+          "creation": "itn:events/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
           "work": "itn:works/{$metadata-pid}/{$item-eid} [itn:works/{$item-eid}]"
