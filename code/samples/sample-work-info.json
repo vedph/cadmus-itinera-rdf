@@ -5,7 +5,16 @@
         "gid": "http://www.dbpedia.org/resource/John_Milton",
         "label": "John Milton"
       },
-      "languages": ["en"]
+      "languages": ["en"],
+      "assertion": {
+        "rank": 1,
+        "references": [
+          {
+            "type": "biblio",
+            "citation": "Rossi 1963"
+          }
+        ]
+      }
     }
   ],
   "genre": "epic",

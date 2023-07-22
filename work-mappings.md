@@ -270,6 +270,8 @@ If the work is **lost**:
 - DESTRUCTION `a E6_Destruction`;
 - DESTRUCTION `P13_destroyed` WORK.
 
+Assertions on author identifiers are handled [as usual](named-mappings.md).
+
 ### Work Info Part Example
 
 Say we have this mock part data:
@@ -283,7 +285,16 @@ Say we have this mock part data:
           "gid": "http://www.dbpedia.org/resource/John_Milton",
           "label": "John Milton"
         },
-        "languages": ["en"]
+        "languages": ["en"],
+        "assertion": {
+          "rank": 1,
+          "references": [
+            {
+              "type": "biblio",
+              "citation": "Rossi 1963"
+            }
+          ]
+        }
       }
     }
   ],
@@ -303,38 +314,41 @@ Say we have this mock part data:
 }
 ```
 
-These mappings generate 6 nodes, representing (here `44897701-9354-44aa-8903-86885a98c0f7` is the work item's metadata part ID) a creation event which creates the work, the work itself, a couple of its titles, and a destruction event because this work is marked as lost:
+These mappings generate 7 nodes, representing a creation event which creates the work, the work itself, a couple of its titles, and a destruction event because this work is marked as lost:
 
-| label                                                | uri                                                  |
-|------------------------------------------------------|------------------------------------------------------|
-| itn:events/creation                                  | itn:events/creation#32                               |
-| itn:works/44897701-9354-44aa-8903-86885a98c0f7/alpha | itn:works/44897701-9354-44aa-8903-86885a98c0f7/alpha |
-| http://www.dbpedia.org/resource/john_milton          | http://www.dbpedia.org/resource/john_milton          |
-| itn:titles/title#33                                  | itn:titles/title#33                                  |
-| itn:titles/title#34                                  | itn:titles/title#34                                  |
-| itn:events/destruction                               | itn:events/destruction#35                            |
-
-The SID for all the nodes is `87654321-4321-4321-cba9876543210`.
+| label                                         | uri                                           | sid                     |
+|-----------------------------------------------|-----------------------------------------------|-------------------------|
+| itn:works/alpha                               | itn:works/`mpid`/alpha                        | PID                     |
+| <http://www.dbpedia.org/resource/john_milton> | <http://www.dbpedia.org/resource/john_milton> | PID                     |
+| itn:assertions/as#4                           | itn:assertions/as#4                           | PID/assertion           |
+| itn:citations/cit#6                           | itn:citations/cit#6                           | PID/assertion/reference |
+| itn:titles/title#8                            | itn:titles/title#8                            | PID                     |
+| itn:titles/title#9                            | itn:titles/title#9                            | PID                     |
+| itn:events/destruction                        | itn:events/destruction#11                     | PID                     |
 
 The generated triples are 13:
 
-| S                                                    | P                             | O                                                    |
-|------------------------------------------------------|-------------------------------|------------------------------------------------------|
-| itn:events/creation#32                               | rdf:type                      | crm:e65_creation                                     |
-| itn:events/creation#32                               | crm:p94_has_created           | itn:works/44897701-9354-44aa-8903-86885a98c0f7/alpha |
-| itn:events/creation#32                               | crm:p14_carried_out_by        | http://www.dbpedia.org/resource/john_milton          |
-| itn:works/44897701-9354-44aa-8903-86885a98c0f7/alpha | crm:p102_has_title            | itn:titles/title#33                                  |
-| itn:titles/title#33                                  | rdf:type                      | crm:e35_title                                        |
-| itn:titles/title#33                                  | crm:p190_has_symbolic_content | Paradise Lost                                        |
-| itn:titles/title#33                                  | p72_has_language              | en                                                   |
-| itn:works/44897701-9354-44aa-8903-86885a98c0f7/alpha | crm:p102_has_title            | itn:titles/title#34                                  |
-| itn:titles/title#34                                  | rdf:type                      | crm:e35_title                                        |
-| itn:titles/title#34                                  | crm:p190_has_symbolic_content | Paradiso perduto                                     |
-| itn:titles/title#34                                  | p72_has_language              | it                                                   |
-| itn:events/destruction#35                            | rdf:type                      | crm:e6_destruction                                   |
-| itn:events/destruction#35                            | crm:p13_destroyed             | itn:works/44897701-9354-44aa-8903-86885a98c0f7/alpha |
-
-The SID for all the triples is `87654321-4321-4321-cba9876543210`.
+| S                         | P                                  | O                                             | sid                     |
+|---------------------------|------------------------------------|-----------------------------------------------|-------------------------|
+| itn:events/mpid/alpha     | crm:p14_carried_out_by             | <http://www.dbpedia.org/resource/john_milton> | PID                     |
+| itn:events/mpid/alpha     | itn:has_probability                | 1                                             | PID/assertion           |
+| itn:assertions/as#4       | rdf:type                           | crm:e13_attribute_assignment                  | PID/assertion           |
+| itn:assertions/as#4       | crm:p140_assigned_attribute_to     | itn:events/mpid/alpha                         | PID/assertion           |
+| itn:assertions/as#4       | crm:p141_assigned                  | itn:has_probability                           | PID/assertion           |
+| itn:assertions/as#4       | crm:p177_assigned_property_of_type | crm:e55_type                                  | PID/assertion           |
+| itn:citations/cit#6       | rdf:type                           | crm:e31_document                              | PID/assertion/reference |
+| itn:citations/cit#6       | rdfs:label                         | Rossi 1963                                    | PID/assertion/reference |
+| itn:assertions/as#4       | crm:p70i_is_documented_in          | itn:citations/cit#6                           | PID/assertion/reference |
+| itn:works/mpid/alpha      | crm:p102_has_title                 | itn:titles/title#8                            | PID                     |
+| itn:titles/title#8        | rdf:type                           | crm:e35_title                                 | PID                     |
+| itn:titles/title#8        | crm:p190_has_symbolic_content      | Paradise Lost                                 | PID                     |
+| itn:titles/title#8        | p72_has_language                   | en                                            | PID                     |
+| itn:works/mpid/alpha      | crm:p102_has_title                 | itn:titles/title#9                            | PID                     |
+| itn:titles/title#9        | rdf:type                           | crm:e35_title                                 | PID                     |
+| itn:titles/title#9        | crm:p190_has_symbolic_content      | Paradiso perduto                              | PID                     |
+| itn:titles/title#9        | p72_has_language                   | it                                            | PID                     |
+| itn:events/destruction#11 | rdf:type                           | crm:e6_destruction                            | PID                     |
+| itn:events/destruction#11 | crm:p13_destroyed                  | itn:works/mpid/alpha                          | PID                     |
 
 These triples say that:
 

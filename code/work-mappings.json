@@ -98,6 +98,47 @@
         }
       ]
     },
+    "work_assertion": {
+      "name": "event/assertion",
+      "description": "Map the assertion of an event to EVENT itn:has_probability RANK^^xsd:float.",
+      "source": "assertion",
+      "sid": "{$sid}/assertion",
+      "output": {
+        "nodes": {
+          "assertion": "itn:assertions/as##"
+        },
+        "triples": [
+          "{$event} itn:has_probability \"{@rank}\"^^xsd:float",
+          "{?assertion} a crm:E13_attribute_assignment",
+          "{?assertion} crm:P140_assigned_attribute_to {$event}",
+          "{?assertion} crm:P141_assigned itn:has_probability",
+          "{?assertion} crm:P177_assigned_property_of_type crm:E55_type"
+        ]
+      },
+      "children": [
+        {
+          "name": "event/assertion/references",
+          "source": "references",
+          "sid": "{$sid}/assertion/reference",
+          "children": [
+            {
+              "name": "event/references/citation",
+              "source": "citation",
+              "output": {
+                "nodes": {
+                  "citation": "itn:citations/cit##"
+                },
+                "triples": [
+                  "{?citation} a crm:E31_Document",
+                  "{?citation} rdfs:label \"{@.}\"",
+                  "{?assertion} crm:P70i_is_documented_in {?citation}"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
     "event_period": {
       "name": "event/tag",
       "description": "Map the tag of an event to EVENT P9i_forms_part_of GROUP.",
@@ -184,45 +225,7 @@
               }
             },
             {
-              "name": "work chronotopes/assertion",
-              "description": "Map the assertion of an event to EVENT itn:has_probability RANK^^xsd:float.",
-              "source": "assertion",
-              "sid": "{$sid}/assertion",
-              "output": {
-                "nodes": {
-                  "assertion": "itn:assertions/as##"
-                },
-                "triples": [
-                  "{$event} itn:has_probability \"{@rank}\"^^xsd:float",
-                  "{?assertion} a crm:E13_attribute_assignment",
-                  "{?assertion} crm:P140_assigned_attribute_to {$event}",
-                  "{?assertion} crm:P141_assigned itn:has_probability",
-                  "{?assertion} crm:P177_assigned_property_of_type crm:E55_type"
-                ]
-              },
-              "children": [
-                {
-                  "name": "work chronotopes/assertion/references",
-                  "source": "references",
-                  "sid": "{$sid}/reference",
-                  "children": [
-                    {
-                      "name": "event/references/citation",
-                      "source": "citation",
-                      "output": {
-                        "nodes": {
-                          "citation": "itn:citations/cit##"
-                        },
-                        "triples": [
-                          "{?citation} a crm:E31_Document",
-                          "{?citation} rdfs:label \"{@.}\"",
-                          "{?assertion} crm:P70i_is_documented_in {?citation}"
-                        ]
-                      }
-                    }
-                  ]
-                }
-              ]
+              "name": "work_assertion"
             }
           ]
         }
@@ -238,7 +241,8 @@
       "sid": "{$part-id}",
       "output": {
         "metadata": {
-          "creation": "itn:events/{$metadata-pid}/{$item-eid}"
+          "event": "itn:events/{$metadata-pid}/{$item-eid}",
+          "sid": "{$part-id}"
         },
         "nodes": {
           "work": "itn:works/{$metadata-pid}/{$item-eid} [itn:works/{$item-eid}]"
@@ -252,8 +256,13 @@
             "nodes": {
               "author": "{!_substring({@target.gid} & 1)}"
             },
-            "triples": ["{$creation} crm:P14_carried_out_by {?author}"]
-          }
+            "triples": ["{$event} crm:P14_carried_out_by {?author}"]
+          },
+          "children": [
+            {
+              "name": "work_assertion"
+            }
+          ]
         },
         {
           "name": "work-info/author-ids (external local)",
@@ -262,8 +271,13 @@
             "nodes": {
               "author": "{@target.gid}"
             },
-            "triples": ["{$creation} crm:P14_carried_out_by {?author}"]
-          }
+            "triples": ["{$event} crm:P14_carried_out_by {?author}"]
+          },
+          "children": [
+            {
+              "name": "work_assertion"
+            }
+          ]
         },
         {
           "name": "work-info/author-ids (internal)",
@@ -272,8 +286,13 @@
             "nodes": {
               "author": "itn:persons/{@target.partId}/{@target.value} [itn:persons/{@target.value}]"
             },
-            "triples": ["{$creation} crm:P14_carried_out_by {?author}"]
-          }
+            "triples": ["{$event} crm:P14_carried_out_by {?author}"]
+          },
+          "children": [
+            {
+              "name": "work_assertion"
+            }
+          ]
         },
         {
           "name": "work-info/titles",
@@ -291,7 +310,7 @@
           }
         },
         {
-          "name": "work-info/isLost",
+          "name": "work-info[?isLost==true]",
           "source": "isLost",
           "output": {
             "nodes": {
