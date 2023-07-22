@@ -4,8 +4,8 @@ Named mappings are just a shortcut used in JSON documents representing mappings 
 
 Currently, all these mappings refer to events, and _assume the following output_ provided by their ascendants:
 
-- a metadatum `id` as the event's ID minus the `itn:events/` prefix;
-- a node named `event` as the subject.
+- a _metadatum_ `sid` as the event's SID (this will be used for more suffixed SIDs);
+- a _node_ named `event` as the subject.
 
 ## Assertion
 

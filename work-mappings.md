@@ -57,22 +57,24 @@ Say you have these metadata for a work item:
 }
 ```
 
-The generated **nodes** are 2, one for the work and another for the event creating it:
+The generated **nodes** are 2, one for the work and another for the event creating it.
 
-| label            | uri                                               |
-|------------------|---------------------------------------------------|
-| itn:works/alpha  | itn:works/87654321-4321-4321-cba9876543210/alpha  |
-| itn:events/alpha | itn:events/87654321-4321-4321-cba9876543210/alpha |
+>⚠️ To make things clearer, in this example and in all the following ones I replace the mapped part's GUID with `PID`, and the item's metadata part with `MPID`.
+
+| label            | uri                    |
+|------------------|------------------------|
+| itn:works/alpha  | itn:works/`PID`/alpha  |
+| itn:events/alpha | itn:events/`PID`/alpha |
 
 All the nodes have their SID equal to the metadata part's GUID + `/alpha`.
 
 The generated **triples** are 3, telling that the work is an `E90_Symbolic_object`, the event is an `E65_Creation`, and it created that work:
 
-| S                                                 | P                   | O                                                |
-|---------------------------------------------------|---------------------|--------------------------------------------------|
-| itn:works/87654321-4321-4321-cba9876543210/alpha  | rdf:type            | crm:e90_symbolic_object                          |
-| itn:events/87654321-4321-4321-cba9876543210/alpha | rdf:type            | crm:e65_creation                                 |
-| itn:events/87654321-4321-4321-cba9876543210/alpha | crm:p94_has_created | itn:works/87654321-4321-4321-cba9876543210/alpha |
+| S                      | P                   | O                       |
+|------------------------|---------------------|-------------------------|
+| itn:works/`PID`/alpha  | rdf:type            | crm:e90_symbolic_object |
+| itn:events/`PID`/alpha | rdf:type            | crm:e65_creation        |
+| itn:events/`PID`/alpha | crm:p94_has_created | itn:works/`PID`/alpha   |
 
 As for nodes, all the triples have their SID equal to the metadata part's GUID + `/alpha`.
 
@@ -168,33 +170,55 @@ Say we start from this part, representing two chronotopes alternatives, the firs
 }
 ```
 
-As we have 2 chronotopes, each with both place and date, the mapping generates 4 **nodes** for each of them, plus other nodes for their assertions:
+As we have 2 chronotopes, each with both place and date and an assertion, the mapping generates 9 **nodes**: 3 for the place (`Arezzo`), date, and assertion of the first chronotope; and 3 for the place (`Roma`), date and assertion of the second one. Additionally, document references are represented by citations:
 
-| label              | uri                |
-|--------------------|--------------------|
-| itn:places/arezzo  | itn:places/arezzo  |
-| itn:timespans/ts#8 | itn:timespans/ts#8 |
-| itn:places/roma    | itn:places/roma    |
-| itn:timespans/ts#9 | itn:timespans/ts#9 |
+| label                | uri                  | sid                       |
+|----------------------|----------------------|---------------------------|
+| itn:places/arezzo    | itn:places/arezzo    | PID/chronotopes           |
+| itn:timespans/ts#52  | itn:timespans/ts#52  | PID/chronotopes           |
+| itn:assertions/as#53 | itn:assertions/as#53 | PID/chronotopes/assertion |
+| itn:citations/cit#54 | itn:citations/cit#54 | PID/chronotopes/reference |
+| itn:citations/cit#55 | itn:citations/cit#55 | PID/chronotopes/reference |
+| itn:places/roma      | itn:places/roma      | PID/chronotopes           |
+| itn:timespans/ts#56  | itn:timespans/ts#56  | PID/chronotopes           |
+| itn:assertions/as#57 | itn:assertions/as#57 | PID/chronotopes/assertion |
+| itn:citations/cit#58 | itn:citations/cit#58 | PID/chronotopes/reference |
 
-Their SID is just the part ID plus suffix `/chronotope`.
+The generated **triples** are 29: the event which generated the work took place at Arezzo, which is an `E53_Place` at about 1234; or, it took place at Rome, another `E53_Place`, at about 1262.
 
-The generated **triples** are 10: the event which generated the work took place at Arezzo, which is an `E53_Place` at about 1234; or, it took place at Rome, another `E53_Place`, at about 1262 (of course, these data are totally mock; we just provide a couple of them to show how you can represent different alternatives).
+ | S                       | P                                  | O                            | sid                         |
+ |-------------------------|------------------------------------|------------------------------|-----------------------------|
+ | itn:places/arezzo       | rdf:type                           | crm:e53_place                | `PID`/chronotopes           |
+ | itn:events/`MPID`/alpha | crm:p7_took_place_at               | itn:places/arezzo            | `PID`/chronotopes           |
+ | itn:events/`MPID`/alpha | crm:p4_has_time-span               | itn:timespans/ts#52          | `PID`/chronotopes           |
+ | itn:timespans/ts#52     | crm:p82_at_some_time_within        | 1234.4166666666667           | `PID`/chronotopes           |
+ | itn:timespans/ts#52     | crm:p87_is_identified_by           | May 1234 AD                  | `PID`/chronotopes           |
+ | itn:events/`MPID`/alpha | itn:has_probability                | 1                            | `PID`/chronotopes/assertion |
+ | itn:assertions/as#53    | rdf:type                           | crm:e13_attribute_assignment | `PID`/chronotopes/assertion |
+ | itn:assertions/as#53    | crm:p140_assigned_attribute_to     | itn:events/`MPID`/alpha      | `PID`/chronotopes/assertion |
+ | itn:assertions/as#53    | crm:p141_assigned                  | itn:has_probability          | `PID`/chronotopes/assertion |
+ | itn:assertions/as#53    | crm:p177_assigned_property_of_type | crm:e55_type                 | `PID`/chronotopes/assertion |
+ | itn:citations/cit#54    | rdf:type                           | crm:e31_document             | `PID`/chronotopes/reference |
+ | itn:citations/cit#54    | rdfs:label                         | Rossi 1963                   | `PID`/chronotopes/reference |
+ | itn:assertions/as#53    | crm:p70i_is_documented_in          | itn:citations/cit#54         | `PID`/chronotopes/reference |
+ | itn:citations/cit#55    | rdf:type                           | crm:e31_document             | `PID`/chronotopes/reference |
+ | itn:citations/cit#55    | rdfs:label                         | Vat.Lat.123                  | `PID`/chronotopes/reference |
+ | itn:assertions/as#53    | crm:p70i_is_documented_in          | itn:citations/cit#55         | `PID`/chronotopes/reference |
+ | itn:places/roma         | rdf:type                           | crm:e53_place                | `PID`/chronotopes           |
+ | itn:events/`MPID`/alpha | crm:p7_took_place_at               | itn:places/roma              | `PID`/chronotopes           |
+ | itn:events/`MPID`/alpha | crm:p4_has_time-span               | itn:timespans/ts#56          | `PID`/chronotopes           |
+ | itn:timespans/ts#56     | crm:p82_at_some_time_within        | 1262                         | `PID`/chronotopes           |
+ | itn:timespans/ts#56     | crm:p87_is_identified_by           | 1262 AD                      | `PID`/chronotopes           |
+ | itn:events/`MPID`/alpha | itn:has_probability                | 2                            | `PID`/chronotopes/assertion |
+ | itn:assertions/as#57    | rdf:type                           | crm:e13_attribute_assignment | `PID`/chronotopes/assertion |
+ | itn:assertions/as#57    | crm:p140_assigned_attribute_to     | itn:events/`MPID`/alpha      | `PID`/chronotopes/assertion |
+ | itn:assertions/as#57    | crm:p141_assigned                  | itn:has_probability          | `PID`/chronotopes/assertion |
+ | itn:assertions/as#57    | crm:p177_assigned_property_of_type | crm:e55_type                 | `PID`/chronotopes/assertion |
+ | itn:citations/cit#58    | rdf:type                           | crm:e31_document             | `PID`/chronotopes/reference |
+ | itn:citations/cit#58    | rdfs:label                         | Verdi 1941                   | `PID`/chronotopes/reference |
+ | itn:assertions/as#57    | crm:p70i_is_documented_in          | itn:citations/cit#58         | `PID`/chronotopes/reference |
 
-| S                                                 | P                           | O                  |
-|---------------------------------------------------|-----------------------------|--------------------|
-| itn:places/arezzo                                 | rdf:type                    | crm:e53_place      |
-| itn:events/87654321-4321-4321-cba9876543210/alpha | crm:p7_took_place_at        | itn:places/arezzo  |
-| itn:events/87654321-4321-4321-cba9876543210/alpha | crm:p4_has_time-span        | itn:timespans/ts#8 |
-| itn:timespans/ts#8                                | crm:p82_at_some_time_within | 1234.416           |
-| itn:timespans/ts#8                                | crm:p87_is_identified_by    | May 1234 AD        |
-| itn:places/roma                                   | rdf:type                    | crm:e53_place      |
-| itn:events/87654321-4321-4321-cba9876543210/alpha | crm:p7_took_place_at        | itn:places/roma    |
-| itn:events/87654321-4321-4321-cba9876543210/alpha | crm:p4_has_time-span        | itn:timespans/ts#9 |
-| itn:timespans/ts#9                                | crm:p82_at_some_time_within | 1262               |
-| itn:timespans/ts#9                                | crm:p87_is_identified_by    | 1262 AD            |
-
->Notice that here the URI representing the event which generated the work is provided in the mapping as a metadatum, because it is assumed that the item's mapping is generating it as explained [above](#metadata-part). This is why this event's URI is designed to be predictable.
+>Notice that here the URI representing the event which generated the work is provided in the mapping as a metadatum, because it is assumed that the item's mapping is generating it as explained [above](#metadata-part). This is why this event's URI is designed to be predictable. As you can see, the work mapping for `MetadataPart` refers to the part ID (`PID` here for brevity), while here the mapping for `ChronotopesPart` refers to the metadata part ID (`MPID`): so, these two values are the same.
 
 ## Work Info Part
 

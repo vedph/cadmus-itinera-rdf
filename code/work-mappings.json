@@ -4,7 +4,7 @@
       "name": "event/description",
       "description": "Map the description of an event to EVENT crm:P3_has_note LITERAL.",
       "source": "description",
-      "sid": "{$id}/description",
+      "sid": "{$sid}/description",
       "output": {
         "triples": ["{?event} crm:P3_has_note \"{$.}\""]
       }
@@ -13,7 +13,7 @@
       "name": "event/note",
       "description": "Map the note of an event to EVENT crm:P3_has_note LITERAL.",
       "source": "note",
-      "sid": "{$id}/note",
+      "sid": "{$sid}/note",
       "output": {
         "triples": ["{?event} crm:P3_has_note \"{$.}\""]
       }
@@ -22,7 +22,7 @@
       "name": "event/chronotopes",
       "description": "For each chronotope, map the place/date of an event to triples which create a place node for the place and link it to the event via a triple using crm:P7_took_place_at for places; and to triples using crm:P4_has_time_span which in turn has a new timespan node has object.",
       "source": "chronotopes",
-      "sid": "{$id}/chronotope",
+      "sid": "{$sid}/chronotope",
       "children": [
         {
           "name": "event/chronotopes/place",
@@ -61,7 +61,7 @@
       "name": "event/assertion",
       "description": "Map the assertion of an event to EVENT itn:has_probability RANK^^xsd:float.",
       "source": "assertion",
-      "sid": "{$id}/assertion",
+      "sid": "{$sid}/assertion",
       "output": {
         "nodes": {
           "assertion": "itn:assertions/as##"
@@ -78,7 +78,7 @@
         {
           "name": "event/assertion/references",
           "source": "references",
-          "sid": "{$id}/reference",
+          "sid": "{$sid}/assertion/reference",
           "children": [
             {
               "name": "event/references/citation",
@@ -102,7 +102,7 @@
       "name": "event/tag",
       "description": "Map the tag of an event to EVENT P9i_forms_part_of GROUP.",
       "source": "tag",
-      "sid": "{$id}/tag",
+      "sid": "{$sid}/tag",
       "output": {
         "nodes": {
           "period": "itn:periods/{$part-id}/{@value}"
@@ -139,10 +139,11 @@
       "partTypeFilter": "it.vedph.chronotopes",
       "description": "Map each chronotope of a work item",
       "source": ".",
-      "sid": "{$part-id}/chronotope",
+      "sid": "{$part-id}/chronotopes",
       "output": {
         "metadata": {
-          "event": "itn:events/{$metadata-pid}/{$item-eid}"
+          "event": "itn:events/{$metadata-pid}/{$item-eid}",
+          "sid": "{$part-id}/chronotopes"
         }
       },
       "children": [
@@ -181,6 +182,47 @@
                   "{?timespan} crm:P87_is_identified_by \"{$date_text}\"@en"
                 ]
               }
+            },
+            {
+              "name": "work chronotopes/assertion",
+              "description": "Map the assertion of an event to EVENT itn:has_probability RANK^^xsd:float.",
+              "source": "assertion",
+              "sid": "{$sid}/assertion",
+              "output": {
+                "nodes": {
+                  "assertion": "itn:assertions/as##"
+                },
+                "triples": [
+                  "{$event} itn:has_probability \"{@rank}\"^^xsd:float",
+                  "{?assertion} a crm:E13_attribute_assignment",
+                  "{?assertion} crm:P140_assigned_attribute_to {$event}",
+                  "{?assertion} crm:P141_assigned itn:has_probability",
+                  "{?assertion} crm:P177_assigned_property_of_type crm:E55_type"
+                ]
+              },
+              "children": [
+                {
+                  "name": "work chronotopes/assertion/references",
+                  "source": "references",
+                  "sid": "{$sid}/reference",
+                  "children": [
+                    {
+                      "name": "event/references/citation",
+                      "source": "citation",
+                      "output": {
+                        "nodes": {
+                          "citation": "itn:citations/cit##"
+                        },
+                        "triples": [
+                          "{?citation} a crm:E31_Document",
+                          "{?citation} rdfs:label \"{@.}\"",
+                          "{?assertion} crm:P70i_is_documented_in {?citation}"
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -277,7 +319,7 @@
           "work": "itn:works/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} itn:events/{@eid}"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -403,7 +445,7 @@
       "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} itn:events/{@eid}"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -533,7 +575,7 @@
       "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} itn:events/{@eid}"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -633,7 +675,7 @@
       "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} itn:events/{@eid}"
         },
         "triples": [
           "{?event} a crm:E89_propositional_object",
@@ -703,7 +745,7 @@
       "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} itn:events/{@eid}"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
