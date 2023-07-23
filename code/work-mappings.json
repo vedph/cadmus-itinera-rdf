@@ -310,8 +310,9 @@
           }
         },
         {
-          "name": "work-info[?isLost==true]",
+          "name": "work-info/isLost",
           "source": "isLost",
+          "scalarPattern": "true",
           "output": {
             "nodes": {
               "destruction": "itn:events/destruction## [itn:events/destruction]"
