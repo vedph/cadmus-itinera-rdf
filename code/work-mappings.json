@@ -452,6 +452,36 @@
             },
             "triples": ["{?event} crm:P11_has_participant {?carrier}"]
           }
+        },
+        {
+          "name": "text sent event/related/attachment (external global)",
+          "source": "relatedEntities[?relation=='text:send:attachment' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "attachment": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?attachment}"]
+          }
+        },
+        {
+          "name": "text sent event/related/attachment (external local)",
+          "source": "relatedEntities[?relation=='text:send:attachment' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "attachment": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?attachment}"]
+          }
+        },
+        {
+          "name": "text sent event/related/attachment (internal)",
+          "source": "relatedEntities[?relation=='text:send:attachment' && id.target.name]",
+          "output": {
+            "nodes": {
+              "attachment": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?attachment}"]
+          }
         }
       ]
     },
@@ -554,7 +584,7 @@
           }
         },
         {
-          "name": "text sent event/related/has_participant (external global)",
+          "name": "text reception event/related/has_participant (external global)",
           "source": "relatedEntities[?relation=='text:reception:carrier' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -564,7 +594,7 @@
           }
         },
         {
-          "name": "text sent event/related/has_participant (external local)",
+          "name": "text reception event/related/has_participant (external local)",
           "source": "relatedEntities[?relation=='text:reception:carrier' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -574,13 +604,43 @@
           }
         },
         {
-          "name": "text sent event/related/has_participant (internal)",
+          "name": "text reception event/related/has_participant (internal)",
           "source": "relatedEntities[?relation=='text:reception:carrier' && id.target.name]",
           "output": {
             "nodes": {
               "carrier": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?carrier}"]
+          }
+        },
+        {
+          "name": "text reception event/related/attachment (external global)",
+          "source": "relatedEntities[?relation=='text:reception:attachment' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "attachment": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?attachment}"]
+          }
+        },
+        {
+          "name": "text reception event/related/attachment (external local)",
+          "source": "relatedEntities[?relation=='text:reception:attachment' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "attachment": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?attachment}"]
+          }
+        },
+        {
+          "name": "text reception event/related/attachment (internal)",
+          "source": "relatedEntities[?relation=='text:reception:attachment' && id.target.name]",
+          "output": {
+            "nodes": {
+              "attachment": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?attachment}"]
           }
         }
       ]
