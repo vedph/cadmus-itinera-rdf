@@ -258,7 +258,7 @@ For each **author**:
 - AUTHOR `a E21_Person`;
 - CREATION `P14_carried_out_by` AUTHOR.
 
-For each **title**:
+For each **title** we could eventually map it (see [clips](code/clips.json)) this way, but currently we are not interested in them:
 
 - TITLE `a E35_title`;
 - TITLE `P190_has_symbolic_content` "TITLE VALUE";
