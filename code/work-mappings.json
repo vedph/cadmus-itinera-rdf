@@ -993,6 +993,71 @@
           }
         }
       ]
+    },
+    {
+      "name": "rel-persons-part",
+      "sourceType": 2,
+      "facetFilter": "work",
+      "partTypeFilter": "it.vedph.itinera.related-persons",
+      "description": "TODO",
+      "source": ".",
+      "sid": "{$part-id}",
+      "output": {
+        "metadata": {
+          "work": "itn:works/{$mapping-pid}/{@value}",
+          "type": "itn:work-rp-types/{@type}"
+        },
+        "nodes": {
+          "event": "itn:events/{$part-id}/{@type}"
+        }
+      },
+      "children": [
+        {
+          "name": "rel-persons-part (external global)/ids",
+          "source": "ids[?!targetId.target.name && starts_with(targetId.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "person": "{!_substring({@targetId.target.gid} & 1)}"
+            },
+            "triples": [
+              "{?event} a crm:E7_Activity",
+              "{?event} crm:P2_has_type {$type}",
+              "{?event} crm:P16_used_specific_object {$work}",
+              "{?event} crm:P11_had_participant {?person}"
+            ]
+          }
+        },
+        {
+          "name": "rel-persons-part (external local)/ids",
+          "source": "ids[?!id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "person": "{@id.target.gid}"
+            },
+            "triples": [
+              "{?event} a crm:E7_Activity",
+              "{?event} crm:P2_has_type {$type}",
+              "{?event} crm:P16_used_specific_object {$work}",
+              "{?event} crm:P11_had_participant {?person}"
+            ]
+          }
+        },
+        {
+          "name": "rel-persons-part (internal)/ids",
+          "source": "ids[?targetId.target.name]",
+          "output": {
+            "nodes": {
+              "person": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": [
+              "{?event} a crm:E7_Activity",
+              "{?event} crm:P2_has_type {$type}",
+              "{?event} crm:P16_used_specific_object {$work}",
+              "{?event} crm:P11_had_participant {?person}"
+            ]
+          }
+        }
+      ]
     }
   ]
 }

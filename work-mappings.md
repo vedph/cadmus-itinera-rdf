@@ -479,3 +479,10 @@ Textual labels referencing a person to be identified:
   - `type`\* (`string`)
   - `name`\* (`string`)
   - `ids`\* (`AssertedCompositeId[]`)
+
+For each ID for only two types:
+
+- event is an E7_activity;
+- event P2_has_type itn:work-rel-types/TYPE;
+- event P16_used_specific_object WORK;
+- event P11_has_participant ID.
