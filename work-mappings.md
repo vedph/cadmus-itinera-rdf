@@ -480,9 +480,49 @@ Textual labels referencing a person to be identified:
   - `name`\* (`string`)
   - `ids`\* (`AssertedCompositeId[]`)
 
-For each ID for only two types:
+For each ID representing a PERSON:
 
-- event is an E7_activity;
-- event P2_has_type itn:work-rel-types/TYPE;
-- event P16_used_specific_object WORK;
-- event P11_has_participant ID.
+- APPELLATION a E41_appellation;
+- APPELLATION rdfs:label "...";
+- ASSIGNMENT a E13_attribute_assignment;
+- ASSIGNMENT P14_carried_out_by WORK;
+- ASSIGNMENT P141_assigned APPELLATION;
+- ASSIGNMENT P140_assigned_attribute_to PERSON;
+- PERSON a E21_person;
+- PERSON P1_is_identified_by APPELLATION.
+
+### Related Persons Part Example
+
+Say we have this source part, representing 2 persons cited in the work represented by the item, with their pseudonyms and identification:
+
+```js
+{
+  "persons": [
+    {
+      "type": "pseudonym",
+      "name": "Tityrus",
+      "ids": [
+        {
+          "target": {
+            "gid": "http://www.dbpedia.org/resource/Petrarch",
+            "label": "Petrarch"
+          }
+        }
+      ]
+    },
+    {
+      "type": "pseudonym",
+      "name": "Meliboeus",
+      "ids": [
+        {
+          "target": {
+            "gid": "http://www.dbpedia.org/resource/Francesco_Barbato",
+            "label": "Francesco Barbato"
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+

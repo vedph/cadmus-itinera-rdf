@@ -999,61 +999,68 @@
       "sourceType": 2,
       "facetFilter": "work",
       "partTypeFilter": "it.vedph.itinera.related-persons",
-      "description": "TODO",
-      "source": ".",
+      "description": "An event assigns the specified appellation to the specified person and is carried out by the item's work.",
+      "source": "persons",
       "sid": "{$part-id}",
       "output": {
         "metadata": {
-          "work": "itn:works/{$mapping-pid}/{@value}",
-          "type": "itn:work-rp-types/{@type}"
+          "work": "itn:works/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$part-id}/{@type}"
-        }
+          "assignment": "itn:assignments##",
+          "appellation": "itn:events/{$part-id}/{@type} [itn:events/{@type}]",
+          "type": "itn:work-rp-types/{@type}"
+        },
+        "triples": [
+          "{?appellation} a crm:E41_appellation",
+          "{?appellation} rdfs:label \"{@value}\"",
+          "{?assignment} a E13_attribute_assignment",
+          "{?assignment} P14_carried_out_by {?work}",
+          "{?assignment} P141_assigned {?appellation}",
+          "{?appellation} crm:P2_has_type {$type}",
+          "{?appellation} crm:P14_carried_out_by {$work}"
+        ]
       },
       "children": [
         {
           "name": "rel-persons-part (external global)/ids",
-          "source": "ids[?!targetId.target.name && starts_with(targetId.target.gid, '@')]",
+          "source": "ids[?!target.name && starts_with(target.gid, '@')]",
           "output": {
             "nodes": {
-              "person": "{!_substring({@targetId.target.gid} & 1)}"
+              "person": "{!_substring({@target.gid} & 1)}"
             },
             "triples": [
-              "{?event} a crm:E7_Activity",
-              "{?event} crm:P2_has_type {$type}",
-              "{?event} crm:P16_used_specific_object {$work}",
-              "{?event} crm:P11_had_participant {?person}"
+              "{?assignment} crm:P140_assigned_attribute_to {?person}",
+              "{?person} a E21_person",
+              "{?person} P1_is_identified_by {?appellation}"
             ]
           }
         },
         {
           "name": "rel-persons-part (external local)/ids",
-          "source": "ids[?!id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "source": "ids[?!target.name && !(starts_with(target.gid, '@'))]",
           "output": {
             "nodes": {
-              "person": "{@id.target.gid}"
+              "person": "{@target.gid}"
             },
             "triples": [
-              "{?event} a crm:E7_Activity",
-              "{?event} crm:P2_has_type {$type}",
-              "{?event} crm:P16_used_specific_object {$work}",
-              "{?event} crm:P11_had_participant {?person}"
+              "{?assignment} crm:P140_assigned_attribute_to {?person}",
+              "{?person} a E21_person",
+              "{?person} P1_is_identified_by {?appellation}"
             ]
           }
         },
         {
           "name": "rel-persons-part (internal)/ids",
-          "source": "ids[?targetId.target.name]",
+          "source": "ids[?target.name]",
           "output": {
             "nodes": {
-              "person": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+              "person": "itn:persons/{@target.partId}/{@target.value} [itn:persons/{@target.value}]"
             },
             "triples": [
-              "{?event} a crm:E7_Activity",
-              "{?event} crm:P2_has_type {$type}",
-              "{?event} crm:P16_used_specific_object {$work}",
-              "{?event} crm:P11_had_participant {?person}"
+              "{?assignment} crm:P140_assigned_attribute_to {?person}",
+              "{?person} a E21_person",
+              "{?person} P1_is_identified_by {?appellation}"
             ]
           }
         }
