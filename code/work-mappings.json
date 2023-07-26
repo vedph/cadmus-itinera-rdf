@@ -99,7 +99,7 @@
       ]
     },
     "work_assertion": {
-      "name": "event/assertion",
+      "name": "work/assertion",
       "description": "Map the assertion of an event to EVENT itn:has_probability RANK^^xsd:float.",
       "source": "assertion",
       "sid": "{$sid}/assertion",
