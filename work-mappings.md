@@ -566,6 +566,6 @@ The triples generated are 18 (`MPID` here is a placeholder for the work item's m
 
 For each person, these triples say that:
 
-- the name (here a pseudonym) is an `E41_Appellation` and has label equal to its value;
-- an assignment event is an `E13_Attribute_Assignment`, which has been `P14_carried_out_by` the work;
-- 
+- the name (here a pseudonym, as specified with `P2_has_type`) is an `E41_Appellation` and has label equal to its value;
+- an assignment event is an `E13_Attribute_Assignment`, which has been `P14_carried_out_by` the work, and `P141_assigned` the name to the person;
+- the target of the assignment is an `E21_Person`.
