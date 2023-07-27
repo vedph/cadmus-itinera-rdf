@@ -1013,7 +1013,7 @@
         },
         "triples": [
           "{?appellation} a crm:E41_appellation",
-          "{?appellation} rdfs:label \"{@value}\"",
+          "{?appellation} rdfs:label \"{@name}\"",
           "{?assignment} a E13_attribute_assignment",
           "{?assignment} P14_carried_out_by {?work}",
           "{?assignment} P141_assigned {?appellation}",
