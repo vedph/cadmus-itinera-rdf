@@ -1008,7 +1008,7 @@
         },
         "nodes": {
           "assignment": "itn:assignments##",
-          "appellation": "itn:events/{$part-id}/{@type} [itn:events/{@type}]",
+          "appellation": "itn:names/{$part-id}/{@type} [itn:names/{@type}]",
           "type": "itn:work-rp-types/{@type}"
         },
         "triples": [

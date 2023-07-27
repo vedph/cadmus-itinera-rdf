@@ -526,3 +526,15 @@ Say we have this source part, representing 2 persons cited in the work represent
 }
 ```
 
+The generated nodes are 8, 4 for each person: a name assignment event, a pseudonym, a work related person type derived from a thesaurus, and the target person:
+
+| label                                               | uri                                                 | sid |
+|-----------------------------------------------------|-----------------------------------------------------|-----|
+| itn:assignments#12                                  | itn:assignments#12                                  | PID |
+| itn:names/pseudonym                                 | itn:names/`PID`/pseudonym                           | PID |
+| itn:work-rp-types/pseudonym                         | itn:work-rp-types/pseudonym                         | PID |
+| <http://www.dbpedia.org/resource/petrarch>          | <http://www.dbpedia.org/resource/petrarch>          | PID |
+| itn:assignments#13                                  | itn:assignments#13                                  | PID |
+| itn:names/pseudonym                                 | itn:names/`PID`/pseudonym                           | PID |
+| itn:work-rp-types/pseudonym                         | itn:work-rp-types/pseudonym                         | PID |
+| <http://www.dbpedia.org/resource/francesco_barbato> | <http://www.dbpedia.org/resource/francesco_barbato> | PID |
