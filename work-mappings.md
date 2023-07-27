@@ -526,15 +526,42 @@ Say we have this source part, representing 2 persons cited in the work represent
 }
 ```
 
-The generated nodes are 8, 4 for each person: a name assignment event, a pseudonym, a work related person type derived from a thesaurus, and the target person:
+The generated nodes are 8, 4 for each person: a name assignment event, a pseudonym, a work related person type derived from a thesaurus, and the target person (here `PID` is a placeholder for this part's GUID):
 
-| label                                               | uri                                                 | sid |
-|-----------------------------------------------------|-----------------------------------------------------|-----|
-| itn:assignments#12                                  | itn:assignments#12                                  | PID |
-| itn:names/pseudonym                                 | itn:names/`PID`/pseudonym                           | PID |
-| itn:work-rp-types/pseudonym                         | itn:work-rp-types/pseudonym                         | PID |
-| <http://www.dbpedia.org/resource/petrarch>          | <http://www.dbpedia.org/resource/petrarch>          | PID |
-| itn:assignments#13                                  | itn:assignments#13                                  | PID |
-| itn:names/pseudonym                                 | itn:names/`PID`/pseudonym                           | PID |
-| itn:work-rp-types/pseudonym                         | itn:work-rp-types/pseudonym                         | PID |
-| <http://www.dbpedia.org/resource/francesco_barbato> | <http://www.dbpedia.org/resource/francesco_barbato> | PID |
+| label                                               | uri                                                 |
+|-----------------------------------------------------|-----------------------------------------------------|
+| itn:assignments#12                                  | itn:assignments#12                                  |
+| itn:names/pseudonym                                 | itn:names/`PID`/pseudonym                           |
+| itn:work-rp-types/pseudonym                         | itn:work-rp-types/pseudonym                         |
+| <http://www.dbpedia.org/resource/petrarch>          | <http://www.dbpedia.org/resource/petrarch>          |
+| itn:assignments#13                                  | itn:assignments#13                                  |
+| itn:names/pseudonym                                 | itn:names/`PID`/pseudonym                           |
+| itn:work-rp-types/pseudonym                         | itn:work-rp-types/pseudonym                         |
+| <http://www.dbpedia.org/resource/francesco_barbato> | <http://www.dbpedia.org/resource/francesco_barbato> |
+
+All the nodes have their SID equal to the part GUID.
+
+The triples generated are 20:
+
+| S                                                   | P                              | O                                                   |
+|-----------------------------------------------------|--------------------------------|-----------------------------------------------------|
+| itn:names/pid/pseudonym                             | rdf:type                       | crm:e41_appellation                                 |
+| itn:names/pid/pseudonym                             | rdfs:label                     | Tityrus                                             |
+| itn:assignments#14                                  | rdf:type                       | crm:e13_attribute_assignment                        |
+| itn:assignments#14                                  | crm:p14_carried_out_by         | itn:works/mpid/alpha                                |
+| itn:assignments#14                                  | crm:p141_assigned              | itn:names/pid/pseudonym                             |
+| itn:names/pid/pseudonym                             | crm:p2_has_type                | itn:work-rp-types/pseudonym                         |
+| itn:names/pid/pseudonym                             | crm:p14_carried_out_by         | itn:works/mpid/alpha                                |
+| itn:assignments#14                                  | crm:p140_assigned_attribute_to | <http://www.dbpedia.org/resource/petrarch>          |
+| <http://www.dbpedia.org/resource/petrarch>          | rdf:type                       | crm:e21_person                                      |
+| <http://www.dbpedia.org/resource/petrarch>          | crm:p1_is_identified_by        | itn:names/pid/pseudonym                             |
+| itn:names/pid/pseudonym                             | rdf:type                       | crm:e41_appellation                                 |
+| itn:names/pid/pseudonym                             | rdfs:label                     | Meliboeus                                           |
+| itn:assignments#16                                  | rdf:type                       | crm:e13_attribute_assignment                        |
+| itn:assignments#16                                  | crm:p14_carried_out_by         | itn:works/mpid/alpha                                |
+| itn:assignments#16                                  | crm:p141_assigned              | itn:names/pid/pseudonym                             |
+| itn:names/pid/pseudonym                             | crm:p2_has_type                | itn:work-rp-types/pseudonym                         |
+| itn:names/pid/pseudonym                             | crm:p14_carried_out_by         | itn:works/mpid/alpha                                |
+| itn:assignments#16                                  | crm:p140_assigned_attribute_to | <http://www.dbpedia.org/resource/francesco_barbato> |
+| <http://www.dbpedia.org/resource/francesco_barbato> | rdf:type                       | crm:e21_person                                      |
+| <http://www.dbpedia.org/resource/francesco_barbato> | crm:p1_is_identified_by        | itn:names/pid/pseudonym                             |

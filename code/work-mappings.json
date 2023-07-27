@@ -1007,7 +1007,7 @@
           "work": "itn:works/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "assignment": "itn:assignments##",
+          "assignment": "itn:events/assignment##",
           "appellation": "itn:names/{$part-id}/{@type} [itn:names/{@type}]",
           "type": "itn:work-rp-types/{@type}"
         },
