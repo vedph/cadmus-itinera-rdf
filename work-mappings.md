@@ -330,25 +330,25 @@ The generated triples are 19:
 
 | S                         | P                                  | O                                             | sid                     |
 |---------------------------|------------------------------------|-----------------------------------------------|-------------------------|
-| itn:events/mpid/alpha     | crm:p14_carried_out_by             | <http://www.dbpedia.org/resource/john_milton> | PID                     |
-| itn:events/mpid/alpha     | itn:has_probability                | 1                                             | PID/assertion           |
+| itn:events/`MPID`/alpha   | crm:p14_carried_out_by             | <http://www.dbpedia.org/resource/john_milton> | PID                     |
+| itn:events/`MPID`/alpha   | itn:has_probability                | 1                                             | PID/assertion           |
 | itn:assertions/as#4       | rdf:type                           | crm:e13_attribute_assignment                  | PID/assertion           |
-| itn:assertions/as#4       | crm:p140_assigned_attribute_to     | itn:events/mpid/alpha                         | PID/assertion           |
+| itn:assertions/as#4       | crm:p140_assigned_attribute_to     | itn:events/`MPID`/alpha                       | PID/assertion           |
 | itn:assertions/as#4       | crm:p141_assigned                  | itn:has_probability                           | PID/assertion           |
 | itn:assertions/as#4       | crm:p177_assigned_property_of_type | crm:e55_type                                  | PID/assertion           |
 | itn:citations/cit#6       | rdf:type                           | crm:e31_document                              | PID/assertion/reference |
 | itn:citations/cit#6       | rdfs:label                         | Rossi 1963                                    | PID/assertion/reference |
 | itn:assertions/as#4       | crm:p70i_is_documented_in          | itn:citations/cit#6                           | PID/assertion/reference |
-| itn:works/mpid/alpha      | crm:p102_has_title                 | itn:titles/title#8                            | PID                     |
+| itn:works/`MPID`/alpha    | crm:p102_has_title                 | itn:titles/title#8                            | PID                     |
 | itn:titles/title#8        | rdf:type                           | crm:e35_title                                 | PID                     |
 | itn:titles/title#8        | crm:p190_has_symbolic_content      | Paradise Lost                                 | PID                     |
 | itn:titles/title#8        | p72_has_language                   | en                                            | PID                     |
-| itn:works/mpid/alpha      | crm:p102_has_title                 | itn:titles/title#9                            | PID                     |
+| itn:works/`MPID`/alpha    | crm:p102_has_title                 | itn:titles/title#9                            | PID                     |
 | itn:titles/title#9        | rdf:type                           | crm:e35_title                                 | PID                     |
 | itn:titles/title#9        | crm:p190_has_symbolic_content      | Paradiso perduto                              | PID                     |
 | itn:titles/title#9        | p72_has_language                   | it                                            | PID                     |
 | itn:events/destruction#11 | rdf:type                           | crm:e6_destruction                            | PID                     |
-| itn:events/destruction#11 | crm:p13_destroyed                  | itn:works/mpid/alpha                          | PID                     |
+| itn:events/destruction#11 | crm:p13_destroyed                  | itn:works/`MPID`/alpha                        | PID                     |
 
 These triples say that:
 
@@ -530,38 +530,42 @@ The generated nodes are 8, 4 for each person: a name assignment event, a pseudon
 
 | label                                               | uri                                                 |
 |-----------------------------------------------------|-----------------------------------------------------|
-| itn:assignments#12                                  | itn:assignments#12                                  |
+| itn:events/assignment#12                            | itn:events/assignment#12                            |
 | itn:names/pseudonym                                 | itn:names/`PID`/pseudonym                           |
 | itn:work-rp-types/pseudonym                         | itn:work-rp-types/pseudonym                         |
 | <http://www.dbpedia.org/resource/petrarch>          | <http://www.dbpedia.org/resource/petrarch>          |
-| itn:assignments#13                                  | itn:assignments#13                                  |
+| itn:events/assignment#13                            | itn:events/assignment#13                            |
 | itn:names/pseudonym                                 | itn:names/`PID`/pseudonym                           |
 | itn:work-rp-types/pseudonym                         | itn:work-rp-types/pseudonym                         |
 | <http://www.dbpedia.org/resource/francesco_barbato> | <http://www.dbpedia.org/resource/francesco_barbato> |
 
 All the nodes have their SID equal to the part GUID.
 
-The triples generated are 20:
+The triples generated are 18 (`MPID` here is a placeholder for the work item's metadata part GUID):
 
 | S                                                   | P                              | O                                                   |
 |-----------------------------------------------------|--------------------------------|-----------------------------------------------------|
-| itn:names/pid/pseudonym                             | rdf:type                       | crm:e41_appellation                                 |
-| itn:names/pid/pseudonym                             | rdfs:label                     | Tityrus                                             |
-| itn:assignments#14                                  | rdf:type                       | crm:e13_attribute_assignment                        |
-| itn:assignments#14                                  | crm:p14_carried_out_by         | itn:works/mpid/alpha                                |
-| itn:assignments#14                                  | crm:p141_assigned              | itn:names/pid/pseudonym                             |
-| itn:names/pid/pseudonym                             | crm:p2_has_type                | itn:work-rp-types/pseudonym                         |
-| itn:names/pid/pseudonym                             | crm:p14_carried_out_by         | itn:works/mpid/alpha                                |
-| itn:assignments#14                                  | crm:p140_assigned_attribute_to | <http://www.dbpedia.org/resource/petrarch>          |
+| itn:names/`PID`/pseudonym                           | rdf:type                       | crm:e41_appellation                                 |
+| itn:names/`PID`/pseudonym                           | rdfs:label                     | Tityrus                                             |
+| itn:names/`PID`/pseudonym                           | crm:p2_has_type                | itn:work-rp-types/pseudonym                         |
+| itn:events/assignment#14                            | rdf:type                       | crm:e13_attribute_assignment                        |
+| itn:events/assignment#14                            | crm:p14_carried_out_by         | itn:works/`MPID`/alpha                              |
+| itn:events/assignment#14                            | crm:p141_assigned              | itn:names/`PID`/pseudonym                           |
+| itn:events/assignment#14                            | crm:p140_assigned_attribute_to | <http://www.dbpedia.org/resource/petrarch>          |
 | <http://www.dbpedia.org/resource/petrarch>          | rdf:type                       | crm:e21_person                                      |
-| <http://www.dbpedia.org/resource/petrarch>          | crm:p1_is_identified_by        | itn:names/pid/pseudonym                             |
-| itn:names/pid/pseudonym                             | rdf:type                       | crm:e41_appellation                                 |
-| itn:names/pid/pseudonym                             | rdfs:label                     | Meliboeus                                           |
-| itn:assignments#16                                  | rdf:type                       | crm:e13_attribute_assignment                        |
-| itn:assignments#16                                  | crm:p14_carried_out_by         | itn:works/mpid/alpha                                |
-| itn:assignments#16                                  | crm:p141_assigned              | itn:names/pid/pseudonym                             |
-| itn:names/pid/pseudonym                             | crm:p2_has_type                | itn:work-rp-types/pseudonym                         |
-| itn:names/pid/pseudonym                             | crm:p14_carried_out_by         | itn:works/mpid/alpha                                |
-| itn:assignments#16                                  | crm:p140_assigned_attribute_to | <http://www.dbpedia.org/resource/francesco_barbato> |
+| <http://www.dbpedia.org/resource/petrarch>          | crm:p1_is_identified_by        | itn:names/`PID`/pseudonym                           |
+| itn:names/`PID`/pseudonym                           | rdf:type                       | crm:e41_appellation                                 |
+| itn:names/`PID`/pseudonym                           | rdfs:label                     | Meliboeus                                           |
+| itn:names/`PID`/pseudonym                           | crm:p2_has_type                | itn:work-rp-types/pseudonym                         |
+| itn:events/assignment#16                            | rdf:type                       | crm:e13_attribute_assignment                        |
+| itn:events/assignment#16                            | crm:p14_carried_out_by         | itn:works/`MPID`/alpha                              |
+| itn:events/assignment#16                            | crm:p141_assigned              | itn:names/`PID`/pseudonym                           |
+| itn:events/assignment#16                            | crm:p140_assigned_attribute_to | <http://www.dbpedia.org/resource/francesco_barbato> |
 | <http://www.dbpedia.org/resource/francesco_barbato> | rdf:type                       | crm:e21_person                                      |
-| <http://www.dbpedia.org/resource/francesco_barbato> | crm:p1_is_identified_by        | itn:names/pid/pseudonym                             |
+| <http://www.dbpedia.org/resource/francesco_barbato> | crm:p1_is_identified_by        | itn:names/`PID`/pseudonym                           |
+
+For each person, these triples say that:
+
+- the name (here a pseudonym) is an `E41_Appellation` and has label equal to its value;
+- an assignment event is an `E13_Attribute_Assignment`, which has been `P14_carried_out_by` the work;
+- 

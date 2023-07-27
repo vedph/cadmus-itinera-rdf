@@ -1014,11 +1014,10 @@
         "triples": [
           "{?appellation} a crm:E41_appellation",
           "{?appellation} rdfs:label \"{@name}\"",
+          "{?appellation} crm:P2_has_type {?type}",
           "{?assignment} a crm:E13_attribute_assignment",
           "{?assignment} crm:P14_carried_out_by {$work}",
-          "{?assignment} crm:P141_assigned {?appellation}",
-          "{?appellation} crm:P2_has_type {?type}",
-          "{?appellation} crm:P14_carried_out_by {$work}"
+          "{?assignment} crm:P141_assigned {?appellation}"
         ]
       },
       "children": [
