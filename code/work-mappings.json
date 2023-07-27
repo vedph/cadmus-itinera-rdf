@@ -1014,9 +1014,9 @@
         "triples": [
           "{?appellation} a crm:E41_appellation",
           "{?appellation} rdfs:label \"{@name}\"",
-          "{?assignment} a E13_attribute_assignment",
-          "{?assignment} P14_carried_out_by {$work}",
-          "{?assignment} P141_assigned {?appellation}",
+          "{?assignment} a crm:E13_attribute_assignment",
+          "{?assignment} crm:P14_carried_out_by {$work}",
+          "{?assignment} crm:P141_assigned {?appellation}",
           "{?appellation} crm:P2_has_type {?type}",
           "{?appellation} crm:P14_carried_out_by {$work}"
         ]
@@ -1031,8 +1031,8 @@
             },
             "triples": [
               "{?assignment} crm:P140_assigned_attribute_to {?person}",
-              "{?person} a E21_person",
-              "{?person} P1_is_identified_by {?appellation}"
+              "{?person} a crm:E21_person",
+              "{?person} crm:P1_is_identified_by {?appellation}"
             ]
           }
         },
@@ -1045,8 +1045,8 @@
             },
             "triples": [
               "{?assignment} crm:P140_assigned_attribute_to {?person}",
-              "{?person} a E21_person",
-              "{?person} P1_is_identified_by {?appellation}"
+              "{?person} a crm:E21_person",
+              "{?person} crm:P1_is_identified_by {?appellation}"
             ]
           }
         },
@@ -1059,8 +1059,8 @@
             },
             "triples": [
               "{?assignment} crm:P140_assigned_attribute_to {?person}",
-              "{?person} a E21_person",
-              "{?person} P1_is_identified_by {?appellation}"
+              "{?person} a crm:E21_person",
+              "{?person} crm:P1_is_identified_by {?appellation}"
             ]
           }
         }
