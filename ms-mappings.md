@@ -26,3 +26,35 @@ Also, this node is the subject of a **triple** telling that the manuscript is a 
 ## Historical Events Part
 
 Other than the manuscript itself, Itinera maps its [events](events.md). The general mappings for events apply, using the manuscript-specific thesaurus entries for event types and their related entities.
+
+## Codicology Hands Part
+
+The hands part is mapped only for the instances of each hand. Thus, the subset of data from its model is:
+
+- hands:
+  - eid
+  - name
+    - instances:
+      - ranges
+        - start
+        - end
+
+So, for each hand (MS is the item):
+
+- HAND a E25_human-made_feature;
+- HAND rdfs:label "name".
+
+For each range in hand's instances:
+
+- PAGES_SET a E24_pyhsical_human-made_thing;
+- PAGES_SET_DIMENSION a E54_dimension;
+- PAGES_SET P43_has_dimension PAGES_SET_DIMENSION;
+- PAGES_SET_DIMENSION P90a_has_lower_value_limit "range.start";
+- PAGES_SET_DIMENSION P90b_has_upper_value_limit "range.end";
+
+- PAGES_PRODUCTION a E12_production;
+- PAGES_PRODUCTION P108_has_produced PAGES_SET;
+- PAGES_PRODUCTION P16_used_specific_object HAND;
+- MS P110i_was_augmented_by PAGES_PRODUCTION.
+
+>Should we have a person, we might add PAGES_PRODUCTION P14_carried_out_by PERSON, but here we only have hand instances.

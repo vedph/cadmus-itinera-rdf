@@ -3615,7 +3615,7 @@
         "triples": [
           "{?event} a crm:E7_Activity",
           "{?event} crm:P2_has_type itn:event-types/person.commissioned",
-          "{?event} crm:P14_carried_out_by {$person}"
+          "{?event} crm:P11_has_participant {$person}"
         ],
         "metadata": {
           "sid": "{$part-id}/{@eid}",
@@ -3675,7 +3675,7 @@
             "nodes": {
               "client": "{!_substring({@id.target.gid} & 1)}"
             },
-            "triples": ["{?event} crm:P11_has_participant {?client}"]
+            "triples": ["{?event} crm:P14_carried_out_by {?client}"]
           }
         },
         {
@@ -3685,7 +3685,7 @@
             "nodes": {
               "client": "{@id.target.gid}"
             },
-            "triples": ["{?event} crm:P11_has_participant {?client}"]
+            "triples": ["{?event} crm:P14_carried_out_by {?client}"]
           }
         },
         {
@@ -3695,7 +3695,7 @@
             "nodes": {
               "client": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
-            "triples": ["{?event} crm:P11_has_participant {?client}"]
+            "triples": ["{?event} crm:P14_carried_out_by {?client}"]
           }
         }
       ]

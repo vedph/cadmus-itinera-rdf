@@ -124,7 +124,7 @@
         "nodes": {
           "ms": "itn:manuscripts/{$part-id}/{@value} [itn:manuscripts/{@value}]"
         },
-        "triples": ["{?ms} a crm:E18_physical_thing"]
+        "triples": ["{?ms} a crm:E24_physical_human-made_thing"]
       }
     },
     {
@@ -372,7 +372,7 @@
             "nodes": {
               "client": "{!_substring({@id.target.gid} & 1)}"
             },
-            "triples": ["{?event} crm:P11_has_participant {?client}"]
+            "triples": ["{?event} crm:P14_carried_out_by {?client}"]
           }
         },
         {
@@ -382,7 +382,7 @@
             "nodes": {
               "client": "{@id.target.gid}"
             },
-            "triples": ["{?event} crm:P11_has_participant {?client}"]
+            "triples": ["{?event} crm:P14_carried_out_by {?client}"]
           }
         },
         {
@@ -392,7 +392,7 @@
             "nodes": {
               "client": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
-            "triples": ["{?event} crm:P11_has_participant {?client}"]
+            "triples": ["{?event} crm:P14_carried_out_by {?client}"]
           }
         },
         {
