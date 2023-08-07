@@ -21,7 +21,7 @@ A globally unique URI for the **manuscript** is built as follows:
 
 Here (2) grants the URI's uniqueness, and (1+3) its friendliness.
 
-Also, this node is the subject of a **triple** telling that the manuscript is a CIDOC-CRM _E21 manuscript_.
+Also, this node is the subject of a **triple** telling that the manuscript is a CIDOC-CRM `E24_physical_human-made_thing`.
 
 ## Historical Events Part
 

@@ -125,7 +125,7 @@
           "ms": "itn:manuscripts/{$part-id}/{@value} itn:manuscripts/{@value}"
         },
         "triples": [
-          "{?ms} a crm:E18_physical_thing"
+          "{?ms} a crm:E24_physical_human-made_thing"
         ]
       }
     }
