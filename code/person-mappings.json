@@ -4,7 +4,7 @@
       "name": "event/description",
       "description": "Map the description of an event to EVENT crm:P3_has_note LITERAL.",
       "source": "description",
-      "sid": "{$id}/description",
+      "sid": "{$sid}/description",
       "output": {
         "triples": ["{?event} crm:P3_has_note \"{$.}\""]
       }
@@ -13,7 +13,7 @@
       "name": "event/note",
       "description": "Map the note of an event to EVENT crm:P3_has_note LITERAL.",
       "source": "note",
-      "sid": "{$id}/note",
+      "sid": "{$sid}/note",
       "output": {
         "triples": ["{?event} crm:P3_has_note \"{$.}\""]
       }
@@ -22,7 +22,7 @@
       "name": "event/chronotopes",
       "description": "For each chronotope, map the place/date of an event to triples which create a place node for the place and link it to the event via a triple using crm:P7_took_place_at for places; and to triples using crm:P4_has_time_span which in turn has a new timespan node has object.",
       "source": "chronotopes",
-      "sid": "{$id}/chronotope",
+      "sid": "{$sid}/chronotope",
       "children": [
         {
           "name": "event/chronotopes/place",
@@ -61,10 +61,10 @@
       "name": "event/assertion",
       "description": "Map the assertion of an event to EVENT itn:has_probability RANK^^xsd:float.",
       "source": "assertion",
-      "sid": "{$id}/assertion",
+      "sid": "{$sid}/assertion",
       "output": {
         "nodes": {
-          "assertion": "itn/assertions/as##"
+          "assertion": "itn:assertions/as##"
         },
         "triples": [
           "{?event} itn:has_probability \"{@rank}\"^^xsd:float",
@@ -78,7 +78,7 @@
         {
           "name": "event/assertion/references",
           "source": "references",
-          "sid": "{$id}/reference",
+          "sid": "{$sid}/assertion/reference",
           "children": [
             {
               "name": "event/references/citation",
@@ -102,7 +102,7 @@
       "name": "event/tag",
       "description": "Map the tag of an event to EVENT P9i_forms_part_of GROUP.",
       "source": "tag",
-      "sid": "{$id}/tag",
+      "sid": "{$sid}/tag",
       "output": {
         "nodes": {
           "period": "itn:periods/{$part-id}/{@value}"
@@ -119,14 +119,12 @@
       "partTypeFilter": "it.vedph.metadata",
       "description": "Map a person item to a node via the item's EID extracted from its MetadataPart.",
       "source": "metadata[?name=='eid']",
-      "sid": "{$part-id}/{@[0].value}",
+      "sid": "{$part-id}/{@value}",
       "output": {
         "nodes": {
-          "person": "itn:persons/{$part-id}/{@value} itn:persons/{@value}"
+          "person": "itn:persons/{$part-id}/{@value} [itn:persons/{@value}]"
         },
-        "triples": [
-          "{?person} a crm:E21_person"
-        ]
+        "triples": ["{?person} a crm:E21_person"]
       }
     },
     {
@@ -136,14 +134,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person birth event",
       "source": "events[?type=='person.birth']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E67_birth",
@@ -172,7 +170,7 @@
           "source": "relatedEntities[?relation=='person:birth:mother' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "mother": "{@slice(id.target.gid, 1)}"
+              "mother": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P96_by_mother {?mother}"]
           }
@@ -192,7 +190,7 @@
           "source": "relatedEntities[?relation=='person:birth:mother' && id.target.name]",
           "output": {
             "nodes": {
-              "mother": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "mother": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P96_by_mother {?mother}"]
           }
@@ -202,7 +200,7 @@
           "source": "relatedEntities[?relation=='person:birth:father' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "father": "{@slice(id.target.gid, 1)}"
+              "father": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P97_from_father {?father}"]
           }
@@ -222,7 +220,7 @@
           "source": "relatedEntities[?relation=='person:birth:father' && id.target.name]",
           "output": {
             "nodes": {
-              "father": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "father": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P97_from_father {?father}"]
           }
@@ -236,14 +234,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person family event",
       "source": "events[?type=='person.family']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E74_Group",
@@ -272,7 +270,7 @@
           "source": "relatedEntities[?relation=='person:birth:son' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "son": "{@slice(id.target.gid, 1)}"
+              "son": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P107_has_current_or_former_member {?son}"]
           }
@@ -292,7 +290,7 @@
           "source": "relatedEntities[?relation=='person:birth:son' && id.target.name]",
           "output": {
             "nodes": {
-              "son": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "son": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P107_has_current_or_former_member {?son}"]
           }
@@ -302,7 +300,7 @@
           "source": "relatedEntities[?relation=='person:birth:daughter' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "daughter": "{@slice(id.target.gid, 1)}"
+              "daughter": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": [
               "{?event} crm:P107_has_current_or_former_member {?daughter}"
@@ -326,7 +324,7 @@
           "source": "relatedEntities[?relation=='person:birth:daughter' && id.target.name]",
           "output": {
             "nodes": {
-              "daughter": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "daughter": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": [
               "{?event} crm:P107_has_current_or_former_member {?daughter}"
@@ -338,7 +336,7 @@
           "source": "relatedEntities[?relation=='person:birth:brother' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "brother": "{@slice(id.target.gid, 1)}"
+              "brother": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": [
               "{?event} crm:P107_has_current_or_former_member {?brother}"
@@ -362,7 +360,7 @@
           "source": "relatedEntities[?relation=='person:birth:brother' && id.target.name]",
           "output": {
             "nodes": {
-              "brother": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "brother": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": [
               "{?event} crm:P107_has_current_or_former_member {?brother}"
@@ -374,7 +372,7 @@
           "source": "relatedEntities[?relation=='person:birth:sister' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "sister": "{@slice(id.target.gid, 1)}"
+              "sister": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": [
               "{?event} crm:P107_has_current_or_former_member {?sister}"
@@ -398,7 +396,7 @@
           "source": "relatedEntities[?relation=='person:birth:sister' && id.target.name]",
           "output": {
             "nodes": {
-              "sister": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "sister": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": [
               "{?event} crm:P107_has_current_or_former_member {?sister}"
@@ -414,14 +412,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person death event",
       "source": "events[?type=='person.death']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E69_death",
@@ -454,14 +452,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person marriage event",
       "source": "events[?type=='person.marriage']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E85_joining",
@@ -490,7 +488,7 @@
           "source": "relatedEntities[?relation=='person:marriage:husband' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "husband": "{@slice(id.target.gid, 1)}"
+              "husband": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P143_joined {?husband}"]
           }
@@ -510,7 +508,7 @@
           "source": "relatedEntities[?relation=='person:marriage:husband' && id.target.name]",
           "output": {
             "nodes": {
-              "husband": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "husband": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P143_joined {?husband}"]
           }
@@ -520,7 +518,7 @@
           "source": "relatedEntities[?relation=='person:marriage:wife' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "wife": "{@slice(id.target.gid, 1)}"
+              "wife": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P143_joined {?wife}"]
           }
@@ -540,7 +538,7 @@
           "source": "relatedEntities[?relation=='person:marriage:wife' && id.target.name]",
           "output": {
             "nodes": {
-              "wife": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "wife": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P143_joined {?wife}"]
           }
@@ -554,14 +552,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.pope event",
       "source": "events[?type=='person.job.pope']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -594,14 +592,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.cardinal event",
       "source": "events[?type=='person.job.cardinal']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -634,14 +632,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.bishop event",
       "source": "events[?type=='person.job.bishop']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -674,14 +672,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.friar event",
       "source": "events[?type=='person.job.friar']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -714,14 +712,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.prior event",
       "source": "events[?type=='person.job.prior']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -754,14 +752,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.canon event",
       "source": "events[?type=='person.job.canon']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -794,14 +792,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.king event",
       "source": "events[?type=='person.job.king']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -834,14 +832,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.politician event",
       "source": "events[?type=='person.job.politician']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -874,14 +872,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.teacher event",
       "source": "events[?type=='person.job.teacher']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -914,14 +912,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.lecturer event",
       "source": "events[?type=='person.job.lecturer']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -954,14 +952,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.jurist event",
       "source": "events[?type=='person.job.jurist']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -994,14 +992,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.diplomatic event",
       "source": "events[?type=='person.job.diplomatic']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -1034,14 +1032,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.notary event",
       "source": "events[?type=='person.job.notary']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -1074,14 +1072,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.military event",
       "source": "events[?type=='person.job.military']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -1114,14 +1112,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.scribe event",
       "source": "events[?type=='person.job.scribe']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -1154,14 +1152,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.artist event",
       "source": "events[?type=='person.job.artist']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -1194,14 +1192,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.musician event",
       "source": "events[?type=='person.job.musician']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -1234,14 +1232,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.apprentice event",
       "source": "events[?type=='person.job.apprentice']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -1274,14 +1272,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.counsellor event",
       "source": "events[?type=='person.job.counsellor']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -1314,14 +1312,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.chancellor event",
       "source": "events[?type=='person.job.chancellor']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -1354,14 +1352,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.secretary event",
       "source": "events[?type=='person.job.secretary']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -1394,14 +1392,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.merchant event",
       "source": "events[?type=='person.job.merchant']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -1434,14 +1432,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.banker event",
       "source": "events[?type=='person.job.banker']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -1474,14 +1472,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.artisan event",
       "source": "events[?type=='person.job.artisan']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -1514,14 +1512,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.servant event",
       "source": "events[?type=='person.job.servant']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -1554,14 +1552,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.emperor event",
       "source": "events[?type=='person.job.emperor']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -1594,14 +1592,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.physician event",
       "source": "events[?type=='person.job.physician']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -1634,14 +1632,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.duke event",
       "source": "events[?type=='person.job.duke']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -1674,14 +1672,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.earl event",
       "source": "events[?type=='person.job.earl']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -1714,14 +1712,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person job.prince event",
       "source": "events[?type=='person.job.prince']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -1754,14 +1752,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person teacher-of event",
       "source": "events[?type=='person.teacher-of']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -1790,7 +1788,7 @@
           "source": "relatedEntities[?relation=='person:teacher-of:disciple' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "disciple": "{@slice(id.target.gid, 1)}"
+              "disciple": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?disciple}"]
           }
@@ -1810,7 +1808,7 @@
           "source": "relatedEntities[?relation=='person:teacher-of:disciple' && id.target.name]",
           "output": {
             "nodes": {
-              "disciple": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "disciple": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?disciple}"]
           }
@@ -1824,14 +1822,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person disciple-of event",
       "source": "events[?type=='person.disciple-of']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -1860,7 +1858,7 @@
           "source": "relatedEntities[?relation=='person:disciple-of:teacher' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "teacher": "{@slice(id.target.gid, 1)}"
+              "teacher": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?teacher}"]
           }
@@ -1880,7 +1878,7 @@
           "source": "relatedEntities[?relation=='person:disciple-of:teacher' && id.target.name]",
           "output": {
             "nodes": {
-              "teacher": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "teacher": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?teacher}"]
           }
@@ -1894,14 +1892,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person counsellor-of event",
       "source": "events[?type=='person.counsellor-of']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -1930,7 +1928,7 @@
           "source": "relatedEntities[?relation=='person:counsellor-of:person' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "person": "{@slice(id.target.gid, 1)}"
+              "person": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?person}"]
           }
@@ -1950,7 +1948,7 @@
           "source": "relatedEntities[?relation=='person:counsellor-of:person' && id.target.name]",
           "output": {
             "nodes": {
-              "person": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "person": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?person}"]
           }
@@ -1964,14 +1962,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person secretary-of event",
       "source": "events[?type=='person.secretary-of']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -2000,7 +1998,7 @@
           "source": "relatedEntities[?relation=='person:secretary-of:person' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "person": "{@slice(id.target.gid, 1)}"
+              "person": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?person}"]
           }
@@ -2020,7 +2018,7 @@
           "source": "relatedEntities[?relation=='person:secretary-of:person' && id.target.name]",
           "output": {
             "nodes": {
-              "person": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "person": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?person}"]
           }
@@ -2034,14 +2032,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person servant event",
       "source": "events[?type=='person.servant']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -2070,7 +2068,7 @@
           "source": "relatedEntities[?relation=='person:servant:person' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "person": "{@slice(id.target.gid, 1)}"
+              "person": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?person}"]
           }
@@ -2090,7 +2088,7 @@
           "source": "relatedEntities[?relation=='person:servant:person' && id.target.name]",
           "output": {
             "nodes": {
-              "person": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "person": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?person}"]
           }
@@ -2104,14 +2102,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person at-service-of event",
       "source": "events[?type=='person.at-service-of']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -2140,7 +2138,7 @@
           "source": "relatedEntities[?relation=='person:at-service-of:person' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "person": "{@slice(id.target.gid, 1)}"
+              "person": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?person}"]
           }
@@ -2160,7 +2158,7 @@
           "source": "relatedEntities[?relation=='person:at-service-of:person' && id.target.name]",
           "output": {
             "nodes": {
-              "person": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "person": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?person}"]
           }
@@ -2174,14 +2172,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person protector-of event",
       "source": "events[?type=='person.protector-of']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -2210,7 +2208,7 @@
           "source": "relatedEntities[?relation=='person:protector-of:person' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "person": "{@slice(id.target.gid, 1)}"
+              "person": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?person}"]
           }
@@ -2230,7 +2228,7 @@
           "source": "relatedEntities[?relation=='person:protector-of:person' && id.target.name]",
           "output": {
             "nodes": {
-              "person": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "person": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?person}"]
           }
@@ -2244,14 +2242,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person officer event",
       "source": "events[?type=='person.officer']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -2280,7 +2278,7 @@
           "source": "relatedEntities[?relation=='person:officer:office' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "office": "{@slice(id.target.gid, 1)}"
+              "office": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P2_has_type {?office}"]
           }
@@ -2300,7 +2298,7 @@
           "source": "relatedEntities[?relation=='person:officer:office' && id.target.name]",
           "output": {
             "nodes": {
-              "office": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "office": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P2_has_type {?office}"]
           }
@@ -2314,14 +2312,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person title event",
       "source": "events[?type=='person.title']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -2354,14 +2352,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person appointment event",
       "source": "events[?type=='person.appointment']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -2394,14 +2392,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person group event",
       "source": "events[?type=='person.group']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E74_Group",
@@ -2429,7 +2427,7 @@
           "source": "relatedEntities[?relation=='person:group:member-of' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "member-of": "{@slice(id.target.gid, 1)}"
+              "member-of": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": [
               "{?event} crm:P107i_is_current_or_former_member {?member-of}"
@@ -2453,7 +2451,7 @@
           "source": "relatedEntities[?relation=='person:group:member-of' && id.target.name]",
           "output": {
             "nodes": {
-              "member-of": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "member-of": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": [
               "{?event} crm:P107i_is_current_or_former_member {?member-of}"
@@ -2469,14 +2467,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person meeting event",
       "source": "events[?type=='person.meeting']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E85_Joining",
@@ -2505,7 +2503,7 @@
           "source": "relatedEntities[?relation=='person:meeting:met' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "met": "{@slice(id.target.gid, 1)}"
+              "met": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?met}"]
           }
@@ -2525,7 +2523,7 @@
           "source": "relatedEntities[?relation=='person:meeting:met' && id.target.name]",
           "output": {
             "nodes": {
-              "met": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "met": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?met}"]
           }
@@ -2535,7 +2533,7 @@
           "source": "relatedEntities[?relation=='person:meeting:spectator' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "spectator": "{@slice(id.target.gid, 1)}"
+              "spectator": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?spectator}"]
           }
@@ -2555,7 +2553,7 @@
           "source": "relatedEntities[?relation=='person:meeting:spectator' && id.target.name]",
           "output": {
             "nodes": {
-              "spectator": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "spectator": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?spectator}"]
           }
@@ -2569,14 +2567,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person travel event",
       "source": "events[?type=='person.travel']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E85_Joining",
@@ -2605,7 +2603,7 @@
           "source": "relatedEntities[?relation=='person:travel:participant' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "participant": "{@slice(id.target.gid, 1)}"
+              "participant": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?participant}"]
           }
@@ -2625,7 +2623,7 @@
           "source": "relatedEntities[?relation=='person:travel:participant' && id.target.name]",
           "output": {
             "nodes": {
-              "participant": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "participant": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?participant}"]
           }
@@ -2639,14 +2637,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person participation event",
       "source": "events[?type=='person.participation']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E85_Joining",
@@ -2675,7 +2673,7 @@
           "source": "relatedEntities[?relation=='person:participation:participant' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "participant": "{@slice(id.target.gid, 1)}"
+              "participant": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?participant}"]
           }
@@ -2695,7 +2693,7 @@
           "source": "relatedEntities[?relation=='person:participation:participant' && id.target.name]",
           "output": {
             "nodes": {
-              "participant": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "participant": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?participant}"]
           }
@@ -2709,14 +2707,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person documentad event",
       "source": "events[?type=='person.documented']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E70_Thing",
@@ -2745,7 +2743,7 @@
           "source": "relatedEntities[?relation=='person:documented:participant' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "participant": "{@slice(id.target.gid, 1)}"
+              "participant": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P70i_is_documented_in {?participant}"]
           }
@@ -2765,7 +2763,7 @@
           "source": "relatedEntities[?relation=='person:documented:participant' && id.target.name]",
           "output": {
             "nodes": {
-              "participant": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "participant": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P70i_is_documented_in {?participant}"]
           }
@@ -2779,14 +2777,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person send event",
       "source": "events[?type=='person.send']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -2815,7 +2813,7 @@
           "source": "relatedEntities[?relation=='person:send:sent' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "sent": "{@slice(id.target.gid, 1)}"
+              "sent": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P16_used_specific_object {?sent}"]
           }
@@ -2835,7 +2833,7 @@
           "source": "relatedEntities[?relation=='person:send:sent' && id.target.name]",
           "output": {
             "nodes": {
-              "sent": "itn:works/{@id.target.partId}/{@id.target.value}"
+              "sent": "itn:works/{@id.target.partId}/{@id.target.value} [itn:works/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P16_used_specific_object {?sent}"]
           }
@@ -2845,7 +2843,7 @@
           "source": "relatedEntities[?relation=='person:send:recipient' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "recipient": "{@slice(id.target.gid, 1)}"
+              "recipient": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?recipient}"]
           }
@@ -2865,7 +2863,7 @@
           "source": "relatedEntities[?relation=='person:send:recipient' && id.target.name]",
           "output": {
             "nodes": {
-              "recipient": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "recipient": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?recipient}"]
           }
@@ -2875,7 +2873,7 @@
           "source": "relatedEntities[?relation=='person:send:carrier' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "carrier": "{@slice(id.target.gid, 1)}"
+              "carrier": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?carrier}"]
           }
@@ -2895,7 +2893,7 @@
           "source": "relatedEntities[?relation=='person:send:carrier' && id.target.name]",
           "output": {
             "nodes": {
-              "carrier": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "carrier": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?carrier}"]
           }
@@ -2909,14 +2907,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person reception event",
       "source": "events[?type=='person.reception']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -2945,7 +2943,7 @@
           "source": "relatedEntities[?relation=='person:reception:received' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "received": "{@slice(id.target.gid, 1)}"
+              "received": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P16_used_specific_object {?received}"]
           }
@@ -2965,7 +2963,7 @@
           "source": "relatedEntities[?relation=='person:reception:received' && id.target.name]",
           "output": {
             "nodes": {
-              "received": "itn:works/{@id.target.partId}/{@id.target.value}"
+              "received": "itn:works/{@id.target.partId}/{@id.target.value} [itn:works/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P16_used_specific_object {?received}"]
           }
@@ -2975,7 +2973,7 @@
           "source": "relatedEntities[?relation=='person:reception:sender' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "sender": "{@slice(id.target.gid, 1)}"
+              "sender": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?sender}"]
           }
@@ -2995,7 +2993,7 @@
           "source": "relatedEntities[?relation=='person:reception:sender' && id.target.name]",
           "output": {
             "nodes": {
-              "sender": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "sender": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?sender}"]
           }
@@ -3005,7 +3003,7 @@
           "source": "relatedEntities[?relation=='person:reception:carrier' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "carrier": "{@slice(id.target.gid, 1)}"
+              "carrier": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?carrier}"]
           }
@@ -3025,7 +3023,7 @@
           "source": "relatedEntities[?relation=='person:reception:carrier' && id.target.name]",
           "output": {
             "nodes": {
-              "carrier": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "carrier": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?carrier}"]
           }
@@ -3039,14 +3037,14 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person exchange event",
       "source": "events[?type=='person:exchange']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:persons/{$metadata-pid}/{$item-eid}"
         },
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -3075,7 +3073,7 @@
           "source": "relatedEntities[?relation=='person:exchange:exchanged' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "exchanged": "{@slice(id.target.gid, 1)}"
+              "exchanged": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P16_used_specific_object {?exchanged}"]
           }
@@ -3095,7 +3093,7 @@
           "source": "relatedEntities[?relation=='person:exchange:exchanged' && id.target.name]",
           "output": {
             "nodes": {
-              "exchanged": "itn:works/{@id.target.partId}/{@id.target.value}"
+              "exchanged": "itn:works/{@id.target.partId}/{@id.target.value} [itn:works/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P16_used_specific_object {?exchanged}"]
           }
@@ -3105,7 +3103,7 @@
           "source": "relatedEntities[?relation=='person:exchange:recipient' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "recipient": "{@slice(id.target.gid, 1)}"
+              "recipient": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?recipient}"]
           }
@@ -3125,7 +3123,7 @@
           "source": "relatedEntities[?relation=='person:exchange:recipient' && id.target.name]",
           "output": {
             "nodes": {
-              "recipient": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "recipient": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?recipient}"]
           }
@@ -3139,10 +3137,10 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person transcription event",
       "source": "events[?type=='person.transcription']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -3150,7 +3148,7 @@
           "{?event} crm:P14_carried_out_by {$person}"
         ],
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:person/{$item-id}/{$item-eid}"
         }
       },
@@ -3175,7 +3173,7 @@
           "source": "relatedEntities[?relation=='person:transcription:copy' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "copy": "{@slice(id.target.gid, 1)}"
+              "copy": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P108_has_produced {?copy}"]
           }
@@ -3195,7 +3193,7 @@
           "source": "relatedEntities[?relation=='person:transcription:copy' && id.target.name]",
           "output": {
             "nodes": {
-              "copy": "itn:manuscripts/{@id.target.partId}/{@id.target.value}"
+              "copy": "itn:manuscripts/{@id.target.partId}/{@id.target.value} [itn:manuscripts/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P108_has_produced {?copy}"]
           }
@@ -3205,7 +3203,7 @@
           "source": "relatedEntities[?relation=='person:transcription:text' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "text": "{@slice(id.target.gid, 1)}"
+              "text": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P16_used_specific_object {?text}"]
           }
@@ -3225,7 +3223,7 @@
           "source": "relatedEntities[?relation=='person:transcription:text' && id.target.name]",
           "output": {
             "nodes": {
-              "text": "itn:works/{@id.target.partId}/{@id.target.value}"
+              "text": "itn:works/{@id.target.partId}/{@id.target.value} [itn:works/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P16_used_specific_object {?text}"]
           }
@@ -3239,10 +3237,10 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person collection event",
       "source": "events[?type=='person.collection']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -3250,7 +3248,7 @@
           "{?event} crm:P14_carried_out_by {$person}"
         ],
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:person/{$item-id}/{$item-eid}"
         }
       },
@@ -3275,7 +3273,7 @@
           "source": "relatedEntities[?relation=='person:collection:copy' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "copy": "{@slice(id.target.gid, 1)}"
+              "copy": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P70i_is_documented_in {?copy}"]
           }
@@ -3295,7 +3293,7 @@
           "source": "relatedEntities[?relation=='person:collection:copy' && id.target.name]",
           "output": {
             "nodes": {
-              "copy": "itn:manuscripts/{@id.target.partId}/{@id.target.value}"
+              "copy": "itn:manuscripts/{@id.target.partId}/{@id.target.value} [itn:manuscripts/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P70i_is_documented_in {?copy}"]
           }
@@ -3305,7 +3303,7 @@
           "source": "relatedEntities[?relation=='person:collection:text' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "text": "{@slice(id.target.gid, 1)}"
+              "text": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P16_used_specific_object {?text}"]
           }
@@ -3325,7 +3323,7 @@
           "source": "relatedEntities[?relation=='person:collection:text' && id.target.name]",
           "output": {
             "nodes": {
-              "text": "itn:works/{@id.target.partId}/{@id.target.value}"
+              "text": "itn:works/{@id.target.partId}/{@id.target.value} [itn:works/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P16_used_specific_object {?text}"]
           }
@@ -3339,10 +3337,10 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person annotation event",
       "source": "events[?type=='person.annotation']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -3350,7 +3348,7 @@
           "{?event} crm:P14_carried_out_by {$person}"
         ],
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:person/{$item-id}/{$item-eid}"
         }
       },
@@ -3375,7 +3373,7 @@
           "source": "relatedEntities[?relation=='person:annotation:ms' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "ms": "{@slice(id.target.gid, 1)}"
+              "ms": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P70i_is_documented_in {?ms}"]
           }
@@ -3395,7 +3393,7 @@
           "source": "relatedEntities[?relation=='person:annotation:ms' && id.target.name]",
           "output": {
             "nodes": {
-              "ms": "itn:manuscripts/{@id.target.partId}/{@id.target.value}"
+              "ms": "itn:manuscripts/{@id.target.partId}/{@id.target.value} [itn:manuscripts/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P70i_is_documented_in {?ms}"]
           }
@@ -3405,7 +3403,7 @@
           "source": "relatedEntities[?relation=='person:annotation:text' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "text": "{@slice(id.target.gid, 1)}"
+              "text": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P16_used_specific_object {?text}"]
           }
@@ -3425,7 +3423,7 @@
           "source": "relatedEntities[?relation=='person:annotation:text' && id.target.name]",
           "output": {
             "nodes": {
-              "text": "itn:works/{@id.target.partId}/{@id.target.value}"
+              "text": "itn:works/{@id.target.partId}/{@id.target.value} [itn:works/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P16_used_specific_object {?text}"]
           }
@@ -3439,10 +3437,10 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person handwriting event",
       "source": "events[?type=='person.handwriting']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -3450,7 +3448,7 @@
           "{?event} crm:P14_carried_out_by {$person}"
         ],
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:person/{$item-id}/{$item-eid}"
         }
       },
@@ -3475,7 +3473,7 @@
           "source": "relatedEntities[?relation=='person:handwriting:hand' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "hand": "{@slice(id.target.gid, 1)}"
+              "hand": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P70i_is_documented_in {?hand}"]
           }
@@ -3495,7 +3493,7 @@
           "source": "relatedEntities[?relation=='person:handwriting:hand' && id.target.name]",
           "output": {
             "nodes": {
-              "hand": "itn:hands/{@id.target.partId}/{@id.target.value}"
+              "hand": "itn:hands/{@id.target.partId}/{@id.target.value} [itn:hands/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P70i_is_documented_in {?hand}"]
           }
@@ -3509,10 +3507,10 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person commission event",
       "source": "events[?type=='person.commission']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -3520,7 +3518,7 @@
           "{?event} crm:P14_carried_out_by {$person}"
         ],
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:person/{$item-id}/{$item-eid}"
         }
       },
@@ -3545,7 +3543,7 @@
           "source": "relatedEntities[?relation=='person:commission:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "manuscript": "{@slice(id.target.gid, 1)}"
+              "manuscript": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P16_used_specific_object {?manuscript}"]
           }
@@ -3565,7 +3563,7 @@
           "source": "relatedEntities[?relation=='person:commission:manuscript' && id.target.name]",
           "output": {
             "nodes": {
-              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value}"
+              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value} [itn:manuscripts/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P16_used_specific_object {?manuscript}"]
           }
@@ -3575,7 +3573,7 @@
           "source": "relatedEntities[?relation=='person:commission:maker' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "maker": "{@slice(id.target.gid, 1)}"
+              "maker": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?maker}"]
           }
@@ -3595,7 +3593,7 @@
           "source": "relatedEntities[?relation=='person:commission:maker' && id.target.name]",
           "output": {
             "nodes": {
-              "maker": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "maker": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?maker}"]
           }
@@ -3609,10 +3607,10 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person commissioned event",
       "source": "events[?type=='person.commissioned']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -3620,7 +3618,7 @@
           "{?event} crm:P14_carried_out_by {$person}"
         ],
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:person/{$item-id}/{$item-eid}"
         }
       },
@@ -3645,7 +3643,7 @@
           "source": "relatedEntities[?relation=='person:commissioned:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "manuscript": "{@slice(id.target.gid, 1)}"
+              "manuscript": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P16_used_specific_object {?manuscript}"]
           }
@@ -3665,7 +3663,7 @@
           "source": "relatedEntities[?relation=='person:commissioned:manuscript' && id.target.name]",
           "output": {
             "nodes": {
-              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value}"
+              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value} [itn:manuscripts/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P16_used_specific_object {?manuscript}"]
           }
@@ -3675,7 +3673,7 @@
           "source": "relatedEntities[?relation=='person:commissioned:client' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "client": "{@slice(id.target.gid, 1)}"
+              "client": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?client}"]
           }
@@ -3695,7 +3693,7 @@
           "source": "relatedEntities[?relation=='person:commissioned:client' && id.target.name]",
           "output": {
             "nodes": {
-              "client": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "client": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?client}"]
           }
@@ -3709,10 +3707,10 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person dedication event",
       "source": "events[?type=='person.dedication']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -3720,7 +3718,7 @@
           "{?event} crm:P14_carried_out_by {$person}"
         ],
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:person/{$item-id}/{$item-eid}"
         }
       },
@@ -3745,7 +3743,7 @@
           "source": "relatedEntities[?relation=='person:dedication:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "manuscript": "{@slice(id.target.gid, 1)}"
+              "manuscript": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P16_used_specific_object {?manuscript}"]
           }
@@ -3765,7 +3763,7 @@
           "source": "relatedEntities[?relation=='person:dedication:manuscript' && id.target.name]",
           "output": {
             "nodes": {
-              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value}"
+              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value} [itn:manuscripts/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P16_used_specific_object {?manuscript}"]
           }
@@ -3775,7 +3773,7 @@
           "source": "relatedEntities[?relation=='person:dedication:text' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "text": "{@slice(id.target.gid, 1)}"
+              "text": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P16_used_specific_object {?text}"]
           }
@@ -3795,7 +3793,7 @@
           "source": "relatedEntities[?relation=='person:dedication:text' && id.target.name]",
           "output": {
             "nodes": {
-              "text": "itn:works/{@id.target.partId}/{@id.target.value}"
+              "text": "itn:works/{@id.target.partId}/{@id.target.value} [itn:works/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P16_used_specific_object {?text}"]
           }
@@ -3805,7 +3803,7 @@
           "source": "relatedEntities[?relation=='person:dedication:recipient' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "recipient": "{@slice(id.target.gid, 1)}"
+              "recipient": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?recipient}"]
           }
@@ -3825,7 +3823,7 @@
           "source": "relatedEntities[?relation=='person:dedication:recipient' && id.target.name]",
           "output": {
             "nodes": {
-              "recipient": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "recipient": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?recipient}"]
           }
@@ -3839,10 +3837,10 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person dedicated event",
       "source": "events[?type=='person.dedicated']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -3850,7 +3848,7 @@
           "{?event} crm:P14_carried_out_by {$person}"
         ],
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:person/{$item-id}/{$item-eid}"
         }
       },
@@ -3875,7 +3873,7 @@
           "source": "relatedEntities[?relation=='person:dedicated:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "manuscript": "{@slice(id.target.gid, 1)}"
+              "manuscript": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P16_used_specific_object {?manuscript}"]
           }
@@ -3895,7 +3893,7 @@
           "source": "relatedEntities[?relation=='person:dedicated:manuscript' && id.target.name]",
           "output": {
             "nodes": {
-              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value}"
+              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value} [itn:manuscripts/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P16_used_specific_object {?manuscript}"]
           }
@@ -3905,7 +3903,7 @@
           "source": "relatedEntities[?relation=='person:dedicated:text' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "text": "{@slice(id.target.gid, 1)}"
+              "text": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P16_used_specific_object {?text}"]
           }
@@ -3925,7 +3923,7 @@
           "source": "relatedEntities[?relation=='person:dedicated:text' && id.target.name]",
           "output": {
             "nodes": {
-              "text": "itn:works/{@id.target.partId}/{@id.target.value}"
+              "text": "itn:works/{@id.target.partId}/{@id.target.value} [itn:works/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P16_used_specific_object {?text}"]
           }
@@ -3935,7 +3933,7 @@
           "source": "relatedEntities[?relation=='person:dedicated:maker' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "maker": "{@slice(id.target.gid, 1)}"
+              "maker": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P11_has_participant {?maker}"]
           }
@@ -3955,7 +3953,7 @@
           "source": "relatedEntities[?relation=='person:dedicated:maker' && id.target.name]",
           "output": {
             "nodes": {
-              "maker": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "maker": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P11_has_participant {?maker}"]
           }
@@ -3969,10 +3967,10 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person possession event",
       "source": "events[?type=='person.possession']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E7_Activity",
@@ -3980,7 +3978,7 @@
           "{?event} crm:P14_carried_out_by {$person}"
         ],
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:person/{$item-id}/{$item-eid}"
         }
       },
@@ -4005,7 +4003,7 @@
           "source": "relatedEntities[?relation=='person:possession:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "manuscript": "{@slice(id.target.gid, 1)}"
+              "manuscript": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P75i_possessed {?manuscript}"]
           }
@@ -4025,7 +4023,7 @@
           "source": "relatedEntities[?relation=='person:possession:manuscript' && id.target.name]",
           "output": {
             "nodes": {
-              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value}"
+              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value} [itn:manuscripts/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P75i_possessed {?manuscript}"]
           }
@@ -4039,17 +4037,17 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person borrowing event",
       "source": "events[?type=='person.borrowing']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E10_Transfer_of_Custody",
           "{?event} crm:P29_custody_received_by {$person}"
         ],
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:person/{$item-id}/{$item-eid}"
         }
       },
@@ -4074,7 +4072,7 @@
           "source": "relatedEntities[?relation=='person:borrowing:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "manuscript": "{@slice(id.target.gid, 1)}"
+              "manuscript": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P30_transferred_custody_of {?manuscript}"]
           }
@@ -4094,7 +4092,7 @@
           "source": "relatedEntities[?relation=='person:borrowing:manuscript' && id.target.name]",
           "output": {
             "nodes": {
-              "manuscript": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "manuscript": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P30_transferred_custody_of {?manuscript}"]
           }
@@ -4104,7 +4102,7 @@
           "source": "relatedEntities[?relation=='person:borrowing:lender' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "lender": "{@slice(id.target.gid, 1)}"
+              "lender": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P28_custody_surrendered_by {?lender}"]
           }
@@ -4124,7 +4122,7 @@
           "source": "relatedEntities[?relation=='person:borrowing:lender' && id.target.name]",
           "output": {
             "nodes": {
-              "lender": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "lender": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P28_custody_surrendered_by {?lender}"]
           }
@@ -4138,17 +4136,17 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person lending event",
       "source": "events[?type=='person.lending']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E10_Transfer_of_Custody",
           "{?event} crm:P28_custody_surrendered_by {$person}"
         ],
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:person/{$item-id}/{$item-eid}"
         }
       },
@@ -4173,7 +4171,7 @@
           "source": "relatedEntities[?relation=='person:lending:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "manuscript": "{@slice(id.target.gid, 1)}"
+              "manuscript": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P30_transferred_custody_of {?manuscript}"]
           }
@@ -4193,7 +4191,7 @@
           "source": "relatedEntities[?relation=='person:lending:manuscript' && id.target.name]",
           "output": {
             "nodes": {
-              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value}"
+              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value} [itn:manuscripts/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P30_transferred_custody_of {?manuscript}"]
           }
@@ -4203,7 +4201,7 @@
           "source": "relatedEntities[?relation=='person:lending:borrower' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "borrower": "{@slice(id.target.gid, 1)}"
+              "borrower": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P29_custody_received_by {?borrower}"]
           }
@@ -4223,7 +4221,7 @@
           "source": "relatedEntities[?relation=='person:lending:borrower' && id.target.name]",
           "output": {
             "nodes": {
-              "borrower": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "borrower": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P29_custody_received_by {?borrower}"]
           }
@@ -4237,17 +4235,17 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person returning event",
       "source": "events[?type=='person.returning']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E10_Transfer_of_Custody",
           "{?event} crm:P28_custody_surrendered_by {$person}"
         ],
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:person/{$item-id}/{$item-eid}"
         }
       },
@@ -4272,7 +4270,7 @@
           "source": "relatedEntities[?relation=='person:returning:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "manuscript": "{@slice(id.target.gid, 1)}"
+              "manuscript": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P30_transferred_custody_of {?manuscript}"]
           }
@@ -4292,7 +4290,7 @@
           "source": "relatedEntities[?relation=='person:returning:manuscript' && id.target.name]",
           "output": {
             "nodes": {
-              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value}"
+              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value} [itn:manuscripts/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P30_transferred_custody_of {?manuscript}"]
           }
@@ -4302,7 +4300,7 @@
           "source": "relatedEntities[?relation=='person:returning:obtain-restitution' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "obtain-restitution": "{@slice(id.target.gid, 1)}"
+              "obtain-restitution": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": [
               "{?event} crm:P29_custody_received_by {?obtain-restitution}"
@@ -4326,7 +4324,7 @@
           "source": "relatedEntities[?relation=='person:returning:obtain-restitution' && id.target.name]",
           "output": {
             "nodes": {
-              "obtain-restitution": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "obtain-restitution": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": [
               "{?event} crm:P29_custody_received_by {?obtain-restitution}"
@@ -4342,17 +4340,17 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person obtain-restitution event",
       "source": "events[?type=='person.obtain-restitution']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E10_Transfer_of_Custody",
           "{?event} crm:P29_custody_received_by {$person}"
         ],
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:person/{$item-id}/{$item-eid}"
         }
       },
@@ -4377,7 +4375,7 @@
           "source": "relatedEntities[?relation=='person:obtain-restitution:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "manuscript": "{@slice(id.target.gid, 1)}"
+              "manuscript": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P30_transferred_custody_of {?manuscript}"]
           }
@@ -4397,7 +4395,7 @@
           "source": "relatedEntities[?relation=='person:obtain-restitution:manuscript' && id.target.name]",
           "output": {
             "nodes": {
-              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value}"
+              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value} [itn:manuscripts/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P30_transferred_custody_of {?manuscript}"]
           }
@@ -4407,7 +4405,7 @@
           "source": "relatedEntities[?relation=='person:obtain-restitution:returning' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "returning": "{@slice(id.target.gid, 1)}"
+              "returning": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P28_custody_surrendered_by {?returning}"]
           }
@@ -4427,7 +4425,7 @@
           "source": "relatedEntities[?relation=='person:obtain-restitution:returning' && id.target.name]",
           "output": {
             "nodes": {
-              "returning": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "returning": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P28_custody_surrendered_by {?returning}"]
           }
@@ -4441,17 +4439,17 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person buying event",
       "source": "events[?type=='person.buying']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E8_Acquisition",
           "{?event} crm:P22_transferred_title_to {$person}"
         ],
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:person/{$item-id}/{$item-eid}"
         }
       },
@@ -4476,7 +4474,7 @@
           "source": "relatedEntities[?relation=='person:buying:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "manuscript": "{@slice(id.target.gid, 1)}"
+              "manuscript": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P24_transferred_title_of {?manuscript}"]
           }
@@ -4496,7 +4494,7 @@
           "source": "relatedEntities[?relation=='person:buying:manuscript' && id.target.name]",
           "output": {
             "nodes": {
-              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value}"
+              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value} [itn:manuscripts/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P24_transferred_title_of {?manuscript}"]
           }
@@ -4506,7 +4504,7 @@
           "source": "relatedEntities[?relation=='person:buying:seller' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "seller": "{@slice(id.target.gid, 1)}"
+              "seller": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P23_transferred_title_from {?seller}"]
           }
@@ -4526,7 +4524,7 @@
           "source": "relatedEntities[?relation=='person:buying:seller' && id.target.name]",
           "output": {
             "nodes": {
-              "seller": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "seller": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P23_transferred_title_from {?seller}"]
           }
@@ -4540,17 +4538,17 @@
       "partTypeFilter": "it.vedph.historical-events",
       "description": "Map person selling event",
       "source": "events[?type=='person.selling']",
-      "sid": "{$part-id}/{@[0].eid}",
+      "sid": "{$part-id}/{@eid}",
       "output": {
         "nodes": {
-          "event": "itn:events/{$id} itn:events/{@eid}"
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
           "{?event} a crm:E8_Acquisition",
           "{?event} crm:P23_transferred_title_from {$person}"
         ],
         "metadata": {
-          "id": "{$part-id}/{@eid}",
+          "sid": "{$part-id}/{@eid}",
           "person": "itn:person/{$item-id}/{$item-eid}"
         }
       },
@@ -4575,7 +4573,7 @@
           "source": "relatedEntities[?relation=='person:selling:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "manuscript": "{@slice(id.target.gid, 1)}"
+              "manuscript": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P24_transferred_title_of {?manuscript}"]
           }
@@ -4595,7 +4593,7 @@
           "source": "relatedEntities[?relation=='person:selling:manuscript' && id.target.name]",
           "output": {
             "nodes": {
-              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value}"
+              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value} [itn:manuscripts/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P24_transferred_title_of {?manuscript}"]
           }
@@ -4605,7 +4603,7 @@
           "source": "relatedEntities[?relation=='person:selling:buyer' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
-              "buyer": "{@slice(id.target.gid, 1)}"
+              "buyer": "{!_substring({@id.target.gid} & 1)}"
             },
             "triples": ["{?event} crm:P22_transferred_title_to {?buyer}"]
           }
@@ -4625,10 +4623,78 @@
           "source": "relatedEntities[?relation=='person:selling:buyer' && id.target.name]",
           "output": {
             "nodes": {
-              "buyer": "itn:persons/{@id.target.partId}/{@id.target.value}"
+              "buyer": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P22_transferred_title_to {?buyer}"]
           }
+        }
+      ]
+    },
+    {
+      "name": "person-work",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.itinera.person-works",
+      "description": "Map a person's work item to a work creation event by the container person.",
+      "source": "works",
+      "sid": "{$part-id}/{@eid}",
+      "output": {
+        "metadata": {
+          "person": "itn:persons/{$metadata-pid}/{$item-eid}"
+        },
+        "nodes": {
+          "creation": "itn:events/creation##",
+          "work": "itn:works/{$item-id}/{@eid} itn:works/{@eid}",
+          "title": "itn:titles/title##"
+        },
+        "triples": [
+          "{?creation} a crm:E65_creation",
+          "{?creation} crm:P94_has_created {?work}",
+          "{?creation} crm:P14_carried_out_by {$person}",
+          "{?title} a crm:E35_title",
+          "{?title} crm:P190_has_symbolic_content \"{@title}\"",
+          "{?work} P102_has_title {?title}"
+        ]
+      },
+      "children": [
+        {
+          "name": "person-work/assertion",
+          "description": "Map the assertion of the person's work creation event to EVENT itn:has_probability RANK^^xsd:float.",
+          "source": "assertion",
+          "output": {
+            "nodes": {
+              "assertion": "itn:assertions/as##"
+            },
+            "triples": [
+              "{?creation} itn:has_probability \"{@rank}\"^^xsd:float",
+              "{?assertion} a crm:E13_attribute_assignment",
+              "{?assertion} crm:P140_assigned_attribute_to {?creation}",
+              "{?assertion} crm:P141_assigned itn:has_probability",
+              "{?assertion} crm:P177_assigned_property_of_type crm:E55_type"
+            ]
+          },
+          "children": [
+            {
+              "name": "person-work/assertion/references",
+              "source": "references",
+              "children": [
+                {
+                  "name": "event/references/citation",
+                  "source": "citation",
+                  "output": {
+                    "nodes": {
+                      "citation": "itn:citations/cit##"
+                    },
+                    "triples": [
+                      "{?citation} a crm:E31_Document",
+                      "{?citation} rdfs:label \"{@.}\"",
+                      "{?assertion} crm:P70i_is_documented_in {?citation}"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
         }
       ]
     }

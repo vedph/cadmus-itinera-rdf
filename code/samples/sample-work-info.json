@@ -1,0 +1,33 @@
+{
+  "authorIds": [
+    {
+      "target": {
+        "gid": "http://www.dbpedia.org/resource/John_Milton",
+        "label": "John Milton"
+      },
+      "languages": ["en"],
+      "assertion": {
+        "rank": 1,
+        "references": [
+          {
+            "type": "biblio",
+            "citation": "Rossi 1963"
+          }
+        ]
+      }
+    }
+  ],
+  "genre": "epic",
+  "metre": "blank verse",
+  "isLost": true,
+  "titles": [
+    {
+      "language": "en",
+      "value": "Paradise Lost"
+    },
+    {
+      "language": "it",
+      "value": "Paradiso perduto"
+    }
+  ]
+}

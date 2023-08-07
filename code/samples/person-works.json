@@ -1,0 +1,25 @@
+{
+  "works": [
+    {
+      "eid": "alpha",
+      "title": "Alpha Work"
+    },
+    {
+      "eid": "beta",
+      "title": "Beta Work",
+      "assertion": {
+        "rank": 2,
+        "references": [
+          {
+            "type": "biblio",
+            "citation": "Rossi 1963"
+          },
+          {
+            "type": "ms",
+            "citation": "Vat.Lat.123"
+          }
+        ]
+      }
+    }
+  ]
+}

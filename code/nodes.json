@@ -66,6 +66,12 @@
     "label": "e31_document"
   },
   {
+    "uri": "E33_Linguistic_Object",
+    "isclass": true,
+    "tag": null,
+    "label": "e33_linguistic_object"
+  },
+  {
     "uri": "crm:e39_actor",
     "isclass": true,
     "tag": null,
@@ -253,6 +259,11 @@
     "label": "p70i_is_documented_in"
   },
   {
+    "uri": "crm:p72_has_language",
+    "tag": "property",
+    "label": "p72_has_language"
+  },
+  {
     "uri": "crm:p75_possesses",
     "tag": "property",
     "label": "p75_possesses"
@@ -286,6 +297,16 @@
     "uri": "crm:p100_was_death_of",
     "tag": "property",
     "label": "p100_was_death_of"
+  },
+  {
+    "uri": "crm:p102_has_title",
+    "tag": "property",
+    "label": "p102_has_title"
+  },
+  {
+    "uri": "P106i_forms_part_of",
+    "tag": "property",
+    "label": "P106i_forms_part_of"
   },
   {
     "uri": "crm:p107_has_current_or_former_member",
@@ -331,6 +352,11 @@
     "uri": "crm:p152i_is_parent_of",
     "tag": "property",
     "label": "p152i_is_parent_of"
+  },
+  {
+    "uri": "crm:p190_has_symbolic_content",
+    "tag": "property",
+    "label": "p190_has_symbolic_content"
   },
   {
     "uri": "itn:event-types/text.send",

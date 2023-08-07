@@ -4,7 +4,7 @@
       "name": "event/description",
       "description": "Map the description of an event to EVENT crm:P3_has_note LITERAL.",
       "source": "description",
-      "sid": "{$id}/description",
+      "sid": "{$sid}/description",
       "output": {
         "triples": ["{?event} crm:P3_has_note \"{$.}\""]
       }
@@ -13,7 +13,7 @@
       "name": "event/note",
       "description": "Map the note of an event to EVENT crm:P3_has_note LITERAL.",
       "source": "note",
-      "sid": "{$id}/note",
+      "sid": "{$sid}/note",
       "output": {
         "triples": ["{?event} crm:P3_has_note \"{$.}\""]
       }
@@ -22,7 +22,7 @@
       "name": "event/chronotopes",
       "description": "For each chronotope, map the place/date of an event to triples which create a place node for the place and link it to the event via a triple using crm:P7_took_place_at for places; and to triples using crm:P4_has_time_span which in turn has a new timespan node has object.",
       "source": "chronotopes",
-      "sid": "{$id}/chronotope",
+      "sid": "{$sid}/chronotope",
       "children": [
         {
           "name": "event/chronotopes/place",
@@ -61,10 +61,10 @@
       "name": "event/assertion",
       "description": "Map the assertion of an event to EVENT itn:has_probability RANK^^xsd:float.",
       "source": "assertion",
-      "sid": "{$id}/assertion",
+      "sid": "{$sid}/assertion",
       "output": {
         "nodes": {
-          "assertion": "itn/assertions/as##"
+          "assertion": "itn:assertions/as##"
         },
         "triples": [
           "{?event} itn:has_probability \"{@rank}\"^^xsd:float",
@@ -78,7 +78,7 @@
         {
           "name": "event/assertion/references",
           "source": "references",
-          "sid": "{$id}/reference",
+          "sid": "{$sid}/assertion/reference",
           "children": [
             {
               "name": "event/references/citation",
@@ -102,7 +102,7 @@
       "name": "event/tag",
       "description": "Map the tag of an event to EVENT P9i_forms_part_of GROUP.",
       "source": "tag",
-      "sid": "{$id}/tag",
+      "sid": "{$sid}/tag",
       "output": {
         "nodes": {
           "period": "itn:periods/{$part-id}/{@value}"
@@ -119,15 +119,1272 @@
       "partTypeFilter": "it.vedph.metadata",
       "description": "Map a manuscript item to a node via the item's EID extracted from its MetadataPart.",
       "source": "metadata[?name=='eid']",
-      "sid": "{$part-id}/{@[0].value}",
+      "sid": "{$part-id}/{@value}",
       "output": {
         "nodes": {
-          "ms": "itn:manuscripts/{$part-id}/{@value} itn:manuscripts/{@value}"
+          "ms": "itn:manuscripts/{$part-id}/{@value} [itn:manuscripts/{@value}]"
+        },
+        "triples": ["{?ms} a crm:E18_physical_thing"]
+      }
+    },
+    {
+      "name": "manuscript handwriting event",
+      "sourceType": 2,
+      "facetFilter": "manuscript",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map manuscript handwriting event",
+      "source": "events[?type=='manuscript.handwriting']",
+      "sid": "{$part-id}/{@eid}",
+      "output": {
+        "metadata": {
+          "sid": "{$part-id}/{@eid}",
+          "manuscript": "itn:manuscript/{$metadata-pid}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
-          "{?ms} a crm:E24_physical_human-made_thing"
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/manuscript.handwriting",
+          "{?event} crm:P16_used_specific_object {$manuscript}"
         ]
-      }
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "manuscript handwriting event/related/hand (external global)",
+          "source": "relatedEntities[?relation=='manuscript:handwriting:hand' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "hand": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P70i_is_documented_in {?hand}"]
+          }
+        },
+        {
+          "name": "manuscript handwriting event/related/hand (external local)",
+          "source": "relatedEntities[?relation=='manuscript:handwriting:hand' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "hand": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P70i_is_documented_in {?hand}"]
+          }
+        },
+        {
+          "name": "manuscript handwriting event/related/hand (internal)",
+          "source": "relatedEntities[?relation=='manuscript:handwriting:hand' && id.target.name]",
+          "output": {
+            "nodes": {
+              "hand": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P70i_is_documented_in {?hand}"]
+          }
+        },
+        {
+          "name": "manuscript handwriting event/related/person (external global)",
+          "source": "relatedEntities[?relation=='manuscript:handwriting:person' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "person": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P14_carried_out_by {?person}"]
+          }
+        },
+        {
+          "name": "manuscript handwriting event/related/person (external local)",
+          "source": "relatedEntities[?relation=='manuscript:handwriting:person' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "person": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P14_carried_out_by {?person}"]
+          }
+        },
+        {
+          "name": "manuscript handwriting event/related/person (internal)",
+          "source": "relatedEntities[?relation=='manuscript:handwriting:person' && id.target.name]",
+          "output": {
+            "nodes": {
+              "maker": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P14_carried_out_by {?person}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "manuscript editing event",
+      "sourceType": 2,
+      "facetFilter": "manuscript",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map manuscript editing event",
+      "source": "events[?type=='manuscript.editing']",
+      "sid": "{$part-id}/{@eid}",
+      "output": {
+        "metadata": {
+          "sid": "{$part-id}/{@eid}",
+          "manuscript": "itn:manuscript/{$metadata-pid}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/manuscript.editing",
+          "{?event} crm:P70i_is_documented_in {$manuscript}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "manuscript editing event/related/maker (external global)",
+          "source": "relatedEntities[?relation=='manuscript:editing:maker' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "maker": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P14_carried_out_by {?maker}"]
+          }
+        },
+        {
+          "name": "manuscript editing event/related/maker (external local)",
+          "source": "relatedEntities[?relation=='manuscript:editing:maker' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "maker": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P14_carried_out_by {?maker}"]
+          }
+        },
+        {
+          "name": "manuscript editing event/related/maker (internal)",
+          "source": "relatedEntities[?relation=='manuscript:editing:maker' && id.target.name]",
+          "output": {
+            "nodes": {
+              "maker": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P14_carried_out_by {?maker}"]
+          }
+        },
+        {
+          "name": "manuscript editing event/related/eid edit (external global)",
+          "source": "relatedEntities[?relation=='manuscript:editing:eid' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "eid": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P108_has_produced {?eid}"]
+          }
+        },
+        {
+          "name": "manuscript editing event/related/eid edit (external local)",
+          "source": "relatedEntities[?relation=='manuscript:editing:eid' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "eid": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P108_has_produced {?eid}"]
+          }
+        },
+        {
+          "name": "manuscript editing event/related/eid edit (internal)",
+          "source": "relatedEntities[?relation=='manuscript:editing:eid' && id.target.name]",
+          "output": {
+            "nodes": {
+              "eid": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P108_has_produced {?eid}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "manuscript commission event",
+      "sourceType": 2,
+      "facetFilter": "manuscript",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map manuscript commission event",
+      "source": "events[?type=='manuscript.commission']",
+      "sid": "{$part-id}/{@eid}",
+      "output": {
+        "metadata": {
+          "sid": "{$part-id}/{@eid}",
+          "manuscript": "itn:manuscript/{$metadata-pid}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/manuscript.commission",
+          "{?event} crm:P16_used_specific_object {$manuscript}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "manuscript commission event/related/has_participant (external global)",
+          "source": "relatedEntities[?relation=='manuscript:commission:client' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "client": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?client}"]
+          }
+        },
+        {
+          "name": "manuscript commission event/related/has_participant (external local)",
+          "source": "relatedEntities[?relation=='manuscript:commission:client' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "client": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?client}"]
+          }
+        },
+        {
+          "name": "manuscript commission event/related/has_participant (internal)",
+          "source": "relatedEntities[?relation=='manuscript:commission:client' && id.target.name]",
+          "output": {
+            "nodes": {
+              "client": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?client}"]
+          }
+        },
+        {
+          "name": "manuscript commission event/related/has_participant (external global)",
+          "source": "relatedEntities[?relation=='manuscript:commission:maker' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "maker": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?maker}"]
+          }
+        },
+        {
+          "name": "manuscript commission event/related/has_participant (external local)",
+          "source": "relatedEntities[?relation=='manuscript:commission:maker' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "maker": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?maker}"]
+          }
+        },
+        {
+          "name": "manuscript commission event/related/has_participant (internal)",
+          "source": "relatedEntities[?relation=='manuscript:commission:maker' && id.target.name]",
+          "output": {
+            "nodes": {
+              "maker": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?maker}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "manuscript dedication event",
+      "sourceType": 2,
+      "facetFilter": "manuscript",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map manuscript dedication event",
+      "source": "events[?type=='manuscript.dedication']",
+      "sid": "{$part-id}/{@eid}",
+      "output": {
+        "metadata": {
+          "sid": "{$part-id}/{@eid}",
+          "manuscript": "itn:manuscript/{$metadata-pid}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/manuscript.dedication",
+          "{?event} crm:P16_used_specific_object {$manuscript}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "manuscript dedication event/related/has_participant (external global)",
+          "source": "relatedEntities[?relation=='manuscript:dedication:maker' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "maker": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?maker}"]
+          }
+        },
+        {
+          "name": "manuscript dedication event/related/has_participant (external local)",
+          "source": "relatedEntities[?relation=='manuscript:dedication:maker' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "maker": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?maker}"]
+          }
+        },
+        {
+          "name": "manuscript dedication event/related/has_participant (internal)",
+          "source": "relatedEntities[?relation=='manuscript:dedication:maker' && id.target.name]",
+          "output": {
+            "nodes": {
+              "maker": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?maker}"]
+          }
+        },
+        {
+          "name": "manuscript dedication event/related/has_participant (external global)",
+          "source": "relatedEntities[?relation=='manuscript:dedication:recipient' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "recipient": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+          }
+        },
+        {
+          "name": "manuscript dedication event/related/has_participant (external local)",
+          "source": "relatedEntities[?relation=='manuscript:dedication:recipient' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "recipient": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+          }
+        },
+        {
+          "name": "manuscript dedication event/related/has_participant (internal)",
+          "source": "relatedEntities[?relation=='manuscript:dedication:recipient' && id.target.name]",
+          "output": {
+            "nodes": {
+              "recipient": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "manuscript possession event",
+      "sourceType": 2,
+      "facetFilter": "manuscript",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map manuscript possession event",
+      "source": "events[?type=='manuscript.possession']",
+      "sid": "{$part-id}/{@eid}",
+      "output": {
+        "metadata": {
+          "sid": "{$part-id}/{@eid}",
+          "manuscript": "itn:manuscript/{$metadata-pid}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/manuscript.possession",
+          "{?event} crm:P75i_possessed {$manuscript}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "manuscript possession event/related/possesses (external global)",
+          "source": "relatedEntities[?relation=='manuscript:possession:owner' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "owner": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P75_possesses {?owner}"]
+          }
+        },
+        {
+          "name": "manuscript possession event/related/possesses (external local)",
+          "source": "relatedEntities[?relation=='manuscript:possession:owner' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "owner": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P75_possesses {?owner}"]
+          }
+        },
+        {
+          "name": "manuscript possession event/related/possesses (internal)",
+          "source": "relatedEntities[?relation=='manuscript:possession:owner' && id.target.name]",
+          "output": {
+            "nodes": {
+              "owner": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P75_possesses {?owner}"]
+          }
+        },
+        {
+          "name": "manuscript possession event/related/attested_by (external global)",
+          "source": "relatedEntities[?relation=='manuscript:possession:attest' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "attest": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P70i_is_documented_in {?attest}"]
+          }
+        },
+        {
+          "name": "manuscript possession event/related/attested_by (external local)",
+          "source": "relatedEntities[?relation=='manuscript:possession:attest' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "attest": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P70i_is_documented_in {?attest}"]
+          }
+        },
+        {
+          "name": "manuscript possession event/related/attested_by (internal)",
+          "source": "relatedEntities[?relation=='manuscript:possession:attest' && id.target.name]",
+          "output": {
+            "nodes": {
+              "attest": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P70i_is_documented_in {?attest}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "manuscript lend event",
+      "sourceType": 2,
+      "facetFilter": "manuscript",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map manuscript lend event",
+      "source": "events[?type=='manuscript.lend']",
+      "sid": "{$part-id}/{@eid}",
+      "output": {
+        "metadata": {
+          "sid": "{$part-id}/{@eid}",
+          "manuscript": "itn:manuscript/{$metadata-pid}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
+        },
+        "triples": [
+          "{?event} a crm:E10_Transfer_of_Custody",
+          "{?event} crm:P2_has_type itn:event-types/manuscript.lend",
+          "{?event} crm:P30_transferred_custody_of {$manuscript}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "manuscript lend event/related/lender (external global)",
+          "source": "relatedEntities[?relation=='manuscript:lend:lender' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "lender": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P28_custody_surrendered_by {?lender}"]
+          }
+        },
+        {
+          "name": "manuscript lend event/related/lender (external local)",
+          "source": "relatedEntities[?relation=='manuscript:lend:lender' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "lender": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P28_custody_surrendered_by {?lender}"]
+          }
+        },
+        {
+          "name": "manuscript lend event/related/lender (internal)",
+          "source": "relatedEntities[?relation=='manuscript:lend:lender' && id.target.name]",
+          "output": {
+            "nodes": {
+              "lender": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P28_custody_surrendered_by {?lender}"]
+          }
+        },
+        {
+          "name": "manuscript lend event/related/borrower (external global)",
+          "source": "relatedEntities[?relation=='manuscript:lend:borrower' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "borrower": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P29_custody_received_by {?borrower}"]
+          }
+        },
+        {
+          "name": "manuscript lend event/related/borrower (external local)",
+          "source": "relatedEntities[?relation=='manuscript:lend:borrower' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "borrower": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P29_custody_received_by {?borrower}"]
+          }
+        },
+        {
+          "name": "manuscript lend event/related/borrower (internal)",
+          "source": "relatedEntities[?relation=='manuscript:lend:borrower' && id.target.name]",
+          "output": {
+            "nodes": {
+              "borrower": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P29_custody_received_by {?borrower}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "manuscript return event",
+      "sourceType": 2,
+      "facetFilter": "manuscript",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map manuscript return event",
+      "source": "events[?type=='manuscript.return']",
+      "sid": "{$part-id}/{@eid}",
+      "output": {
+        "metadata": {
+          "sid": "{$part-id}/{@eid}",
+          "manuscript": "itn:manuscript/{$metadata-pid}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
+        },
+        "triples": [
+          "{?event} a crm:E10_Transfer_of_Custody",
+          "{?event} crm:P2_has_type itn:event-types/manuscript.return",
+          "{?event} crm:P30_transferred_custody_of {$manuscript}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "manuscript return event/related/returned (external global)",
+          "source": "relatedEntities[?relation=='manuscript:return:returned' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "returned": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P28_custody_surrendered_by {?returned}"]
+          }
+        },
+        {
+          "name": "manuscript return event/related/returned (external local)",
+          "source": "relatedEntities[?relation=='manuscript:return:returned' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "returned": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P28_custody_surrendered_by {?returned}"]
+          }
+        },
+        {
+          "name": "manuscript return event/related/returned (internal)",
+          "source": "relatedEntities[?relation=='manuscript:return:returned' && id.target.name]",
+          "output": {
+            "nodes": {
+              "returned": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P28_custody_surrendered_by {?returned}"]
+          }
+        },
+        {
+          "name": "manuscript return event/related/return-to (external global)",
+          "source": "relatedEntities[?relation=='manuscript:return:return-to' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "return-to": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P29_custody_received_by {?return-to}"]
+          }
+        },
+        {
+          "name": "manuscript return event/related/return-to (external local)",
+          "source": "relatedEntities[?relation=='manuscript:return:return-to' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "return-to": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P29_custody_received_by {?return-to}"]
+          }
+        },
+        {
+          "name": "manuscript return event/related/return-to (internal)",
+          "source": "relatedEntities[?relation=='manuscript:return:return-to' && id.target.name]",
+          "output": {
+            "nodes": {
+              "return-to": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P29_custody_received_by {?return-to}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "manuscript buy event",
+      "sourceType": 2,
+      "facetFilter": "manuscript",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map manuscript buy event",
+      "source": "events[?type=='manuscript.buy']",
+      "sid": "{$part-id}/{@eid}",
+      "output": {
+        "metadata": {
+          "sid": "{$part-id}/{@eid}",
+          "manuscript": "itn:manuscript/{$metadata-pid}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
+        },
+        "triples": [
+          "{?event} a crm:E8_Acquisition",
+          "{?event} crm:P24_transferred_title_of {$manuscript}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "manuscript buy event/related/buyer (external global)",
+          "source": "relatedEntities[?relation=='manuscript:buy:buyer' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "buyer": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P22_transferred_title_to {?buyer}"]
+          }
+        },
+        {
+          "name": "manuscript buy event/related/buyer (external local)",
+          "source": "relatedEntities[?relation=='manuscript:buy:buyer' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "buyer": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P22_transferred_title_to {?buyer}"]
+          }
+        },
+        {
+          "name": "manuscript buy event/related/buyer (internal)",
+          "source": "relatedEntities[?relation=='manuscript:buy:buyer' && id.target.name]",
+          "output": {
+            "nodes": {
+              "buyer": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P22_transferred_title_to {?buyer}"]
+          }
+        },
+        {
+          "name": "manuscript buy event/related/seller (external global)",
+          "source": "relatedEntities[?relation=='manuscript:buy:seller' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "seller": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P23_transferred_title_from {?seller}"]
+          }
+        },
+        {
+          "name": "manuscript buy event/related/seller (external local)",
+          "source": "relatedEntities[?relation=='manuscript:buy:seller' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "seller": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P23_transferred_title_from {?seller}"]
+          }
+        },
+        {
+          "name": "manuscript buy event/related/seller (internal)",
+          "source": "relatedEntities[?relation=='manuscript:buy:seller' && id.target.name]",
+          "output": {
+            "nodes": {
+              "seller": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P23_transferred_title_from {?seller}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "manuscript sent event",
+      "sourceType": 2,
+      "facetFilter": "manuscript",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map manuscript sent event",
+      "source": "events[?type=='manuscript.send']",
+      "sid": "{$part-id}/{@eid}",
+      "output": {
+        "metadata": {
+          "sid": "{$part-id}/{@eid}",
+          "manuscript": "itn:manuscript/{$metadata-pid}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/manuscript.send",
+          "{?event} crm:P16_used_specific_object {$manuscript}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "manuscript sent event/related/carried_out_by (external global)",
+          "source": "relatedEntities[?relation=='manuscript:send:sender' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "sender": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P14_carried_out_by {?sender}"]
+          }
+        },
+        {
+          "name": "manuscript sent event/related/carried_out_by (external local)",
+          "source": "relatedEntities[?relation=='manuscript:send:sender' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "sender": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P14_carried_out_by {?sender}"]
+          }
+        },
+        {
+          "name": "manuscript sent event/related/carried_out_by (internal)",
+          "source": "relatedEntities[?relation=='manuscript:send:sender' && id.target.name]",
+          "output": {
+            "nodes": {
+              "sender": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P14_carried_out_by {?sender}"]
+          }
+        },
+        {
+          "name": "manuscript sent event/related/has_participant (external global)",
+          "source": "relatedEntities[?relation=='manuscript:send:recipient' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "recipient": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+          }
+        },
+        {
+          "name": "manuscript sent event/related/has_participant (external local)",
+          "source": "relatedEntities[?relation=='manuscript:send:recipient' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "recipient": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+          }
+        },
+        {
+          "name": "manuscript sent event/related/has_participant (internal)",
+          "source": "relatedEntities[?relation=='manuscript:send:recipient' && id.target.name]",
+          "output": {
+            "nodes": {
+              "recipient": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+          }
+        },
+        {
+          "name": "manuscript sent event/related/has_participant (external global)",
+          "source": "relatedEntities[?relation=='manuscript:send:carrier' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "carrier": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?carrier}"]
+          }
+        },
+        {
+          "name": "manuscript sent event/related/has_participant (external local)",
+          "source": "relatedEntities[?relation=='manuscript:send:carrier' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "carrier": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?carrier}"]
+          }
+        },
+        {
+          "name": "manuscript sent event/related/has_participant (internal)",
+          "source": "relatedEntities[?relation=='manuscript:send:carrier' && id.target.name]",
+          "output": {
+            "nodes": {
+              "carrier": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?carrier}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "manuscript reception event",
+      "sourceType": 2,
+      "facetFilter": "manuscript",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map manuscript reception event",
+      "source": "events[?type=='manuscript.reception']",
+      "sid": "{$part-id}/{@eid}",
+      "output": {
+        "metadata": {
+          "sid": "{$part-id}/{@eid}",
+          "manuscript": "itn:manuscript/{$metadata-pid}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/manuscript.reception",
+          "{?event} crm:P16_used_specific_object {$manuscript}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "manuscript reception event/related/carried_out_by (external global)",
+          "source": "relatedEntities[?relation=='manuscript:reception:sender' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "recipient": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P14_carried_out_by {?recipient}"]
+          }
+        },
+        {
+          "name": "manuscript reception event/related/carried_out_by (external local)",
+          "source": "relatedEntities[?relation=='manuscript:reception:recipient' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "recipient": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P14_carried_out_by {?recipient}"]
+          }
+        },
+        {
+          "name": "manuscript reception event/related/carried_out_by (internal)",
+          "source": "relatedEntities[?relation=='manuscript:reception:recipient' && id.target.name]",
+          "output": {
+            "nodes": {
+              "recipient": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P14_carried_out_by {?recipient}"]
+          }
+        },
+        {
+          "name": "manuscript reception event/related/has_participant (external global)",
+          "source": "relatedEntities[?relation=='manuscript:reception:sender' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "sender": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?sender}"]
+          }
+        },
+        {
+          "name": "manuscript reception event/related/has_participant (external local)",
+          "source": "relatedEntities[?relation=='manuscript:reception:sender' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "sender": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?sender}"]
+          }
+        },
+        {
+          "name": "manuscript reception event/related/has_participant (internal)",
+          "source": "relatedEntities[?relation=='manuscript:reception:sender' && id.target.name]",
+          "output": {
+            "nodes": {
+              "sender": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?sender}"]
+          }
+        },
+        {
+          "name": "manuscript reception event/related/has_participant (external global)",
+          "source": "relatedEntities[?relation=='manuscript:reception:carrier' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "carrier": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?carrier}"]
+          }
+        },
+        {
+          "name": "manuscript reception event/related/has_participant (external local)",
+          "source": "relatedEntities[?relation=='manuscript:reception:carrier' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "carrier": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?carrier}"]
+          }
+        },
+        {
+          "name": "manuscript reception event/related/has_participant (internal)",
+          "source": "relatedEntities[?relation=='manuscript:reception:carrier' && id.target.name]",
+          "output": {
+            "nodes": {
+              "carrier": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?carrier}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "manuscript deliver event",
+      "sourceType": 2,
+      "facetFilter": "manuscript",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map manuscript deliver event",
+      "source": "events[?type=='manuscript.deliver']",
+      "sid": "{$part-id}/{@eid}",
+      "output": {
+        "metadata": {
+          "sid": "{$part-id}/{@eid}",
+          "manuscript": "itn:manuscript/{$metadata-pid}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/manuscript.deliver",
+          "{?event} crm:P16_used_specific_object {$manuscript}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "manuscript deliver event/related/carried_out_by (external global)",
+          "source": "relatedEntities[?relation=='manuscript:deliver:carrier' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "carrier": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P14_carried_out_by {?carrier}"]
+          }
+        },
+        {
+          "name": "manuscript deliver event/related/carried_out_by (external local)",
+          "source": "relatedEntities[?relation=='manuscript:deliver:carrier' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "carrier": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P14_carried_out_by {?carrier}"]
+          }
+        },
+        {
+          "name": "manuscript deliver event/related/carried_out_by (internal)",
+          "source": "relatedEntities[?relation=='manuscript:deliver:carrier' && id.target.name]",
+          "output": {
+            "nodes": {
+              "carrier": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P14_carried_out_by {?carrier}"]
+          }
+        },
+        {
+          "name": "manuscript deliver event/related/has_participant (external global)",
+          "source": "relatedEntities[?relation=='manuscript:deliver:sender' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "sender": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?sender}"]
+          }
+        },
+        {
+          "name": "manuscript deliver event/related/has_participant (external local)",
+          "source": "relatedEntities[?relation=='manuscript:deliver:sender' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "sender": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?sender}"]
+          }
+        },
+        {
+          "name": "manuscript deliver event/related/has_participant (internal)",
+          "source": "relatedEntities[?relation=='manuscript:deliver:sender' && id.target.name]",
+          "output": {
+            "nodes": {
+              "sender": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?sender}"]
+          }
+        },
+        {
+          "name": "manuscript deliver event/related/has_participant (external global)",
+          "source": "relatedEntities[?relation=='manuscript:deliver:recipient' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "recipient": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+          }
+        },
+        {
+          "name": "manuscript deliver event/related/has_participant (external local)",
+          "source": "relatedEntities[?relation=='manuscript:deliver:recipient' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "recipient": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+          }
+        },
+        {
+          "name": "manuscript deliver event/related/has_participant (internal)",
+          "source": "relatedEntities[?relation=='manuscript:deliver:recipient' && id.target.name]",
+          "output": {
+            "nodes": {
+              "recipient": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "manuscript restore event",
+      "sourceType": 2,
+      "facetFilter": "manuscript",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map manuscript restore event",
+      "source": "events[?type=='manuscript.restore']",
+      "sid": "{$part-id}/{@eid}",
+      "output": {
+        "metadata": {
+          "sid": "{$part-id}/{@eid}",
+          "manuscript": "itn:manuscript/{$metadata-pid}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/manuscript.restore",
+          "{?event} crm:P16_used_specific_object {$manuscript}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "manuscript restore event/related/restorer (external global)",
+          "source": "relatedEntities[?relation=='manuscript:restore:restorer' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "restorer": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P14_carried_out_by {?restorer}"]
+          }
+        },
+        {
+          "name": "manuscript restore event/related/restorer (external local)",
+          "source": "relatedEntities[?relation=='manuscript:restore:restorer' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "restorer": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P14_carried_out_by {?restorer}"]
+          }
+        },
+        {
+          "name": "manuscript restore event/related/restorer (internal)",
+          "source": "relatedEntities[?relation=='manuscript:restore:restorer' && id.target.name]",
+          "output": {
+            "nodes": {
+              "restorer": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P14_carried_out_by {?restorer}"]
+          }
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,18 @@
+{
+  "texts": [
+    {
+      "type": "imitation",
+      "targetId": {
+        "target": {
+          "gid": "@http://www.dbpedia.org/resource/Iliad",
+          "label": "Iliad"
+        }
+      },
+      "targetCitation": "1.1",
+      "sourceCitations": [
+        "12.34",
+        "56.78"
+      ]
+    }
+  ]
+}
