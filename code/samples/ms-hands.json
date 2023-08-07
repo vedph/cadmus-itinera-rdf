@@ -1,0 +1,35 @@
+{
+  "hands": [
+    {
+      "eid": "A",
+      "name": "hand A",
+      "instances": [
+        {
+          "scripts": ["alpha", "beta"],
+          "typologies": ["one"],
+          "colors": ["red"],
+          "ranges": [
+            {
+              "start": {
+                "n": 4,
+                "rmn": true
+              },
+              "end": {
+                "n": 5,
+                "rmn": true
+              }
+            },
+            {
+              "start": {
+                "n": 10
+              },
+              "end": {
+                "n": 10
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
