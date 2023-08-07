@@ -35,11 +35,11 @@ The hands part is mapped only for the instances of each hand. Thus, the subset o
   - eid
   - name
     - instances:
-      - ranges
+      - ranges:
         - start
         - end
 
-So, for each hand (MS is the item):
+So, for each hand (MS is the item, already mapped from metadata part):
 
 - HAND a E25_human-made_feature;
 - HAND rdfs:label "name".

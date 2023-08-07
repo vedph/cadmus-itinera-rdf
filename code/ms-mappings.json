@@ -128,6 +128,57 @@
       }
     },
     {
+      "name": "manuscript hands",
+      "sourceType": 2,
+      "facetFilter": "manuscript",
+      "partTypeFilter": "it.vedph.codicology.hands",
+      "description": "Map a manuscript hands part.",
+      "source": "hands",
+      "sid": "{$part-id}",
+      "output": {
+        "metadata": {
+          "ms": "itn:manuscripts/{$metadata-pid}/{$item-eid}"
+        },
+        "nodes": {
+          "hand": "itn:hands/{$part-id}/{@eid} [itn:hands/{@eid}]"
+        },
+        "triples": [
+          "{?hand} a E25_human-made_feature",
+          "{?hand} rdfs:label \"{@name}\""
+        ]
+      },
+      "children": [
+        {
+          "name": "manuscript hands/instances",
+          "source": "instances",
+          "children": [
+            {
+              "name": "manuscript hands/instances/ranges",
+              "source": "ranges",
+              "output": {
+                "nodes": {
+                  "pageset": "itn:page-sets/pageset##",
+                  "dimension": "itn:dimensions/dim##",
+                  "production": "itn:productions/production##"
+                },
+                "triples": [
+                  "{?pageset} a E24_physical_human-made_thing",
+                  "{?dimension} a E54_Dimension",
+                  "{?pageset} crm:P43_has_dimension {?dimension}",
+                  "{?dimension} P90a_has_lower_value_limit \"{!cod-loc({@start})}\"^^xsd:string",
+                  "{?dimension} P90b_has_upper_value_limit \"{!cod-loc({@end})}\"^^xsd:string",
+                  "{?production} a E12_Production",
+                  "{?production} crm:P108_has_produced {?pageset}",
+                  "{?production} crm:P16_used_specific_object {?hand}",
+                  "{$ms} P110i_was_augmented_by {?production}"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "manuscript handwriting event",
       "sourceType": 2,
       "facetFilter": "manuscript",
