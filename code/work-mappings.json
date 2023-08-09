@@ -321,7 +321,8 @@
       "output": {
         "metadata": {
           "id": "{$part-id}/{@eid}",
-          "work": "itn:works/{$metadata-pid}/{$item-eid}"
+          "work": "itn:works/{$metadata-pid}/{$item-eid}",
+          "sid": "{$part-id}/{@eid}"
         },
         "nodes": {
           "event": "itn:events/{$sid} [itn:events/{@eid}]"
