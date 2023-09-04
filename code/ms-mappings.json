@@ -1264,6 +1264,166 @@
             },
             "triples": ["{?event} crm:P11_has_participant {?carrier}"]
           }
+        },
+        {
+          "name": "manuscript reception event/related/attachment (external global)",
+          "source": "relatedEntities[?relation=='manuscript:reception:attachment' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "attachment": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?attachment}"]
+          }
+        },
+        {
+          "name": "manuscript reception event/related/attachment (external local)",
+          "source": "relatedEntities[?relation=='manuscript:reception:attachment' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "attachment": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?attachment}"]
+          }
+        },
+        {
+          "name": "manuscript reception event/related/attachment (internal)",
+          "source": "relatedEntities[?relation=='manuscript:reception:attachment' && id.target.name]",
+          "output": {
+            "nodes": {
+              "attachment": "itn:works/{@id.target.partId}/{@id.target.value} [itn:works/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?attachment}"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "manuscript exchange event",
+      "sourceType": 2,
+      "facetFilter": "manuscript",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map manuscript exchange event",
+      "source": "events[?type=='manuscript.exchange']",
+      "sid": "{$part-id}/{@eid}",
+      "output": {
+        "metadata": {
+          "sid": "{$part-id}/{@eid}",
+          "manuscript": "itn:manuscripts/{$metadata-pid}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/manuscript.exchange",
+          "{?event} crm:P16_used_specific_object {$manuscript}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "manuscript exchange event/related/carried_out_by (external global)",
+          "source": "relatedEntities[?relation=='manuscript:exchange:sender' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "sender": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P14_carried_out_by {?sender}"]
+          }
+        },
+        {
+          "name": "manuscript exchange event/related/carried_out_by (external local)",
+          "source": "relatedEntities[?relation=='manuscript:exchange:sender' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "sender": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P14_carried_out_by {?sender}"]
+          }
+        },
+        {
+          "name": "manuscript exchange event/related/carried_out_by (internal)",
+          "source": "relatedEntities[?relation=='manuscript:exchange:sender' && id.target.name]",
+          "output": {
+            "nodes": {
+              "sender": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P14_carried_out_by {?sender}"]
+          }
+        },
+        {
+          "name": "manuscript exchange event/related/recipient (external global)",
+          "source": "relatedEntities[?relation=='manuscript:exchange:recipient' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "recipient": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+          }
+        },
+        {
+          "name": "manuscript exchange event/related/recipient (external local)",
+          "source": "relatedEntities[?relation=='manuscript:exchange:recipient' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "recipient": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+          }
+        },
+        {
+          "name": "manuscript exchange event/related/recipient (internal)",
+          "source": "relatedEntities[?relation=='manuscript:exchange:recipient' && id.target.name]",
+          "output": {
+            "nodes": {
+              "recipient": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+          }
+        },
+        {
+          "name": "manuscript exchange event/related/attachment (external global)",
+          "source": "relatedEntities[?relation=='manuscript:exchange:attachment' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "attachment": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?attachment}"]
+          }
+        },
+        {
+          "name": "manuscript exchange event/related/attachment (external local)",
+          "source": "relatedEntities[?relation=='manuscript:exchange:attachment' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "attachment": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?attachment}"]
+          }
+        },
+        {
+          "name": "manuscript exchange event/related/attachment (internal)",
+          "source": "relatedEntities[?relation=='manuscript:exchange:attachment' && id.target.name]",
+          "output": {
+            "nodes": {
+              "attachment": "itn:works/{@id.target.partId}/{@id.target.value} [itn:works/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?attachment}"]
+          }
         }
       ]
     },
