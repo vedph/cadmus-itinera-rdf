@@ -28,3 +28,7 @@ Static resources for _Itinera_ graph.
   - [sample referenced texts](code/samples/referenced-texts.json)
   - [sample work events](code/samples/work-events.json)
   - [sample work info](code/samples/work-info.json)
+
+## History
+
+- 2023-09-04: updates to mappings of ms, person and work sent events.

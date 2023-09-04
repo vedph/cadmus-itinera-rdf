@@ -464,7 +464,7 @@
           "source": "relatedEntities[?relation=='text:send:attachment' && id.target.name]",
           "output": {
             "nodes": {
-              "attachment": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+              "attachment": "itn:works/{@id.target.partId}/{@id.target.value} [itn:works/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P16_used_specific_object {?attachment}"]
           }
