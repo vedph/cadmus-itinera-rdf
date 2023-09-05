@@ -228,6 +228,166 @@
       ]
     },
     {
+      "name": "person deliver event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person deliver event",
+      "source": "events[?type=='person.deliver']",
+      "sid": "{$part-id}/{@eid}",
+      "output": {
+        "metadata": {
+          "sid": "{$part-id}/{@eid}",
+          "person": "itn:person/{$metadata-pid}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.deliver",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        },
+        {
+          "name": "person deliver event/related/has_participant (external global)",
+          "source": "relatedEntities[?relation=='person:deliver:sender' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "sender": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?sender}"]
+          }
+        },
+        {
+          "name": "person deliver event/related/has_participant (external local)",
+          "source": "relatedEntities[?relation=='person:deliver:sender' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "sender": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?sender}"]
+          }
+        },
+        {
+          "name": "person deliver event/related/has_participant (internal)",
+          "source": "relatedEntities[?relation=='person:deliver:sender' && id.target.name]",
+          "output": {
+            "nodes": {
+              "sender": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?sender}"]
+          }
+        },
+        {
+          "name": "person deliver event/related/has_participant (external global)",
+          "source": "relatedEntities[?relation=='person:deliver:recipient' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "recipient": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+          }
+        },
+        {
+          "name": "person deliver event/related/has_participant (external local)",
+          "source": "relatedEntities[?relation=='person:deliver:recipient' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "recipient": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+          }
+        },
+        {
+          "name": "person deliver event/related/has_participant (internal)",
+          "source": "relatedEntities[?relation=='person:deliver:recipient' && id.target.name]",
+          "output": {
+            "nodes": {
+              "recipient": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P11_has_participant {?recipient}"]
+          }
+        },
+        {
+          "name": "person deliver event/related/delivered (external global)",
+          "source": "relatedEntities[?relation=='person:deliver:delivered' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "delivered": "{!_substring({@id.target.gid} & 1)}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?delivered}"]
+          }
+        },
+        {
+          "name": "person deliver event/related/delivered (external local)",
+          "source": "relatedEntities[?relation=='person:deliver:delivered' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "delivered": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?delivered}"]
+          }
+        },
+        {
+          "name": "person deliver event/related/delivered (internal)",
+          "source": "relatedEntities[?relation=='person:deliver:delivered' && id.target.name]",
+          "output": {
+            "nodes": {
+              "delivered": "itn:works/{@id.target.partId}/{@id.target.value} [itn:works/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?delivered}"]
+          }
+        },
+        {
+          "name": "person deliver event/related/attachment (external global)",
+          "source": "relatedEntities[?relation=='person:deliver:attachment' && !id.target.name && starts_with(id.target.gid, '@')]",
+          "output": {
+            "nodes": {
+              "attachment": "{@slice(id.target.gid, 1)}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?attachment}"]
+          }
+        },
+        {
+          "name": "person deliver event/related/attachment (external local)",
+          "source": "relatedEntities[?relation=='person:deliver:attachment' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
+          "output": {
+            "nodes": {
+              "attachment": "{@id.target.gid}"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?attachment}"]
+          }
+        },
+        {
+          "name": "person deliver event/related/attachment (internal)",
+          "source": "relatedEntities[?relation=='person:deliver:attachment' && id.target.name]",
+          "output": {
+            "nodes": {
+              "attachment": "itn:works/{@id.target.partId}/{@id.target.value} [itn:works/{@id.target.value}]"
+            },
+            "triples": ["{?event} crm:P16_used_specific_object {?attachment}"]
+          }
+        }
+      ]
+    },
+    {
       "name": "person family event",
       "sourceType": 2,
       "facetFilter": "person",
@@ -3905,7 +4065,7 @@
         "triples": [
           "{?event} a crm:E7_Activity",
           "{?event} crm:P2_has_type itn:event-types/person.dedicated",
-          "{?event} crm:P14_carried_out_by {$person}"
+          "{?event} crm:P11_has_participant {$person}"
         ],
         "metadata": {
           "sid": "{$part-id}/{@eid}",
@@ -3995,7 +4155,7 @@
             "nodes": {
               "maker": "{!_substring({@id.target.gid} & 1)}"
             },
-            "triples": ["{?event} crm:P11_has_participant {?maker}"]
+            "triples": ["{?event} crm:P14_carried_out_by {?maker}"]
           }
         },
         {
@@ -4005,7 +4165,7 @@
             "nodes": {
               "maker": "{@id.target.gid}"
             },
-            "triples": ["{?event} crm:P11_has_participant {?maker}"]
+            "triples": ["{?event} crm:P14_carried_out_by {?maker}"]
           }
         },
         {
@@ -4015,7 +4175,7 @@
             "nodes": {
               "maker": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
-            "triples": ["{?event} crm:P11_has_participant {?maker}"]
+            "triples": ["{?event} crm:P14_carried_out_by {?maker}"]
           }
         }
       ]
