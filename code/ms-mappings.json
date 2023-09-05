@@ -595,9 +595,8 @@
           "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
-          "{?event} a crm:E7_Activity",
-          "{?event} crm:P2_has_type itn:event-types/manuscript.possession",
-          "{?event} crm:P75i_possessed {$manuscript}"
+          "{?event} a crm:E30_Right",
+          "{?event} crm:P104i_applies_to {$manuscript}"
         ]
       },
       "children": [
@@ -623,27 +622,7 @@
             "nodes": {
               "owner": "{!_substring({@id.target.gid} & 1)}"
             },
-            "triples": ["{?event} crm:P75_possesses {?owner}"]
-          }
-        },
-        {
-          "name": "manuscript possession event/related/possesses (external local)",
-          "source": "relatedEntities[?relation=='manuscript:possession:owner' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
-          "output": {
-            "nodes": {
-              "owner": "{@id.target.gid}"
-            },
-            "triples": ["{?event} crm:P75_possesses {?owner}"]
-          }
-        },
-        {
-          "name": "manuscript possession event/related/possesses (internal)",
-          "source": "relatedEntities[?relation=='manuscript:possession:owner' && id.target.name]",
-          "output": {
-            "nodes": {
-              "owner": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
-            },
-            "triples": ["{?event} crm:P75_possesses {?owner}"]
+            "triples": ["{?event} crm:P75i_is_possessed_by {?owner}"]
           }
         },
         {
@@ -652,26 +631,6 @@
           "output": {
             "nodes": {
               "attest": "{!_substring({@id.target.gid} & 1)}"
-            },
-            "triples": ["{?event} crm:P70i_is_documented_in {?attest}"]
-          }
-        },
-        {
-          "name": "manuscript possession event/related/attested_by (external local)",
-          "source": "relatedEntities[?relation=='manuscript:possession:attest' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
-          "output": {
-            "nodes": {
-              "attest": "{@id.target.gid}"
-            },
-            "triples": ["{?event} crm:P70i_is_documented_in {?attest}"]
-          }
-        },
-        {
-          "name": "manuscript possession event/related/attested_by (internal)",
-          "source": "relatedEntities[?relation=='manuscript:possession:attest' && id.target.name]",
-          "output": {
-            "nodes": {
-              "attest": "itn:persons/{@id.target.partId}/{@id.target.value} [itn:persons/{@id.target.value}]"
             },
             "triples": ["{?event} crm:P70i_is_documented_in {?attest}"]
           }

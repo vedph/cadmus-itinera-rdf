@@ -4273,9 +4273,8 @@
           "event": "itn:events/{$sid} [itn:events/{@eid}]"
         },
         "triples": [
-          "{?event} a crm:E7_Activity",
-          "{?event} crm:P2_has_type itn:event-types/person.possession",
-          "{?event} crm:P14_carried_out_by {$person}"
+          "{?event} a crm:E30_Right",
+          "{?event} crm:P75i_is_possessed_by {$person}"
         ],
         "metadata": {
           "sid": "{$part-id}/{@eid}",
@@ -4305,27 +4304,7 @@
             "nodes": {
               "manuscript": "{!_substring({@id.target.gid} & 1)}"
             },
-            "triples": ["{?event} crm:P75i_possessed {?manuscript}"]
-          }
-        },
-        {
-          "name": "person possession event/related/manuscript (external local)",
-          "source": "relatedEntities[?relation=='person:possession:manuscript' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
-          "output": {
-            "nodes": {
-              "manuscript": "{@id.target.gid}"
-            },
-            "triples": ["{?event} crm:P75i_possessed {?manuscript}"]
-          }
-        },
-        {
-          "name": "person possession event/related/manuscript (internal)",
-          "source": "relatedEntities[?relation=='person:possession:manuscript' && id.target.name]",
-          "output": {
-            "nodes": {
-              "manuscript": "itn:manuscripts/{@id.target.partId}/{@id.target.value} [itn:manuscripts/{@id.target.value}]"
-            },
-            "triples": ["{?event} crm:P75i_possessed {?manuscript}"]
+            "triples": ["{?event} crm:P104i_applies_to {?manuscript}"]
           }
         }
       ]
