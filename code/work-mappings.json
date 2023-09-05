@@ -867,18 +867,10 @@
       "sourceType": 2,
       "facetFilter": "work",
       "partTypeFilter": "it.vedph.historical-events",
-      "description": "Map text collection event",
+      "description": "Map text collection event: work is part of collection",
       "source": "events[?type=='text.collection']",
       "sid": "{$part-id}/{@eid}",
       "output": {
-        "nodes": {
-          "event": "itn:events/{$sid} [itn:events/{@eid}]"
-        },
-        "triples": [
-          "{?event} a crm:E89_propositional_object",
-          "{?event} crm:P2_has_type itn:event-types/text.collection",
-          "{?event} crm:P148i_is_component_of {$work}"
-        ],
         "metadata": {
           "id": "{$part-id}/{@eid}",
           "work": "itn:works/{$metadata-pid}/{$item-eid}"
@@ -907,7 +899,7 @@
             "nodes": {
               "collector": "{!_substring({@id.target.gid} & 1)}"
             },
-            "triples": ["{?event} crm:P148_has_component {?collector}"]
+            "triples": ["{?work} crm:P106_is_composed_of {?collector}"]
           }
         },
         {
@@ -917,7 +909,7 @@
             "nodes": {
               "collector": "{@id.target.gid}"
             },
-            "triples": ["{?event} crm:P148_has_component {?collector}"]
+            "triples": ["{?work} crm:P106_is_composed_of {?collector}"]
           }
         },
         {
@@ -927,7 +919,7 @@
             "nodes": {
               "collector": "itn:works/{@id.target.partId}/{@id.target.value} [itn:works/{@id.target.value}]"
             },
-            "triples": ["{?event} crm:P148_has_component {?collector}"]
+            "triples": ["{?work} crm:P106_is_composed_of {?collector}"]
           }
         }
       ]
