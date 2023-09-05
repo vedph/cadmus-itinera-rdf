@@ -866,6 +866,46 @@
       ]
     },
     {
+      "name": "person job.monk event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.monk event",
+      "source": "events[?type=='person.job.monk']",
+      "sid": "{$part-id}/{@eid}",
+      "output": {
+        "metadata": {
+          "sid": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$metadata-pid}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.monk",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
       "name": "person job.prior event",
       "sourceType": 2,
       "facetFilter": "person",
@@ -1844,6 +1884,46 @@
         "triples": [
           "{?event} a crm:E7_Activity",
           "{?event} crm:P2_has_type itn:event-types/person.job.earl",
+          "{?event} crm:P14_carried_out_by {$person}"
+        ]
+      },
+      "children": [
+        {
+          "name": "event_description"
+        },
+        {
+          "name": "event_note"
+        },
+        {
+          "name": "event_chronotopes"
+        },
+        {
+          "name": "event_assertion"
+        },
+        {
+          "name": "event_period"
+        }
+      ]
+    },
+    {
+      "name": "person job.knight event",
+      "sourceType": 2,
+      "facetFilter": "person",
+      "partTypeFilter": "it.vedph.historical-events",
+      "description": "Map person job.knight event",
+      "source": "events[?type=='person.job.knight']",
+      "sid": "{$part-id}/{@eid}",
+      "output": {
+        "metadata": {
+          "sid": "{$part-id}/{@eid}",
+          "person": "itn:persons/{$metadata-pid}/{$item-eid}"
+        },
+        "nodes": {
+          "event": "itn:events/{$sid} [itn:events/{@eid}]"
+        },
+        "triples": [
+          "{?event} a crm:E7_Activity",
+          "{?event} crm:P2_has_type itn:event-types/person.job.knight",
           "{?event} crm:P14_carried_out_by {$person}"
         ]
       },
