@@ -31,4 +31,5 @@ Static resources for _Itinera_ graph.
 
 ## History
 
+- 2023-10-05: renamed mappings.
 - 2023-09-04: updates to mappings of ms, person and work sent events.

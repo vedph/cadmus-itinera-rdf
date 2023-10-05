@@ -14,8 +14,8 @@ You will need:
 
 (1) Itinera resources:
 
-- [Itinera Docker compose script with graph](https://github.com/vedph/cadmus-itinera-app/blob/master/code/docker-compose_graph.yml)
-- [Itinera seed profile](https://github.com/vedph/cadmus-itinera-api/blob/master/code/CadmusItineraApi/wwwroot/seed-profile.json)
+- [Itinera Docker compose script](https://raw.githubusercontent.com/vedph/cadmus-itinera-app/master/docker-compose.yml)
+- [Itinera seed profile](https://raw.githubusercontent.com/vedph/cadmus-itinera-api/master/CadmusItineraApi/wwwroot/seed-profile.json)
 
 (2) Itinera presets:
 
@@ -37,8 +37,8 @@ You will need:
 (1) create a `cadmus-itinera` folder in your desktop, and download in it:
 
 - all the Itinera presets listed [above](#requirements);
-- the [Itinera seed profile](https://github.com/vedph/cadmus-itinera-api/blob/master/code/CadmusItineraApi/wwwroot/seed-profile.json);
-- the [Docker compose script](https://github.com/vedph/cadmus-itinera-app/blob/master/code/docker-compose_graph.yml), renaming it to `docker-compose.yml`.
+- the [Itinera seed profile](https://raw.githubusercontent.com/vedph/cadmus-itinera-api/master/CadmusItineraApi/wwwroot/seed-profile.json);
+- the [Docker compose script](https://raw.githubusercontent.com/vedph/cadmus-itinera-app/master/docker-compose.yml), renaming it to `docker-compose.yml`.
 
 (2) download the [Cadmus CLI tool](https://github.com/vedph/cadmus_tool/releases) and unzip it in `C:/exe/cadmus-tool` (preserving its directory structure).
 
@@ -50,6 +50,8 @@ You will need:
 
 ```ps1
 cd C:\exe\cadmus-tool
+./cadmus-tool graph-deref $HOME/Desktop/cadmus-itinera/ms-mappings.json $HOME/Desktop/cadmus-itinera/ms-mappings-d.json
+./cadmus-tool graph-deref $HOME/Desktop/cadmus-itinera/person-mappings.json $HOME/Desktop/cadmus-itinera/person-mappings-d.json
 ./cadmus-tool graph-deref $HOME/Desktop/cadmus-itinera/work-mappings.json $HOME/Desktop/cadmus-itinera/work-mappings-d.json
 ./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/nodes.json cadmus-itinera-graph -g repository-provider.itinera
 ./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/triples.json cadmus-itinera-graph -g repository-provider.itinera -m t
@@ -66,6 +68,8 @@ md $HOME/Desktop/cadmus-itinera
 cd $HOME/Desktop/cadmus-itinera
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/code/nodes.json" -OutFile nodes.json
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/code/triples.json" -OutFile triples.json
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/code/ms-mappings.json" -OutFile ms-mappings.json
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/code/person-mappings.json" -OutFile person-mappings.json
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/code/work-mappings.json" -OutFile work-mappings.json
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vedph/cadmus-itinera-api/master/CadmusItineraApi/wwwroot/seed-profile.json" -OutFile seed-profile.json
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/vedph/cadmus-itinera-app/master/docker-compose_graph.yml" -OutFile "docker-compose.yml"
@@ -94,13 +98,17 @@ docker compose up
 
 # import presets
 cd C:\exe\cadmus-tool
+./cadmus-tool graph-deref $HOME/Desktop/cadmus-itinera/ms-mappings.json $HOME/Desktop/cadmus-itinera/ms-mappings-d.json
+./cadmus-tool graph-deref $HOME/Desktop/cadmus-itinera/person-mappings.json $HOME/Desktop/cadmus-itinera/person-mappings-d.json
 ./cadmus-tool graph-deref $HOME/Desktop/cadmus-itinera/work-mappings.json $HOME/Desktop/cadmus-itinera/work-mappings-d.json
 ./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/nodes.json cadmus-itinera-graph -g repository-provider.itinera
 ./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/triples.json cadmus-itinera-graph -g repository-provider.itinera -m t
+./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/ms-mappings-d.json cadmus-itinera-graph -g repository-provider.itinera -m m
+./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/person-mappings-d.json cadmus-itinera-graph -g repository-provider.itinera -m m
 ./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/work-mappings-d.json cadmus-itinera-graph -g repository-provider.itinera -m m
 ```
 
->>⚠️ Dereferencing mappings is required when your source file is not a JSON array with mappings, but rather a JSON object with named and document mappings sections. Also, when using `graph-import` command, you can add `-d` for dry-mode.
+>⚠️ Dereferencing mappings is required when your source file is not a JSON array with mappings, but rather a JSON object with named and document mappings sections. Also, when using `graph-import` command, you can add `-d` for dry-mode.
 
 ## Ubuntu
 
@@ -118,6 +126,8 @@ mkdir cadmus-itinera
 cd cadmus-itinera
 wget https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/code/nodes.json
 wget https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/code/triples.json
+wget https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/code/ms-mappings.json
+wget https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/code/person-mappings.json
 wget https://raw.githubusercontent.com/vedph/cadmus-itinera-rdf/master/code/work-mappings.json
 wget https://raw.githubusercontent.com/vedph/cadmus-itinera-api/master/code/CadmusItineraApi/wwwroot/seed-profile.json
 wget https://raw.githubusercontent.com/vedph/cadmus-itinera-app/master/code/docker-compose_graph.yml
@@ -129,8 +139,8 @@ mv docker-compose_graph.yml docker-compose.yml
 ```bash
 cd ~/Documents
 mkdir cadmus-tool
-wget https://github.com/vedph/cadmus_tool/releases/download/v.8.0.0/App-v.8.0.0-linux-x64.tar.gz
-tar -xvzf --strip-components=1 App-v.8.0.0-linux-x64.tar.gz
+wget https://github.com/vedph/cadmus_tool/releases/download/v.8.0.9/App-v.8.0.9-linux-x64.tar.gz
+tar -xvzf --strip-components=1 App-v.8.0.9-linux-x64.tar.gz
 cd plugins
 wget http://www.fusisoft.it/xfer/Cadmus.Itinera.Services.zip
 unzip Cadmus.Itinera.Services.zip
@@ -147,9 +157,13 @@ sudo docker compose up
 (4) from the Cadmus CLI folder, run these CLI commands to expand the mappings, create the index database and fill it with some presets:
 
 ```bash
+./cadmus-tool graph-deref ~/Documents/cadmus-itinera/ms-mappings.json ~/Documents/cadmus-itinera/ms-mappings-d.json
+./cadmus-tool graph-deref ~/Documents/cadmus-itinera/person-mappings.json ~/Documents/cadmus-itinera/person-mappings-d.json
 ./cadmus-tool graph-deref ~/Documents/cadmus-itinera/work-mappings.json ~/Documents/cadmus-itinera/work-mappings-d.json
 ./cadmus-tool graph-import ~/Documents/cadmus-itinera/nodes.json cadmus-itinera-graph -g repository-provider.itinera
 ./cadmus-tool graph-import ~/Documents/cadmus-itinera/triples.json cadmus-itinera-graph -g repository-provider.itinera -m t
+./cadmus-tool graph-import ~/Documents/cadmus-itinera/ms-mappings-d.json cadmus-itinera-graph -g repository-provider.itinera -m m
+./cadmus-tool graph-import ~/Documents/cadmus-itinera/person-mappings-d.json cadmus-itinera-graph -g repository-provider.itinera -m m
 ./cadmus-tool graph-import ~/Documents/cadmus-itinera/work-mappings-d.json cadmus-itinera-graph -g repository-provider.itinera -m m
 ```
 

@@ -4001,7 +4001,7 @@
       ]
     },
     {
-      "name": "person dedication event",
+      "name": "person_dedication_event",
       "sourceType": 2,
       "facetFilter": "person",
       "partTypeFilter": "it.vedph.historical-events",
@@ -4039,7 +4039,7 @@
           "name": "event_period"
         },
         {
-          "name": "person dedication event/related/manuscript@eg",
+          "name": "person_dedication_event/related/manuscript@eg",
           "source": "relatedEntities[?relation=='person:dedication:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -4049,7 +4049,7 @@
           }
         },
         {
-          "name": "person dedication event/related/manuscript@el",
+          "name": "person_dedication_event/related/manuscript@el",
           "source": "relatedEntities[?relation=='person:dedication:manuscript' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -4059,7 +4059,7 @@
           }
         },
         {
-          "name": "person dedication event/related/manuscript@i",
+          "name": "person_dedication_event/related/manuscript@i",
           "source": "relatedEntities[?relation=='person:dedication:manuscript' && id.target.name]",
           "output": {
             "nodes": {
@@ -4069,7 +4069,7 @@
           }
         },
         {
-          "name": "person dedication event/related/text@eg",
+          "name": "person_dedication_event/related/text@eg",
           "source": "relatedEntities[?relation=='person:dedication:text' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -4079,7 +4079,7 @@
           }
         },
         {
-          "name": "person dedication event/related/text@el",
+          "name": "person_dedication_event/related/text@el",
           "source": "relatedEntities[?relation=='person:dedication:text' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -4089,7 +4089,7 @@
           }
         },
         {
-          "name": "person dedication event/related/text@i",
+          "name": "person_dedication_event/related/text@i",
           "source": "relatedEntities[?relation=='person:dedication:text' && id.target.name]",
           "output": {
             "nodes": {
@@ -4099,7 +4099,7 @@
           }
         },
         {
-          "name": "person dedication event/related/recipient@eg",
+          "name": "person_dedication_event/related/recipient@eg",
           "source": "relatedEntities[?relation=='person:dedication:recipient' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -4109,7 +4109,7 @@
           }
         },
         {
-          "name": "person dedication event/related/recipient@el",
+          "name": "person_dedication_event/related/recipient@el",
           "source": "relatedEntities[?relation=='person:dedication:recipient' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -4119,7 +4119,7 @@
           }
         },
         {
-          "name": "person dedication event/related/recipient@i",
+          "name": "person_dedication_event/related/recipient@i",
           "source": "relatedEntities[?relation=='person:dedication:recipient' && id.target.name]",
           "output": {
             "nodes": {
@@ -4131,7 +4131,7 @@
       ]
     },
     {
-      "name": "person dedicated event",
+      "name": "person_dedicated_event",
       "sourceType": 2,
       "facetFilter": "person",
       "partTypeFilter": "it.vedph.historical-events",
@@ -4169,7 +4169,7 @@
           "name": "event_period"
         },
         {
-          "name": "person dedicated event/related/manuscript@eg",
+          "name": "person_dedicated_event/related/manuscript@eg",
           "source": "relatedEntities[?relation=='person:dedicated:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -4179,7 +4179,7 @@
           }
         },
         {
-          "name": "person dedicated event/related/manuscript@el",
+          "name": "person_dedicated_event/related/manuscript@el",
           "source": "relatedEntities[?relation=='person:dedicated:manuscript' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -4189,7 +4189,7 @@
           }
         },
         {
-          "name": "person dedicated event/related/manuscript@i",
+          "name": "person_dedicated_event/related/manuscript@i",
           "source": "relatedEntities[?relation=='person:dedicated:manuscript' && id.target.name]",
           "output": {
             "nodes": {
@@ -4199,7 +4199,7 @@
           }
         },
         {
-          "name": "person dedicated event/related/text@eg",
+          "name": "person_dedicated_event/related/text@eg",
           "source": "relatedEntities[?relation=='person:dedicated:text' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -4209,7 +4209,7 @@
           }
         },
         {
-          "name": "person dedicated event/related/text@el",
+          "name": "person_dedicated_event/related/text@el",
           "source": "relatedEntities[?relation=='person:dedicated:text' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -4219,7 +4219,7 @@
           }
         },
         {
-          "name": "person dedicated event/related/text@i",
+          "name": "person_dedicated_event/related/text@i",
           "source": "relatedEntities[?relation=='person:dedicated:text' && id.target.name]",
           "output": {
             "nodes": {
@@ -4229,7 +4229,7 @@
           }
         },
         {
-          "name": "person dedicated event/related/maker@eg",
+          "name": "person_dedicated_event/related/maker@eg",
           "source": "relatedEntities[?relation=='person:dedicated:maker' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -4239,7 +4239,7 @@
           }
         },
         {
-          "name": "person dedicated event/related/maker@el",
+          "name": "person_dedicated_event/related/maker@el",
           "source": "relatedEntities[?relation=='person:dedicated:maker' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -4249,7 +4249,7 @@
           }
         },
         {
-          "name": "person dedicated event/related/maker@i",
+          "name": "person_dedicated_event/related/maker@i",
           "source": "relatedEntities[?relation=='person:dedicated:maker' && id.target.name]",
           "output": {
             "nodes": {
@@ -4261,7 +4261,7 @@
       ]
     },
     {
-      "name": "person possession event",
+      "name": "person_possession_event",
       "sourceType": 2,
       "facetFilter": "person",
       "partTypeFilter": "it.vedph.historical-events",
@@ -4298,7 +4298,7 @@
           "name": "event_period"
         },
         {
-          "name": "person possession event/related/manuscript@eg",
+          "name": "person_possession_event/related/manuscript@eg",
           "source": "relatedEntities[?relation=='person:possession:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -4310,7 +4310,7 @@
       ]
     },
     {
-      "name": "person borrowing event",
+      "name": "person_borrowing_event",
       "sourceType": 2,
       "facetFilter": "person",
       "partTypeFilter": "it.vedph.historical-events",
@@ -4347,7 +4347,7 @@
           "name": "event_period"
         },
         {
-          "name": "person borrowing event/related/manuscript@eg",
+          "name": "person_borrowing_event/related/manuscript@eg",
           "source": "relatedEntities[?relation=='person:borrowing:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -4357,7 +4357,7 @@
           }
         },
         {
-          "name": "person borrowing event/related/manuscript@el",
+          "name": "person_borrowing_event/related/manuscript@el",
           "source": "relatedEntities[?relation=='person:borrowing:manuscript' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -4367,7 +4367,7 @@
           }
         },
         {
-          "name": "person borrowing event/related/manuscript@i",
+          "name": "person_borrowing_event/related/manuscript@i",
           "source": "relatedEntities[?relation=='person:borrowing:manuscript' && id.target.name]",
           "output": {
             "nodes": {
@@ -4377,7 +4377,7 @@
           }
         },
         {
-          "name": "person borrowing event/related/lender@eg",
+          "name": "person_borrowing_event/related/lender@eg",
           "source": "relatedEntities[?relation=='person:borrowing:lender' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -4387,7 +4387,7 @@
           }
         },
         {
-          "name": "person borrowing event/related/lender@el",
+          "name": "person_borrowing_event/related/lender@el",
           "source": "relatedEntities[?relation=='person:borrowing:lender' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -4397,7 +4397,7 @@
           }
         },
         {
-          "name": "person borrowing event/related/lender@i",
+          "name": "person_borrowing_event/related/lender@i",
           "source": "relatedEntities[?relation=='person:borrowing:lender' && id.target.name]",
           "output": {
             "nodes": {
@@ -4409,7 +4409,7 @@
       ]
     },
     {
-      "name": "person lending event",
+      "name": "person_lending_event",
       "sourceType": 2,
       "facetFilter": "person",
       "partTypeFilter": "it.vedph.historical-events",
@@ -4446,7 +4446,7 @@
           "name": "event_period"
         },
         {
-          "name": "person lending event/related/manuscript@eg",
+          "name": "person_lending_event/related/manuscript@eg",
           "source": "relatedEntities[?relation=='person:lending:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -4456,7 +4456,7 @@
           }
         },
         {
-          "name": "person lending event/related/manuscript@el",
+          "name": "person_lending_event/related/manuscript@el",
           "source": "relatedEntities[?relation=='person:lending:manuscript' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -4466,7 +4466,7 @@
           }
         },
         {
-          "name": "person lending event/related/manuscript@i",
+          "name": "person_lending_event/related/manuscript@i",
           "source": "relatedEntities[?relation=='person:lending:manuscript' && id.target.name]",
           "output": {
             "nodes": {
@@ -4476,7 +4476,7 @@
           }
         },
         {
-          "name": "person lending event/related/borrower@eg",
+          "name": "person_lending_event/related/borrower@eg",
           "source": "relatedEntities[?relation=='person:lending:borrower' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -4486,7 +4486,7 @@
           }
         },
         {
-          "name": "person lending event/related/borrower@el",
+          "name": "person_lending_event/related/borrower@el",
           "source": "relatedEntities[?relation=='person:lending:borrower' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -4496,7 +4496,7 @@
           }
         },
         {
-          "name": "person lending event/related/borrower@i",
+          "name": "person_lending_event/related/borrower@i",
           "source": "relatedEntities[?relation=='person:lending:borrower' && id.target.name]",
           "output": {
             "nodes": {
@@ -4508,7 +4508,7 @@
       ]
     },
     {
-      "name": "person returning event",
+      "name": "person_returning_event",
       "sourceType": 2,
       "facetFilter": "person",
       "partTypeFilter": "it.vedph.historical-events",
@@ -4545,7 +4545,7 @@
           "name": "event_period"
         },
         {
-          "name": "person returning event/related/manuscript@eg",
+          "name": "person_returning_event/related/manuscript@eg",
           "source": "relatedEntities[?relation=='person:returning:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -4555,7 +4555,7 @@
           }
         },
         {
-          "name": "person returning event/related/manuscript@el",
+          "name": "person_returning_event/related/manuscript@el",
           "source": "relatedEntities[?relation=='person:returning:manuscript' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -4565,7 +4565,7 @@
           }
         },
         {
-          "name": "person returning event/related/manuscript@i",
+          "name": "person_returning_event/related/manuscript@i",
           "source": "relatedEntities[?relation=='person:returning:manuscript' && id.target.name]",
           "output": {
             "nodes": {
@@ -4575,7 +4575,7 @@
           }
         },
         {
-          "name": "person returning event/related/obtain-restitution@eg",
+          "name": "person_returning_event/related/obtain-restitution@eg",
           "source": "relatedEntities[?relation=='person:returning:obtain-restitution' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -4587,7 +4587,7 @@
           }
         },
         {
-          "name": "person returning event/related/obtain-restitution@el",
+          "name": "person_returning_event/related/obtain-restitution@el",
           "source": "relatedEntities[?relation=='person:returning:obtain-restitution' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -4599,7 +4599,7 @@
           }
         },
         {
-          "name": "person returning event/related/obtain-restitution@i",
+          "name": "person_returning_event/related/obtain-restitution@i",
           "source": "relatedEntities[?relation=='person:returning:obtain-restitution' && id.target.name]",
           "output": {
             "nodes": {
@@ -4613,7 +4613,7 @@
       ]
     },
     {
-      "name": "person obtain-restitution event",
+      "name": "person_obtain-restitution_event",
       "sourceType": 2,
       "facetFilter": "person",
       "partTypeFilter": "it.vedph.historical-events",
@@ -4650,7 +4650,7 @@
           "name": "event_period"
         },
         {
-          "name": "person obtain-restitution event/related/manuscript@eg",
+          "name": "person_obtain-restitution_event/related/manuscript@eg",
           "source": "relatedEntities[?relation=='person:obtain-restitution:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -4660,7 +4660,7 @@
           }
         },
         {
-          "name": "person obtain-restitution event/related/manuscript@el",
+          "name": "person_obtain-restitution_event/related/manuscript@el",
           "source": "relatedEntities[?relation=='person:obtain-restitution:manuscript' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -4670,7 +4670,7 @@
           }
         },
         {
-          "name": "person obtain-restitution event/related/manuscript@i",
+          "name": "person_obtain-restitution_event/related/manuscript@i",
           "source": "relatedEntities[?relation=='person:obtain-restitution:manuscript' && id.target.name]",
           "output": {
             "nodes": {
@@ -4680,7 +4680,7 @@
           }
         },
         {
-          "name": "person obtain-restitution event/related/returning@eg",
+          "name": "person_obtain-restitution_event/related/returning@eg",
           "source": "relatedEntities[?relation=='person:obtain-restitution:returning' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -4690,7 +4690,7 @@
           }
         },
         {
-          "name": "person obtain-restitution event/related/returning@el",
+          "name": "person_obtain-restitution_event/related/returning@el",
           "source": "relatedEntities[?relation=='person:obtain-restitution:returning' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -4700,7 +4700,7 @@
           }
         },
         {
-          "name": "person obtain-restitution event/related/returning@i",
+          "name": "person_obtain-restitution_event/related/returning@i",
           "source": "relatedEntities[?relation=='person:obtain-restitution:returning' && id.target.name]",
           "output": {
             "nodes": {
@@ -4712,7 +4712,7 @@
       ]
     },
     {
-      "name": "person buying event",
+      "name": "person_buying_event",
       "sourceType": 2,
       "facetFilter": "person",
       "partTypeFilter": "it.vedph.historical-events",
@@ -4749,7 +4749,7 @@
           "name": "event_period"
         },
         {
-          "name": "person buying event/related/manuscript@eg",
+          "name": "person_buying_event/related/manuscript@eg",
           "source": "relatedEntities[?relation=='person:buying:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -4759,7 +4759,7 @@
           }
         },
         {
-          "name": "person buying event/related/manuscript@el",
+          "name": "person_buying_event/related/manuscript@el",
           "source": "relatedEntities[?relation=='person:buying:manuscript' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -4769,7 +4769,7 @@
           }
         },
         {
-          "name": "person buying event/related/manuscript@i",
+          "name": "person_buying_event/related/manuscript@i",
           "source": "relatedEntities[?relation=='person:buying:manuscript' && id.target.name]",
           "output": {
             "nodes": {
@@ -4779,7 +4779,7 @@
           }
         },
         {
-          "name": "person buying event/related/seller@eg",
+          "name": "person_buying_event/related/seller@eg",
           "source": "relatedEntities[?relation=='person:buying:seller' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -4789,7 +4789,7 @@
           }
         },
         {
-          "name": "person buying event/related/seller@el",
+          "name": "person_buying_event/related/seller@el",
           "source": "relatedEntities[?relation=='person:buying:seller' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -4799,7 +4799,7 @@
           }
         },
         {
-          "name": "person buying event/related/seller@i",
+          "name": "person_buying_event/related/seller@i",
           "source": "relatedEntities[?relation=='person:buying:seller' && id.target.name]",
           "output": {
             "nodes": {
@@ -4811,7 +4811,7 @@
       ]
     },
     {
-      "name": "person selling event",
+      "name": "person_selling_event",
       "sourceType": 2,
       "facetFilter": "person",
       "partTypeFilter": "it.vedph.historical-events",
@@ -4848,7 +4848,7 @@
           "name": "event_period"
         },
         {
-          "name": "person selling event/related/manuscript@eg",
+          "name": "person_selling_event/related/manuscript@eg",
           "source": "relatedEntities[?relation=='person:selling:manuscript' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -4858,7 +4858,7 @@
           }
         },
         {
-          "name": "person selling event/related/manuscript@el",
+          "name": "person_selling_event/related/manuscript@el",
           "source": "relatedEntities[?relation=='person:selling:manuscript' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -4868,7 +4868,7 @@
           }
         },
         {
-          "name": "person selling event/related/manuscript@i",
+          "name": "person_selling_event/related/manuscript@i",
           "source": "relatedEntities[?relation=='person:selling:manuscript' && id.target.name]",
           "output": {
             "nodes": {
@@ -4878,7 +4878,7 @@
           }
         },
         {
-          "name": "person selling event/related/buyer@eg",
+          "name": "person_selling_event/related/buyer@eg",
           "source": "relatedEntities[?relation=='person:selling:buyer' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -4888,7 +4888,7 @@
           }
         },
         {
-          "name": "person selling event/related/buyer@el",
+          "name": "person_selling_event/related/buyer@el",
           "source": "relatedEntities[?relation=='person:selling:buyer' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -4898,7 +4898,7 @@
           }
         },
         {
-          "name": "person selling event/related/buyer@i",
+          "name": "person_selling_event/related/buyer@i",
           "source": "relatedEntities[?relation=='person:selling:buyer' && id.target.name]",
           "output": {
             "nodes": {
