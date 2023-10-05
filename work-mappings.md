@@ -248,15 +248,15 @@ Information about the literary work represented by the item.
   - `assertion` (`Assertion`)
 - `note` (`string`)
 
-A creation event creates the **work**:
+For each **author**, we could just say that a CREATION event `P14_carried_out_by` AUTHOR. Yet, this does not allow for assertions about the link between the work and the author. To do this we must reify `P14_carried_out_by` introducing an authorship production event:
 
-- CREATION `a E65_Creation`;
-- CREATION `P94_has_created` WORK.
+- CONFIDENCE_ASSIGNMENT a `E13_Attribute_Assignment` = there is a confidence assignment event which assigns attributes to something; these attributes will consist in the triples expressing our confidence level;
+- AUTHORSHIP `a E12_Production`;
+- AUTHORSHIP `P14_carried_out_by` AUTHOR;
+- AUTHORSHIP `P94_has_created` WORK;
+- AUTHORSHIP `P140i_was_attributed_by` CONFIDENCE_ASSIGNMENT.
 
-For each **author**:
-
-- AUTHOR `a E21_Person`;
-- CREATION `P14_carried_out_by` AUTHOR.
+Now you can attach assertion triples to CONFIDENCE_ASSIGNMENT.
 
 For each **title** we could eventually map it (see [clips](code/clips.json)) this way, but currently we are not interested in them:
 
@@ -314,45 +314,42 @@ Say we have this mock part data:
 }
 ```
 
-These mappings generate 7 nodes, representing a creation event which creates the work, the work itself, a couple of its titles, and a destruction event because this work is marked as lost:
+These mappings generate 7 nodes, representing a confidence assignment event, a production event which creates the work, the work itself, a couple of its titles, and a destruction event because this work is marked as lost:
 
-| label                                         | uri                                           | sid                     |
-|-----------------------------------------------|-----------------------------------------------|-------------------------|
-| itn:works/alpha                               | itn:works/`mpid`/alpha                        | PID                     |
-| <http://www.dbpedia.org/resource/john_milton> | <http://www.dbpedia.org/resource/john_milton> | PID                     |
-| itn:assertions/as#4                           | itn:assertions/as#4                           | PID/assertion           |
-| itn:citations/cit#6                           | itn:citations/cit#6                           | PID/assertion/reference |
-| itn:titles/title#8                            | itn:titles/title#8                            | PID                     |
-| itn:titles/title#9                            | itn:titles/title#9                            | PID                     |
-| itn:events/destruction                        | itn:events/destruction#11                     | PID                     |
+| label                                         | uri                                           | sid                       |
+|-----------------------------------------------|-----------------------------------------------|---------------------------|
+| itn:assignments/ca#18                         | itn:assignments/ca#18                         | `PID`                     |
+| itn:events/production#20                      | itn:events/production#20                      | `PID`                     |
+| itn:works/alpha                               | itn:works/`MPID`/alpha                        | `PID`                     |
+| <http://www.dbpedia.org/resource/john_milton> | <http://www.dbpedia.org/resource/john_milton> | `PID`                     |
+| itn:assertions/as#21                          | itn:assertions/as#21                          | `PID`/assertion           |
+| itn:citations/cit#22                          | itn:citations/cit#22                          | `PID`/assertion/reference |
+| itn:events/destruction                        | itn:events/destruction#23                     | `PID`                     |
 
-The generated triples are 19:
+The generated triples are 15:
 
-| S                         | P                                  | O                                             | sid                     |
-|---------------------------|------------------------------------|-----------------------------------------------|-------------------------|
-| itn:events/`MPID`/alpha   | crm:p14_carried_out_by             | <http://www.dbpedia.org/resource/john_milton> | PID                     |
-| itn:events/`MPID`/alpha   | itn:has_probability                | 1                                             | PID/assertion           |
-| itn:assertions/as#4       | rdf:type                           | crm:e13_attribute_assignment                  | PID/assertion           |
-| itn:assertions/as#4       | crm:p140_assigned_attribute_to     | itn:events/`MPID`/alpha                       | PID/assertion           |
-| itn:assertions/as#4       | crm:p141_assigned                  | itn:has_probability                           | PID/assertion           |
-| itn:assertions/as#4       | crm:p177_assigned_property_of_type | crm:e55_type                                  | PID/assertion           |
-| itn:citations/cit#6       | rdf:type                           | crm:e31_document                              | PID/assertion/reference |
-| itn:citations/cit#6       | rdfs:label                         | Rossi 1963                                    | PID/assertion/reference |
-| itn:assertions/as#4       | crm:p70i_is_documented_in          | itn:citations/cit#6                           | PID/assertion/reference |
-| itn:works/`MPID`/alpha    | crm:p102_has_title                 | itn:titles/title#8                            | PID                     |
-| itn:titles/title#8        | rdf:type                           | crm:e35_title                                 | PID                     |
-| itn:titles/title#8        | crm:p190_has_symbolic_content      | Paradise Lost                                 | PID                     |
-| itn:titles/title#8        | p72_has_language                   | en                                            | PID                     |
-| itn:works/`MPID`/alpha    | crm:p102_has_title                 | itn:titles/title#9                            | PID                     |
-| itn:titles/title#9        | rdf:type                           | crm:e35_title                                 | PID                     |
-| itn:titles/title#9        | crm:p190_has_symbolic_content      | Paradiso perduto                              | PID                     |
-| itn:titles/title#9        | p72_has_language                   | it                                            | PID                     |
-| itn:events/destruction#11 | rdf:type                           | crm:e6_destruction                            | PID                     |
-| itn:events/destruction#11 | crm:p13_destroyed                  | itn:works/`MPID`/alpha                        | PID                     |
+| S                         | P                                  | O                                             | sid                       |
+|---------------------------|------------------------------------|-----------------------------------------------|---------------------------|
+| itn:assignments/ca#18     | rdf:type                           | crm:e13_attribute_assignment                  | `PID`                     |
+| itn:events/production#20  | rdf:type                           | crm:e12_production                            | `PID`                     |
+| itn:events/production#20  | p94_has_created                    | itn:works/`MPID`/alpha                        | `PID`                     |
+| itn:events/production#20  | p140i_was_attributed_by            | itn:assignments/ca#18                         | `PID`                     |
+| itn:events/production#20  | crm:p14_carried_out_by             | <http://www.dbpedia.org/resource/john_milton> | `PID`                     |
+| itn:assignments/ca#18     | itn:has_probability                | 1                                             | `PID`/assertion           |
+| itn:assertions/as#21      | rdf:type                           | crm:e13_attribute_assignment                  | `PID`/assertion           |
+| itn:assertions/as#21      | crm:p140_assigned_attribute_to     | itn:assignments/ca#18                         | `PID`/assertion           |
+| itn:assertions/as#21      | crm:p141_assigned                  | itn:has_probability                           | `PID`/assertion           |
+| itn:assertions/as#21      | crm:p177_assigned_property_of_type | crm:e55_type                                  | `PID`/assertion           |
+| itn:citations/cit#22      | rdf:type                           | crm:e31_document                              | `PID`/assertion/reference |
+| itn:citations/cit#22      | rdfs:label                         | Rossi 1963                                    | `PID`/assertion/reference |
+| itn:assertions/as#21      | crm:p70i_is_documented_in          | itn:citations/cit#22                          | `PID`/assertion/reference |
+| itn:events/destruction#23 | rdf:type                           | crm:e6_destruction                            | `PID`                     |
+| itn:events/destruction#23 | crm:p13_destroyed                  | itn:works/`MPID`/alpha                        | `PID`                     |
 
 These triples say that:
 
-- the creation event created the work and was carried out by John Milton; also, its probability is defined by an assertion which in turn is documented by some cited references;
+- an attribute assignment event (`itn:assignments/ca#18`) with probability rank 1 (`itn:has_probability`) assigned attributes to the production of a work (its production `p140i_was_attributed_by` the assignment);
+- the production event created the work and was carried out by John Milton; also, its probability is defined by an assertion which in turn is documented by some cited references;
 - the work has two titles, having two different languages;
 - the destruction event destroyed the work (so that now it is lost).
 

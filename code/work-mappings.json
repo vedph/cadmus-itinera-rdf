@@ -241,12 +241,19 @@
       "sid": "{$part-id}",
       "output": {
         "metadata": {
-          "event": "itn:events/{$metadata-pid}/{$item-eid}",
           "sid": "{$part-id}"
         },
         "nodes": {
+          "event": "itn:assignments/ca##",
+          "authorship": "itn:events/production##",
           "work": "itn:works/{$metadata-pid}/{$item-eid} [itn:works/{$item-eid}]"
-        }
+        },
+        "triples": [
+          "{?event} a crm:E13_attribute_assignment",
+          "{?authorship} a crm:E12_Production",
+          "{?authorship} P94_has_created {?work}",
+          "{?authorship} P140i_was_attributed_by {?event}"
+        ]
       },
       "children": [
         {
@@ -256,11 +263,11 @@
             "nodes": {
               "author": "{!_substring({@target.gid} & 1)}"
             },
-            "triples": ["{$event} crm:P14_carried_out_by {?author}"]
+            "triples": ["{?authorship} crm:P14_carried_out_by {?author}"]
           },
           "children": [
             {
-              "name": "work_assertion"
+              "name": "event_assertion"
             }
           ]
         },
@@ -271,11 +278,11 @@
             "nodes": {
               "author": "{@target.gid}"
             },
-            "triples": ["{$event} crm:P14_carried_out_by {?author}"]
+            "triples": ["{?authorship} crm:P14_carried_out_by {?author}"]
           },
           "children": [
             {
-              "name": "work_assertion"
+              "name": "event_assertion"
             }
           ]
         },
@@ -286,11 +293,11 @@
             "nodes": {
               "author": "itn:persons/{@target.partId}/{@target.value} [itn:persons/{@target.value}]"
             },
-            "triples": ["{$event} crm:P14_carried_out_by {?author}"]
+            "triples": ["{?authorship} crm:P14_carried_out_by {?author}"]
           },
           "children": [
             {
-              "name": "work_assertion"
+              "name": "event_assertion"
             }
           ]
         },

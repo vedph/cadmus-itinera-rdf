@@ -1,7 +1,7 @@
 {
   "namedMappings": {
     "event_description": {
-      "name": "event/description",
+      "name": "event_description",
       "description": "Map the description of an event to EVENT crm:P3_has_note LITERAL.",
       "source": "description",
       "sid": "{$sid}/description",
@@ -10,7 +10,7 @@
       }
     },
     "event_note": {
-      "name": "event/note",
+      "name": "event_note",
       "description": "Map the note of an event to EVENT crm:P3_has_note LITERAL.",
       "source": "note",
       "sid": "{$sid}/note",
@@ -19,13 +19,13 @@
       }
     },
     "event_chronotopes": {
-      "name": "event/chronotopes",
+      "name": "event_chronotopes",
       "description": "For each chronotope, map the place/date of an event to triples which create a place node for the place and link it to the event via a triple using crm:P7_took_place_at for places; and to triples using crm:P4_has_time_span which in turn has a new timespan node has object.",
       "source": "chronotopes",
       "sid": "{$sid}/chronotope",
       "children": [
         {
-          "name": "event/chronotopes/place",
+          "name": "event_chronotopes/place",
           "source": "place",
           "output": {
             "nodes": {
@@ -38,7 +38,7 @@
           }
         },
         {
-          "name": "event/chronotopes/date",
+          "name": "event_chronotopes/date",
           "source": "date",
           "output": {
             "metadata": {
@@ -58,7 +58,7 @@
       ]
     },
     "event_assertion": {
-      "name": "event/assertion",
+      "name": "event_assertion",
       "description": "Map the assertion of an event to EVENT itn:has_probability RANK^^xsd:float.",
       "source": "assertion",
       "sid": "{$sid}/assertion",
@@ -76,7 +76,7 @@
       },
       "children": [
         {
-          "name": "event/assertion/references",
+          "name": "event_assertion/references",
           "source": "references",
           "sid": "{$sid}/assertion/reference",
           "children": [
@@ -99,7 +99,7 @@
       ]
     },
     "event_period": {
-      "name": "event/tag",
+      "name": "event_tag",
       "description": "Map the tag of an event to EVENT P9i_forms_part_of GROUP.",
       "source": "tag",
       "sid": "{$sid}/tag",
@@ -128,7 +128,7 @@
       }
     },
     {
-      "name": "manuscript hands",
+      "name": "manuscript_hands",
       "sourceType": 2,
       "facetFilter": "manuscript",
       "partTypeFilter": "it.vedph.codicology.hands",
@@ -149,11 +149,11 @@
       },
       "children": [
         {
-          "name": "manuscript hands/instances",
+          "name": "manuscript_hands/instances",
           "source": "instances",
           "children": [
             {
-              "name": "manuscript hands/instances/ranges",
+              "name": "manuscript_hands/instances/ranges",
               "source": "ranges",
               "output": {
                 "nodes": {
@@ -179,7 +179,7 @@
       ]
     },
     {
-      "name": "manuscript handwriting event",
+      "name": "manuscript_handwriting_event",
       "sourceType": 2,
       "facetFilter": "manuscript",
       "partTypeFilter": "it.vedph.historical-events",
@@ -217,7 +217,7 @@
           "name": "event_period"
         },
         {
-          "name": "manuscript handwriting event/related/hand (external global)",
+          "name": "manuscript_handwriting_event/related/hand@eg",
           "source": "relatedEntities[?relation=='manuscript:handwriting:hand' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -227,7 +227,7 @@
           }
         },
         {
-          "name": "manuscript handwriting event/related/hand (external local)",
+          "name": "manuscript_handwriting_event/related/hand@el",
           "source": "relatedEntities[?relation=='manuscript:handwriting:hand' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -237,7 +237,7 @@
           }
         },
         {
-          "name": "manuscript handwriting event/related/hand (internal)",
+          "name": "manuscript_handwriting_event/related/hand@i",
           "source": "relatedEntities[?relation=='manuscript:handwriting:hand' && id.target.name]",
           "output": {
             "nodes": {
@@ -247,7 +247,7 @@
           }
         },
         {
-          "name": "manuscript handwriting event/related/person (external global)",
+          "name": "manuscript_handwriting_event/related/person@eg",
           "source": "relatedEntities[?relation=='manuscript:handwriting:person' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -257,7 +257,7 @@
           }
         },
         {
-          "name": "manuscript handwriting event/related/person (external local)",
+          "name": "manuscript_handwriting_event/related/person@el",
           "source": "relatedEntities[?relation=='manuscript:handwriting:person' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -267,7 +267,7 @@
           }
         },
         {
-          "name": "manuscript handwriting event/related/person (internal)",
+          "name": "manuscript_handwriting_event/related/person@i",
           "source": "relatedEntities[?relation=='manuscript:handwriting:person' && id.target.name]",
           "output": {
             "nodes": {
@@ -279,7 +279,7 @@
       ]
     },
     {
-      "name": "manuscript editing event",
+      "name": "manuscript_editing_event",
       "sourceType": 2,
       "facetFilter": "manuscript",
       "partTypeFilter": "it.vedph.historical-events",
@@ -317,7 +317,7 @@
           "name": "event_period"
         },
         {
-          "name": "manuscript editing event/related/maker (external global)",
+          "name": "manuscript_editing_event/related/maker@eg",
           "source": "relatedEntities[?relation=='manuscript:editing:maker' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -327,7 +327,7 @@
           }
         },
         {
-          "name": "manuscript editing event/related/maker (external local)",
+          "name": "manuscript_editing_event/related/maker@el",
           "source": "relatedEntities[?relation=='manuscript:editing:maker' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -337,7 +337,7 @@
           }
         },
         {
-          "name": "manuscript editing event/related/maker (internal)",
+          "name": "manuscript_editing_event/related/maker@i",
           "source": "relatedEntities[?relation=='manuscript:editing:maker' && id.target.name]",
           "output": {
             "nodes": {
@@ -347,7 +347,7 @@
           }
         },
         {
-          "name": "manuscript editing event/related/eid edit (external global)",
+          "name": "manuscript_editing_event/related/eid edit@eg",
           "source": "relatedEntities[?relation=='manuscript:editing:eid' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -357,7 +357,7 @@
           }
         },
         {
-          "name": "manuscript editing event/related/eid edit (external local)",
+          "name": "manuscript_editing_event/related/eid edit@el",
           "source": "relatedEntities[?relation=='manuscript:editing:eid' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -367,7 +367,7 @@
           }
         },
         {
-          "name": "manuscript editing event/related/eid edit (internal)",
+          "name": "manuscript_editing_event/related/eid edit@i",
           "source": "relatedEntities[?relation=='manuscript:editing:eid' && id.target.name]",
           "output": {
             "nodes": {
@@ -379,7 +379,7 @@
       ]
     },
     {
-      "name": "manuscript commission event",
+      "name": "manuscript_commission_event",
       "sourceType": 2,
       "facetFilter": "manuscript",
       "partTypeFilter": "it.vedph.historical-events",
@@ -417,7 +417,7 @@
           "name": "event_period"
         },
         {
-          "name": "manuscript commission event/related/has_participant (external global)",
+          "name": "manuscript_commission_event/related/has_participant@eg",
           "source": "relatedEntities[?relation=='manuscript:commission:client' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -427,7 +427,7 @@
           }
         },
         {
-          "name": "manuscript commission event/related/has_participant (external local)",
+          "name": "manuscript_commission_event/related/has_participant@el",
           "source": "relatedEntities[?relation=='manuscript:commission:client' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -437,7 +437,7 @@
           }
         },
         {
-          "name": "manuscript commission event/related/has_participant (internal)",
+          "name": "manuscript_commission_event/related/has_participant@i",
           "source": "relatedEntities[?relation=='manuscript:commission:client' && id.target.name]",
           "output": {
             "nodes": {
@@ -447,7 +447,7 @@
           }
         },
         {
-          "name": "manuscript commission event/related/has_participant (external global)",
+          "name": "manuscript_commission_event/related/has_participant@eg",
           "source": "relatedEntities[?relation=='manuscript:commission:maker' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -457,7 +457,7 @@
           }
         },
         {
-          "name": "manuscript commission event/related/has_participant (external local)",
+          "name": "manuscript_commission_event/related/has_participant@el",
           "source": "relatedEntities[?relation=='manuscript:commission:maker' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -467,7 +467,7 @@
           }
         },
         {
-          "name": "manuscript commission event/related/has_participant (internal)",
+          "name": "manuscript_commission_event/related/has_participant@i",
           "source": "relatedEntities[?relation=='manuscript:commission:maker' && id.target.name]",
           "output": {
             "nodes": {
@@ -479,7 +479,7 @@
       ]
     },
     {
-      "name": "manuscript dedication event",
+      "name": "manuscript_dedication_event",
       "sourceType": 2,
       "facetFilter": "manuscript",
       "partTypeFilter": "it.vedph.historical-events",
@@ -517,7 +517,7 @@
           "name": "event_period"
         },
         {
-          "name": "manuscript dedication event/related/has_participant (external global)",
+          "name": "manuscript_dedication_event/related/has_participant@eg",
           "source": "relatedEntities[?relation=='manuscript:dedication:maker' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -527,7 +527,7 @@
           }
         },
         {
-          "name": "manuscript dedication event/related/has_participant (external local)",
+          "name": "manuscript_dedication_event/related/has_participant@el",
           "source": "relatedEntities[?relation=='manuscript:dedication:maker' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -537,7 +537,7 @@
           }
         },
         {
-          "name": "manuscript dedication event/related/has_participant (internal)",
+          "name": "manuscript_dedication_event/related/has_participant@i",
           "source": "relatedEntities[?relation=='manuscript:dedication:maker' && id.target.name]",
           "output": {
             "nodes": {
@@ -547,7 +547,7 @@
           }
         },
         {
-          "name": "manuscript dedication event/related/has_participant (external global)",
+          "name": "manuscript_dedication_event/related/has_participant@eg",
           "source": "relatedEntities[?relation=='manuscript:dedication:recipient' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -557,7 +557,7 @@
           }
         },
         {
-          "name": "manuscript dedication event/related/has_participant (external local)",
+          "name": "manuscript_dedication_event/related/has_participant@el",
           "source": "relatedEntities[?relation=='manuscript:dedication:recipient' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -567,7 +567,7 @@
           }
         },
         {
-          "name": "manuscript dedication event/related/has_participant (internal)",
+          "name": "manuscript_dedication_event/related/has_participant@i",
           "source": "relatedEntities[?relation=='manuscript:dedication:recipient' && id.target.name]",
           "output": {
             "nodes": {
@@ -579,7 +579,7 @@
       ]
     },
     {
-      "name": "manuscript possession event",
+      "name": "manuscript_possession_event",
       "sourceType": 2,
       "facetFilter": "manuscript",
       "partTypeFilter": "it.vedph.historical-events",
@@ -616,7 +616,7 @@
           "name": "event_period"
         },
         {
-          "name": "manuscript possession event/related/possesses (external global)",
+          "name": "manuscript_possession_event/related/possesses@eg",
           "source": "relatedEntities[?relation=='manuscript:possession:owner' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -626,7 +626,7 @@
           }
         },
         {
-          "name": "manuscript possession event/related/attested_by (external global)",
+          "name": "manuscript_possession_event/related/attested_by@eg",
           "source": "relatedEntities[?relation=='manuscript:possession:attest' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -638,7 +638,7 @@
       ]
     },
     {
-      "name": "manuscript lend event",
+      "name": "manuscript_lend_event",
       "sourceType": 2,
       "facetFilter": "manuscript",
       "partTypeFilter": "it.vedph.historical-events",
@@ -676,7 +676,7 @@
           "name": "event_period"
         },
         {
-          "name": "manuscript lend event/related/lender (external global)",
+          "name": "manuscript_lend_event/related/lender@eg",
           "source": "relatedEntities[?relation=='manuscript:lend:lender' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -686,7 +686,7 @@
           }
         },
         {
-          "name": "manuscript lend event/related/lender (external local)",
+          "name": "manuscript_lend_event/related/lender@el",
           "source": "relatedEntities[?relation=='manuscript:lend:lender' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -696,7 +696,7 @@
           }
         },
         {
-          "name": "manuscript lend event/related/lender (internal)",
+          "name": "manuscript_lend_event/related/lender@i",
           "source": "relatedEntities[?relation=='manuscript:lend:lender' && id.target.name]",
           "output": {
             "nodes": {
@@ -706,7 +706,7 @@
           }
         },
         {
-          "name": "manuscript lend event/related/borrower (external global)",
+          "name": "manuscript_lend_event/related/borrower@eg",
           "source": "relatedEntities[?relation=='manuscript:lend:borrower' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -716,7 +716,7 @@
           }
         },
         {
-          "name": "manuscript lend event/related/borrower (external local)",
+          "name": "manuscript_lend_event/related/borrower@el",
           "source": "relatedEntities[?relation=='manuscript:lend:borrower' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -726,7 +726,7 @@
           }
         },
         {
-          "name": "manuscript lend event/related/borrower (internal)",
+          "name": "manuscript_lend_event/related/borrower@i",
           "source": "relatedEntities[?relation=='manuscript:lend:borrower' && id.target.name]",
           "output": {
             "nodes": {
@@ -738,7 +738,7 @@
       ]
     },
     {
-      "name": "manuscript return event",
+      "name": "manuscript_return_event",
       "sourceType": 2,
       "facetFilter": "manuscript",
       "partTypeFilter": "it.vedph.historical-events",
@@ -776,7 +776,7 @@
           "name": "event_period"
         },
         {
-          "name": "manuscript return event/related/returned (external global)",
+          "name": "manuscript_return_event/related/returned@eg",
           "source": "relatedEntities[?relation=='manuscript:return:returned' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -786,7 +786,7 @@
           }
         },
         {
-          "name": "manuscript return event/related/returned (external local)",
+          "name": "manuscript_return_event/related/returned@el",
           "source": "relatedEntities[?relation=='manuscript:return:returned' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -796,7 +796,7 @@
           }
         },
         {
-          "name": "manuscript return event/related/returned (internal)",
+          "name": "manuscript_return_event/related/returned@i",
           "source": "relatedEntities[?relation=='manuscript:return:returned' && id.target.name]",
           "output": {
             "nodes": {
@@ -806,7 +806,7 @@
           }
         },
         {
-          "name": "manuscript return event/related/return-to (external global)",
+          "name": "manuscript_return_event/related/return-to@eg",
           "source": "relatedEntities[?relation=='manuscript:return:return-to' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -816,7 +816,7 @@
           }
         },
         {
-          "name": "manuscript return event/related/return-to (external local)",
+          "name": "manuscript_return_event/related/return-to@el",
           "source": "relatedEntities[?relation=='manuscript:return:return-to' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -826,7 +826,7 @@
           }
         },
         {
-          "name": "manuscript return event/related/return-to (internal)",
+          "name": "manuscript_return_event/related/return-to@i",
           "source": "relatedEntities[?relation=='manuscript:return:return-to' && id.target.name]",
           "output": {
             "nodes": {
@@ -838,7 +838,7 @@
       ]
     },
     {
-      "name": "manuscript buy event",
+      "name": "manuscript_buy_event",
       "sourceType": 2,
       "facetFilter": "manuscript",
       "partTypeFilter": "it.vedph.historical-events",
@@ -875,7 +875,7 @@
           "name": "event_period"
         },
         {
-          "name": "manuscript buy event/related/buyer (external global)",
+          "name": "manuscript_buy_event/related/buyer@eg",
           "source": "relatedEntities[?relation=='manuscript:buy:buyer' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -885,7 +885,7 @@
           }
         },
         {
-          "name": "manuscript buy event/related/buyer (external local)",
+          "name": "manuscript_buy_event/related/buyer@el",
           "source": "relatedEntities[?relation=='manuscript:buy:buyer' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -895,7 +895,7 @@
           }
         },
         {
-          "name": "manuscript buy event/related/buyer (internal)",
+          "name": "manuscript_buy_event/related/buyer@i",
           "source": "relatedEntities[?relation=='manuscript:buy:buyer' && id.target.name]",
           "output": {
             "nodes": {
@@ -905,7 +905,7 @@
           }
         },
         {
-          "name": "manuscript buy event/related/seller (external global)",
+          "name": "manuscript_buy_event/related/seller@eg",
           "source": "relatedEntities[?relation=='manuscript:buy:seller' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -915,7 +915,7 @@
           }
         },
         {
-          "name": "manuscript buy event/related/seller (external local)",
+          "name": "manuscript_buy_event/related/seller@el",
           "source": "relatedEntities[?relation=='manuscript:buy:seller' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -925,7 +925,7 @@
           }
         },
         {
-          "name": "manuscript buy event/related/seller (internal)",
+          "name": "manuscript_buy_event/related/seller@i",
           "source": "relatedEntities[?relation=='manuscript:buy:seller' && id.target.name]",
           "output": {
             "nodes": {
@@ -937,7 +937,7 @@
       ]
     },
     {
-      "name": "manuscript sent event",
+      "name": "manuscript_sent_event",
       "sourceType": 2,
       "facetFilter": "manuscript",
       "partTypeFilter": "it.vedph.historical-events",
@@ -975,7 +975,7 @@
           "name": "event_period"
         },
         {
-          "name": "manuscript sent event/related/carried_out_by (external global)",
+          "name": "manuscript_sent_event/related/carried_out_by@eg",
           "source": "relatedEntities[?relation=='manuscript:send:sender' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -985,7 +985,7 @@
           }
         },
         {
-          "name": "manuscript sent event/related/carried_out_by (external local)",
+          "name": "manuscript_sent_event/related/carried_out_by@el",
           "source": "relatedEntities[?relation=='manuscript:send:sender' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -995,7 +995,7 @@
           }
         },
         {
-          "name": "manuscript sent event/related/carried_out_by (internal)",
+          "name": "manuscript_sent_event/related/carried_out_by@i",
           "source": "relatedEntities[?relation=='manuscript:send:sender' && id.target.name]",
           "output": {
             "nodes": {
@@ -1005,7 +1005,7 @@
           }
         },
         {
-          "name": "manuscript sent event/related/has_participant (external global)",
+          "name": "manuscript_sent_event/related/has_participant@eg",
           "source": "relatedEntities[?relation=='manuscript:send:recipient' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -1015,7 +1015,7 @@
           }
         },
         {
-          "name": "manuscript sent event/related/has_participant (external local)",
+          "name": "manuscript_sent_event/related/has_participant@el",
           "source": "relatedEntities[?relation=='manuscript:send:recipient' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -1025,7 +1025,7 @@
           }
         },
         {
-          "name": "manuscript sent event/related/has_participant (internal)",
+          "name": "manuscript_sent_event/related/has_participant@i",
           "source": "relatedEntities[?relation=='manuscript:send:recipient' && id.target.name]",
           "output": {
             "nodes": {
@@ -1035,7 +1035,7 @@
           }
         },
         {
-          "name": "manuscript sent event/related/has_participant (external global)",
+          "name": "manuscript_sent_event/related/has_participant@eg",
           "source": "relatedEntities[?relation=='manuscript:send:carrier' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -1045,7 +1045,7 @@
           }
         },
         {
-          "name": "manuscript sent event/related/has_participant (external local)",
+          "name": "manuscript_sent_event/related/has_participant@el",
           "source": "relatedEntities[?relation=='manuscript:send:carrier' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -1055,7 +1055,7 @@
           }
         },
         {
-          "name": "manuscript sent event/related/has_participant (internal)",
+          "name": "manuscript_sent_event/related/has_participant@i",
           "source": "relatedEntities[?relation=='manuscript:send:carrier' && id.target.name]",
           "output": {
             "nodes": {
@@ -1065,7 +1065,7 @@
           }
         },
         {
-          "name": "manuscript sent event/related/attachment (external global)",
+          "name": "manuscript_sent_event/related/attachment@eg",
           "source": "relatedEntities[?relation=='manuscript:send:attachment' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -1075,7 +1075,7 @@
           }
         },
         {
-          "name": "manuscript sent event/related/attachment (external local)",
+          "name": "manuscript_sent_event/related/attachment@el",
           "source": "relatedEntities[?relation=='manuscript:send:attachment' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -1085,7 +1085,7 @@
           }
         },
         {
-          "name": "manuscript sent event/related/attachment (internal)",
+          "name": "manuscript_sent_event/related/attachment@i",
           "source": "relatedEntities[?relation=='manuscript:send:attachment' && id.target.name]",
           "output": {
             "nodes": {
@@ -1097,7 +1097,7 @@
       ]
     },
     {
-      "name": "manuscript reception event",
+      "name": "manuscript_reception_event",
       "sourceType": 2,
       "facetFilter": "manuscript",
       "partTypeFilter": "it.vedph.historical-events",
@@ -1135,7 +1135,7 @@
           "name": "event_period"
         },
         {
-          "name": "manuscript reception event/related/carried_out_by (external global)",
+          "name": "manuscript_reception_event/related/carried_out_by@eg",
           "source": "relatedEntities[?relation=='manuscript:reception:sender' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -1145,7 +1145,7 @@
           }
         },
         {
-          "name": "manuscript reception event/related/carried_out_by (external local)",
+          "name": "manuscript_reception_event/related/carried_out_by@el",
           "source": "relatedEntities[?relation=='manuscript:reception:recipient' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -1155,7 +1155,7 @@
           }
         },
         {
-          "name": "manuscript reception event/related/carried_out_by (internal)",
+          "name": "manuscript_reception_event/related/carried_out_by@i",
           "source": "relatedEntities[?relation=='manuscript:reception:recipient' && id.target.name]",
           "output": {
             "nodes": {
@@ -1165,7 +1165,7 @@
           }
         },
         {
-          "name": "manuscript reception event/related/has_participant (external global)",
+          "name": "manuscript_reception_event/related/has_participant@eg",
           "source": "relatedEntities[?relation=='manuscript:reception:sender' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -1175,7 +1175,7 @@
           }
         },
         {
-          "name": "manuscript reception event/related/has_participant (external local)",
+          "name": "manuscript_reception_event/related/has_participant@el",
           "source": "relatedEntities[?relation=='manuscript:reception:sender' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -1185,7 +1185,7 @@
           }
         },
         {
-          "name": "manuscript reception event/related/has_participant (internal)",
+          "name": "manuscript_reception_event/related/has_participant@i",
           "source": "relatedEntities[?relation=='manuscript:reception:sender' && id.target.name]",
           "output": {
             "nodes": {
@@ -1195,7 +1195,7 @@
           }
         },
         {
-          "name": "manuscript reception event/related/has_participant (external global)",
+          "name": "manuscript_reception_event/related/has_participant@eg",
           "source": "relatedEntities[?relation=='manuscript:reception:carrier' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -1205,7 +1205,7 @@
           }
         },
         {
-          "name": "manuscript reception event/related/has_participant (external local)",
+          "name": "manuscript_reception_event/related/has_participant@el",
           "source": "relatedEntities[?relation=='manuscript:reception:carrier' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -1215,7 +1215,7 @@
           }
         },
         {
-          "name": "manuscript reception event/related/has_participant (internal)",
+          "name": "manuscript_reception_event/related/has_participant@i",
           "source": "relatedEntities[?relation=='manuscript:reception:carrier' && id.target.name]",
           "output": {
             "nodes": {
@@ -1225,7 +1225,7 @@
           }
         },
         {
-          "name": "manuscript reception event/related/attachment (external global)",
+          "name": "manuscript_reception_event/related/attachment@eg",
           "source": "relatedEntities[?relation=='manuscript:reception:attachment' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -1235,7 +1235,7 @@
           }
         },
         {
-          "name": "manuscript reception event/related/attachment (external local)",
+          "name": "manuscript_reception_event/related/attachment@el",
           "source": "relatedEntities[?relation=='manuscript:reception:attachment' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -1245,7 +1245,7 @@
           }
         },
         {
-          "name": "manuscript reception event/related/attachment (internal)",
+          "name": "manuscript_reception_event/related/attachment@i",
           "source": "relatedEntities[?relation=='manuscript:reception:attachment' && id.target.name]",
           "output": {
             "nodes": {
@@ -1257,7 +1257,7 @@
       ]
     },
     {
-      "name": "manuscript exchange event",
+      "name": "manuscript_exchange_event",
       "sourceType": 2,
       "facetFilter": "manuscript",
       "partTypeFilter": "it.vedph.historical-events",
@@ -1295,7 +1295,7 @@
           "name": "event_period"
         },
         {
-          "name": "manuscript exchange event/related/carried_out_by (external global)",
+          "name": "manuscript_exchange_event/related/carried_out_by@eg",
           "source": "relatedEntities[?relation=='manuscript:exchange:sender' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -1305,7 +1305,7 @@
           }
         },
         {
-          "name": "manuscript exchange event/related/carried_out_by (external local)",
+          "name": "manuscript_exchange_event/related/carried_out_by@el",
           "source": "relatedEntities[?relation=='manuscript:exchange:sender' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -1315,7 +1315,7 @@
           }
         },
         {
-          "name": "manuscript exchange event/related/carried_out_by (internal)",
+          "name": "manuscript_exchange_event/related/carried_out_by@i",
           "source": "relatedEntities[?relation=='manuscript:exchange:sender' && id.target.name]",
           "output": {
             "nodes": {
@@ -1325,7 +1325,7 @@
           }
         },
         {
-          "name": "manuscript exchange event/related/recipient (external global)",
+          "name": "manuscript_exchange_event/related/recipient@eg",
           "source": "relatedEntities[?relation=='manuscript:exchange:recipient' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -1335,7 +1335,7 @@
           }
         },
         {
-          "name": "manuscript exchange event/related/recipient (external local)",
+          "name": "manuscript_exchange_event/related/recipient@el",
           "source": "relatedEntities[?relation=='manuscript:exchange:recipient' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -1345,7 +1345,7 @@
           }
         },
         {
-          "name": "manuscript exchange event/related/recipient (internal)",
+          "name": "manuscript_exchange_event/related/recipient@i",
           "source": "relatedEntities[?relation=='manuscript:exchange:recipient' && id.target.name]",
           "output": {
             "nodes": {
@@ -1355,7 +1355,7 @@
           }
         },
         {
-          "name": "manuscript exchange event/related/attachment (external global)",
+          "name": "manuscript_exchange_event/related/attachment@eg",
           "source": "relatedEntities[?relation=='manuscript:exchange:attachment' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -1365,7 +1365,7 @@
           }
         },
         {
-          "name": "manuscript exchange event/related/attachment (external local)",
+          "name": "manuscript_exchange_event/related/attachment@el",
           "source": "relatedEntities[?relation=='manuscript:exchange:attachment' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -1375,7 +1375,7 @@
           }
         },
         {
-          "name": "manuscript exchange event/related/attachment (internal)",
+          "name": "manuscript_exchange_event/related/attachment@i",
           "source": "relatedEntities[?relation=='manuscript:exchange:attachment' && id.target.name]",
           "output": {
             "nodes": {
@@ -1387,7 +1387,7 @@
       ]
     },
     {
-      "name": "manuscript restore event",
+      "name": "manuscript_restore_event",
       "sourceType": 2,
       "facetFilter": "manuscript",
       "partTypeFilter": "it.vedph.historical-events",
@@ -1425,7 +1425,7 @@
           "name": "event_period"
         },
         {
-          "name": "manuscript restore event/related/restorer (external global)",
+          "name": "manuscript_restore_event/related/restorer@eg",
           "source": "relatedEntities[?relation=='manuscript:restore:restorer' && !id.target.name && starts_with(id.target.gid, '@')]",
           "output": {
             "nodes": {
@@ -1435,7 +1435,7 @@
           }
         },
         {
-          "name": "manuscript restore event/related/restorer (external local)",
+          "name": "manuscript_restore_event/related/restorer@el",
           "source": "relatedEntities[?relation=='manuscript:restore:restorer' && !id.target.name && !(starts_with(id.target.gid, '@'))]",
           "output": {
             "nodes": {
@@ -1445,7 +1445,7 @@
           }
         },
         {
-          "name": "manuscript restore event/related/restorer (internal)",
+          "name": "manuscript_restore_event/related/restorer@i",
           "source": "relatedEntities[?relation=='manuscript:restore:restorer' && id.target.name]",
           "output": {
             "nodes": {
