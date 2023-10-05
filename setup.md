@@ -55,6 +55,8 @@ cd C:\exe\cadmus-tool
 ./cadmus-tool graph-deref $HOME/Desktop/cadmus-itinera/work-mappings.json $HOME/Desktop/cadmus-itinera/work-mappings-d.json
 ./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/nodes.json cadmus-itinera-graph -g repository-provider.itinera
 ./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/triples.json cadmus-itinera-graph -g repository-provider.itinera -m t
+./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/ms-mappings-d.json cadmus-itinera-graph -g repository-provider.itinera -m m
+./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/person-mappings-d.json cadmus-itinera-graph -g repository-provider.itinera -m m
 ./cadmus-tool graph-import $HOME/Desktop/cadmus-itinera/work-mappings-d.json cadmus-itinera-graph -g repository-provider.itinera -m m
 ```
 
