@@ -82,7 +82,7 @@ md exe
 cd exe
 md cadmus-tool
 cd cadmus-tool
-Invoke-WebRequest -Uri "https://github.com/vedph/cadmus_tool/releases/download/v.8.0.0/App-v.8.0.0-win-x64.zip" -OutFile cadmus-tool.zip
+Invoke-WebRequest -Uri "https://github.com/vedph/cadmus_tool/releases/download/v.8.0.10/App-v.8.0.10-win-x64.zip" -OutFile cadmus-tool.zip
 Extract-Archive cadmus-tool.zip -DestinationPath C:\exe\cadmus-tool\
 del cadmus-tool.zip
 
@@ -141,8 +141,8 @@ mv docker-compose_graph.yml docker-compose.yml
 ```bash
 cd ~/Documents
 mkdir cadmus-tool
-wget https://github.com/vedph/cadmus_tool/releases/download/v.8.0.9/App-v.8.0.9-linux-x64.tar.gz
-tar -xvzf --strip-components=1 App-v.8.0.9-linux-x64.tar.gz
+wget https://github.com/vedph/cadmus_tool/releases/download/v.8.0.10/App-v.8.0.10-linux-x64.tar.gz
+tar -xvzf --strip-components=1 App-v.8.0.10-linux-x64.tar.gz
 cd plugins
 wget http://www.fusisoft.it/xfer/Cadmus.Itinera.Services.zip
 unzip Cadmus.Itinera.Services.zip
